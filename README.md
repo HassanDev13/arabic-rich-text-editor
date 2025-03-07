@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Arabic Rich Text Editor
+
+A powerful and feature-rich Arabic Rich Text Editor for React, built on [Tiptap](https://tiptap.dev). Designed for seamless RTL support and enhanced text formatting, making it perfect for creating and editing Arabic content with precision and ease.
+
+![image](https://github.com/user-attachments/assets/461176f9-e2df-4707-a752-0c59b4ae226b)
+
+
+## Features
+- Full Right-to-Left (RTL) support for Arabic text.
+- Rich text formatting with an intuitive interface.
+- Built on Tiptap for flexibility and extensibility.
+- Optimized for seamless integration into React applications.
 
 ## Getting Started
 
-First, run the development server:
+### Installation
+Ensure you have [pnpm](https://pnpm.io/) installed, then run:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Running the Development Server
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Start the development server with:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser to access the editor.
+
+## Contributing
+We welcome contributions to improve the user experience and implement advanced features found in other popular platforms. If you have ideas or enhancements, feel free to contribute!
+
+### How to Contribute
+1. Fork the repository.
+2. Create a new branch for your feature or fix.
+3. Submit a pull request with a detailed explanation.
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+To explore more about Next.js and Tiptap, check out:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features and API.
+- [Tiptap Documentation](https://tiptap.dev/docs) - Understand how to extend and customize the editor.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
