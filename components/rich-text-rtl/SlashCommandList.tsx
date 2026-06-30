@@ -93,10 +93,7 @@ const SlashCommandList = forwardRef<SlashCommandListRef, SlashCommandListProps>(
           className
         )}
       >
-        <CommandInput
-          placeholder={inputPlaceholder}
-          className="border-b border-gray-200 bg-gray-50 text-foreground placeholder-gray-400 text-sm p-2"
-        />
+        {/* Search input removed, relying on Tiptap inline typing for filtering */}
         <CommandList ref={listRef} className="max-h-60 overflow-y-auto">
           <CommandEmpty className="p-2 text-sm text-gray-500">
             {emptyMessage}

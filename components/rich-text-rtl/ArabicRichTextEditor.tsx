@@ -1,6 +1,5 @@
 "use client";
 
-import EditorMenuBar from "./Menu/EditorMenuBar";
 import { injectEditorStyles } from "./editorStyles";
 import { editorExtensions } from "./editorConfig";
 import { ArabicRichTextEditorProps, MenuItemConfig } from "./types";
@@ -104,26 +103,26 @@ const defaultMenuItems: MenuItemConfig[] = [
   { id: "clearNodes", enabled: true },
 ];
 
-// Default editor props if none are provided
+import { AccessibleToolbars } from "./Menu/AccessibleToolbars";
+
 const defaultEditorProps: any = {
   attributes: {
-    class: "tiptap prose prose-sm max-w-none focus:outline-none min-h-[400px]",
+    class: "tiptap prose focus:outline-none min-h-[400px]",
   },
 };
 
 const ArabicRichTextEditor: React.FC<ArabicRichTextEditorProps> = ({
   menuItems = defaultMenuItems,
   onSave,
+  onChange,
   content = defaultContent,
+  defaultFont = "Amiri",
+  defaultFontSize = "18px",
+  defaultLineHeight = "1.5",
   extensions = editorExtensions,
   editorProps = defaultEditorProps,
-  defaultFont = "Noto Naskh Arabic",
-  defaultFontSize = "16px",
-  defaultLineHeight = "1",
   className = "flex flex-col min-h-screen bg-background",
   injectStyles = true,
-  slotBefore,
-  menuBarClassName = "",
 }) => {
   useEffect(() => {
     if (injectStyles) {
@@ -131,28 +130,23 @@ const ArabicRichTextEditor: React.FC<ArabicRichTextEditorProps> = ({
     }
   }, [injectStyles]);
 
-  const renderSlotBefore = slotBefore || (
-    <EditorMenuBar
-      menuItems={menuItems}
-      onSave={onSave}
-      defaultFont={defaultFont}
-      defaultFontSize={defaultFontSize}
-      defaultLineHeight={defaultLineHeight}
-      className={menuBarClassName}
-      showFontControls={true}
-      showSwitchDirection={true}
-      saveAuto={true}
-    />
-  );
+  const handleUpdate = ({ editor }: { editor: any }) => {
+    if (onChange) {
+      onChange(editor.getHTML());
+    }
+  };
 
   return (
     <div className={className}>
       <EditorProvider
-        slotBefore={renderSlotBefore}
+        slotBefore={null}
         extensions={extensions}
         content={content}
         editorProps={editorProps}
-      />
+        onUpdate={handleUpdate}
+      >
+        <AccessibleToolbars menuItems={menuItems} />
+      </EditorProvider>
     </div>
   );
 };

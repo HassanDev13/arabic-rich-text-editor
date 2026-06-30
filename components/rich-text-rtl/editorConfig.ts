@@ -1,8 +1,9 @@
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import TextAlign from "@tiptap/extension-text-align";
-import Image from "@tiptap/extension-image";
+import { CustomImage } from "./CustomImage";
 import Table from "@tiptap/extension-table";
+import { TablePlaceholder } from "./TablePlaceholderExtension";
 import TableRow from "@tiptap/extension-table-row";
 import TableCell from "@tiptap/extension-table-cell";
 import TableHeader from "@tiptap/extension-table-header";
@@ -116,7 +117,8 @@ export const editorExtensions = [
     alignments: ["left", "center", "right", "justify"],
     defaultAlignment: "right",
   }),
-  Image.configure({ inline: true, allowBase64: true }),
+  CustomImage.configure({ allowBase64: true }),
+  TablePlaceholder,
   Table.configure({ resizable: true }),
   TableRow,
   TableCell,

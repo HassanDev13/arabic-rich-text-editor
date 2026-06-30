@@ -78,13 +78,13 @@ const SlashCommands = Extension.create<SlashCommandsOptions>({
         },
         {
           title: "جدول",
-          description: "إدراج جدول 3x3",
+          description: "إدراج جدول لمشاركة بيانات",
           command: ({ editor, range }) =>
             editor
               .chain()
               .focus()
               .deleteRange(range)
-              .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+              .insertContent({ type: 'tablePlaceholder' })
               .run(),
         },
         {
@@ -107,16 +107,14 @@ const SlashCommands = Extension.create<SlashCommandsOptions>({
         },
         {
           title: "صورة",
-          description: "إدراج صورة برابط",
+          description: "أضف صورة أو ارفعها من جهازك",
           command: ({ editor, range }) => {
-            const url = window.prompt("أدخل رابط الصورة");
-            if (url)
-              editor
-                .chain()
-                .focus()
-                .deleteRange(range)
-                .setImage({ src: url })
-                .run();
+            editor
+              .chain()
+              .focus()
+              .deleteRange(range)
+              .setImage({ src: '' })
+              .run();
           },
         },
         {
@@ -172,6 +170,12 @@ const SlashCommands = Extension.create<SlashCommandsOptions>({
       Suggestion({
         editor: this.editor,
         char: this.options.triggerChar,
+        allow: ({ state, range }) => {
+          const $from = state.doc.resolve(range.from);
+          const isRootDepth = $from.depth === 1;
+          const isParagraph = $from.parent.type.name === 'paragraph';
+          return isRootDepth && isParagraph && $from.parent.textContent.startsWith('/');
+        },
         command: ({ editor, range, props }) => {
           props.command({ editor, range });
         },

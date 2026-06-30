@@ -68,6 +68,7 @@ export interface EditorMenuBarProps {
 export interface ArabicRichTextEditorProps {
   menuItems?: MenuItemConfig[];
   onSave?: () => Promise<void>;
+  onChange?: (html: string) => void;
   content?: string;
   extensions?: AnyExtension[];
   editorProps?: any;

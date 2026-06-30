@@ -24,6 +24,40 @@ import {
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
+const ColorPickerIcon = ({
+  value,
+  editor,
+  setIsSaved,
+  type,
+  label,
+  defaultValue,
+}: {
+  value?: string;
+  editor?: Editor;
+  setIsSaved?: (v: boolean) => void;
+  type: "text" | "highlight";
+  label: string;
+  defaultValue: string;
+}) => {
+  return (
+    <Input
+      type="color"
+      className="w-8 h-8 p-0 border-none"
+      value={value || defaultValue}
+      onChange={(e) => {
+        if (!editor || !setIsSaved) return;
+        if (type === "text") {
+          editor.chain().focus().setColor(e.target.value).run();
+        } else {
+          editor.chain().focus().toggleHighlight({ color: e.target.value }).run();
+        }
+        setIsSaved(false);
+      }}
+      aria-label={label}
+    />
+  );
+};
+
 // Define the MenuItem interface
 interface MenuItem {
   icon: React.ReactNode | ((editor: Editor) => string);
@@ -227,11 +261,10 @@ export const menuItemsConfig: Record<string, MenuItem> = {
   table: {
     icon: <TableIcon className="w-4 h-4" />,
     label: "إدراج جدول",
-    action: (editor, setIsSaved) => () => {
-      editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run();
-      setIsSaved(false);
+    action: (editor) => () => {
+      editor.chain().focus().insertContent({ type: 'tablePlaceholder' }).run();
     },
-    isDisabled: (editor) => !editor.can().insertTable(),
+    isDisabled: () => false,
   },
   link: {
     icon: <LinkIcon className="w-4 h-4" />,
@@ -246,38 +279,14 @@ export const menuItemsConfig: Record<string, MenuItem> = {
     isActive: (editor) => editor.isActive("link"),
   },
   textColor: {
-    icon: (
-      <Input
-        type="color"
-        className="w-8 h-8 p-0 border-none"
-        defaultValue="#000000"
-        onChange={(e) => {
-          const editorInstance = (e.target as any).editor as Editor;
-          editorInstance.chain().focus().setColor(e.target.value).run();
-          (e.target as any).setIsSaved(false);
-        }}
-        aria-label="اختر لون النص"
-      />
-    ),
+    icon: <ColorPickerIcon type="text" label="اختر لون النص" defaultValue="#000000" />,
     label: "لون النص",
     action: (editor, setIsSaved) => () => {
       // No action needed as it's handled by the input's onChange
     },
   },
   highlightColor: {
-    icon: (
-      <Input
-        type="color"
-        className="w-8 h-8 p-0 border-none"
-        defaultValue="#00000000"
-        onChange={(e) => {
-          const editorInstance = (e.target as any).editor as Editor;
-          editorInstance.chain().focus().toggleHighlight({ color: e.target.value }).run();
-          (e.target as any).setIsSaved(false);
-        }}
-        aria-label="اختر لون التمييز"
-      />
-    ),
+    icon: <ColorPickerIcon type="highlight" label="اختر لون التمييز" defaultValue="#00000000" />,
     label: "لون التمييز",
     action: (editor, setIsSaved) => () => {
       // No action needed as it's handled by the input's onChange

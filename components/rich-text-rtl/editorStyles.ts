@@ -8,14 +8,23 @@ const googleFontsLink: string = `
 const editorStyles: string = `
   /* Base Tiptap Editor Styles */
   .tiptap {
-    padding: 1.5rem;
-    width: 75%;
+    padding: 1.5rem 2rem;
+    width: 100%;
+    max-width: 900px;
     margin-left: auto;
     margin-right: auto;
-    text-align: center;
+    text-align: right;
    
+    font-size: 18px;
     line-height: 1.6;
-    color: #333;
+    font-family: 'Amiri', serif;
+    color: #2c3e50;
+  }
+
+  .tiptap p {
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+    line-height: 1.8;
   }
 
   /* Responsive Width */
@@ -59,44 +68,44 @@ const editorStyles: string = `
 
 .tiptap ul[data-type="taskList"] li {
   display: flex;
-  align-items: center;
-  padding: 0.75rem 0;
-  gap: 0.5rem; /* Slightly smaller gap for compactness */
+  align-items: flex-start;
+  padding: 0.25rem 0;
+  gap: 0.5rem; /* Gap between checkbox and text */
 }
 
 .tiptap ul[data-type="taskList"] li > label {
   flex: 0 0 auto;
   user-select: none;
+  margin-top: 0.25rem; /* align checkbox visually with first line of text */
 }
 
 .tiptap ul[data-type="taskList"] li > div {
   flex: 1 1 auto;
-  text-align: left; /* Default left alignment */
+  text-align: right;
 }
 
 .tiptap ul[data-type="taskList"] input[type="checkbox"] {
   cursor: pointer;
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.1rem;
+  height: 1.1rem;
   flex-shrink: 0;
-  accent-color: #8b5cf6; /* Keep the colorful checkbox */
-  transition: transform 0.2s ease; /* Add a subtle animation */
+  accent-color: #8b5cf6; 
+  transition: transform 0.2s ease;
 }
 
 .tiptap ul[data-type="taskList"] input[type="checkbox"]:hover {
-  transform: scale(1.1); /* Slight grow effect on hover */
+  transform: scale(1.1); 
 }
 
-/* Optional: Strike through completed tasks */
 .tiptap ul[data-type="taskList"] input[type="checkbox"]:checked + div {
   text-decoration: line-through;
-  color: #6b7280; /* Muted gray for completed items */
+  color: #6b7280; 
 }
 
   /* RTL Overrides for Task List */
   [dir="rtl"] .tiptap ul[data-type="taskList"] {
     direction: rtl !important;
-    margin: 1.5rem 0.5rem 1.5rem 1rem;
+    margin: 1rem 0.5rem 1rem 0.5rem;
   }
 
   [dir="rtl"] .tiptap ul[data-type="taskList"] li {
@@ -105,9 +114,10 @@ const editorStyles: string = `
     justify-content: flex-start;
   }
 
+  /* Removed the extra margin on label that was causing too much space */
   [dir="rtl"] .tiptap ul[data-type="taskList"] li > label {
-    margin-right: 0.75rem;
-    margin-left: 0 !important;
+    margin: 0;
+    margin-top: 0.35rem; /* Re-apply top margin for alignment */
   }
 
   /* Headings */
@@ -138,6 +148,9 @@ const editorStyles: string = `
     font-size: 0.85rem;
     padding: 0.25em 0.4em;
     font-family: 'JetBrains Mono', monospace;
+    direction: ltr;
+    unicode-bidi: embed;
+    display: inline-block;
   }
 
   .tiptap pre {
