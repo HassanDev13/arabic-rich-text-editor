@@ -57,8 +57,14 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var index_exports = {};
 __export(index_exports, {
   ArabicRichTextEditor: () => ArabicRichTextEditor_default,
+  TermAutocomplete: () => TermAutocomplete_default,
+  TermMark: () => TermMark,
+  checkOutdatedTerms: () => checkOutdatedTerms,
   editorExtensions: () => editorExtensions,
-  injectEditorStyles: () => injectEditorStyles
+  getCustomTermsFromStorage: () => getCustomTermsFromStorage,
+  incrementTermUsage: () => incrementTermUsage,
+  injectEditorStyles: () => injectEditorStyles,
+  updateOutdatedTerms: () => updateOutdatedTerms
 });
 module.exports = __toCommonJS(index_exports);
 
@@ -570,7 +576,7 @@ var import_extension_task_list = __toESM(require("@tiptap/extension-task-list"))
 var import_extension_task_item = __toESM(require("@tiptap/extension-task-item"));
 var import_extension_code_block = __toESM(require("@tiptap/extension-code-block"));
 var import_extension_font_family = require("@tiptap/extension-font-family");
-var import_core3 = require("@tiptap/core");
+var import_core4 = require("@tiptap/core");
 
 // components/rich-text-rtl/SlashCommands.ts
 var import_core2 = require("@tiptap/core");
@@ -1049,8 +1055,140 @@ var SlashCommands = import_core2.Extension.create({
 });
 var SlashCommands_default = SlashCommands;
 
+// components/rich-text-rtl/TermMark.ts
+var import_core3 = require("@tiptap/core");
+var import_state = require("@tiptap/pm/state");
+var import_tippy2 = __toESM(require("tippy.js"));
+var TermMark = import_core3.Mark.create({
+  name: "term",
+  addAttributes() {
+    return {
+      arabic: {
+        default: null,
+        parseHTML: (element) => element.getAttribute("data-arabic"),
+        renderHTML: (attributes) => ({
+          "data-arabic": attributes.arabic
+        })
+      },
+      english: {
+        default: null,
+        parseHTML: (element) => element.getAttribute("data-english"),
+        renderHTML: (attributes) => ({
+          "data-english": attributes.english
+        })
+      },
+      description: {
+        default: null,
+        parseHTML: (element) => element.getAttribute("data-description"),
+        renderHTML: (attributes) => ({
+          "data-description": attributes.description
+        })
+      }
+    };
+  },
+  parseHTML() {
+    return [
+      {
+        tag: "span[data-term]"
+      }
+    ];
+  },
+  renderHTML({ HTMLAttributes }) {
+    return [
+      "span",
+      (0, import_core3.mergeAttributes)(
+        { "data-term": "" },
+        HTMLAttributes,
+        {
+          class: "technical-term text-current border-b border-dotted border-gray-400 dark:border-gray-600 cursor-pointer transition-all duration-150 hover:bg-gray-50/60 dark:hover:bg-gray-800/40"
+        }
+      ),
+      0
+    ];
+  },
+  addProseMirrorPlugins() {
+    return [
+      new import_state.Plugin({
+        key: new import_state.PluginKey("termTooltip"),
+        props: {
+          handleDOMEvents: {
+            mouseover(view, event) {
+              var _a;
+              const target = event.target;
+              const termEl = target.closest("span[data-term]");
+              if (termEl && termEl instanceof HTMLElement) {
+                if (termEl._tippy) {
+                  termEl._tippy.show();
+                  return false;
+                }
+                const arabic = termEl.getAttribute("data-arabic") || "";
+                const english = termEl.getAttribute("data-english") || "";
+                const description = termEl.getAttribute("data-description") || "\u0645\u0635\u0637\u0644\u062D \u0645\u0639\u062A\u0645\u062F \u0641\u064A \u0627\u0644\u0645\u0639\u0627\u062C\u0645 \u0627\u0644\u062A\u0642\u0646\u064A\u0629.";
+                const url = `https://taarib.thearabic.org/search?q=${encodeURIComponent(english)}`;
+                let formattedDescription = "";
+                if (description.includes("\n")) {
+                  const lines = description.split("\n");
+                  const processed = [];
+                  for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if (!line) continue;
+                    if ((line.startsWith("\u0635.") || line.startsWith("\u0635 ")) && processed.length > 0) {
+                      processed[processed.length - 1] += ` (${line})`;
+                    } else {
+                      processed.push(line);
+                    }
+                  }
+                  formattedDescription = processed.map((line, idx) => {
+                    if (idx === 0) {
+                      return `<div class="font-semibold text-gray-800 text-[10px] mb-0.5">${line}</div>`;
+                    }
+                    if (line.startsWith("(")) {
+                      return `<div class="text-gray-400 text-[8.5px] mb-0.5">${line}</div>`;
+                    }
+                    return `<div class="text-gray-500 text-[8.5px] leading-normal pr-2">\u2022 ${line}</div>`;
+                  }).join("");
+                } else {
+                  formattedDescription = `<div class="text-gray-600 text-[10px]">${description}</div>`;
+                }
+                (0, import_tippy2.default)(termEl, {
+                  content: `
+                    <div class="p-2.5 text-right text-[10px] bg-white text-gray-800 rounded-lg shadow-md border border-gray-200 max-w-xs direction-rtl" dir="rtl">
+                      <div class="font-bold text-[11px] mb-1 text-gray-900">${arabic} (${english})</div>
+                      <div class="mb-2 flex flex-col gap-0.5">${formattedDescription}</div>
+                      <a href="${url}" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 underline font-medium flex items-center justify-end gap-0.5">
+                        \u0628\u062D\u062B \u0641\u064A \u0645\u0639\u062C\u0645 \u062A\u0639\u0631\u064A\u0628 \u2197
+                      </a>
+                    </div>
+                  `,
+                  allowHTML: true,
+                  interactive: true,
+                  placement: "top",
+                  theme: "none",
+                  appendTo: () => document.body,
+                  duration: [150, 150],
+                  onCreate(instance) {
+                    const content = instance.popper.querySelector(".tippy-content");
+                    if (content) {
+                      content.setAttribute(
+                        "style",
+                        "padding: 0; background: transparent; border: none; box-shadow: none;"
+                      );
+                    }
+                  }
+                });
+                (_a = termEl._tippy) == null ? void 0 : _a.show();
+              }
+              return false;
+            }
+          }
+        }
+      })
+    ];
+  }
+});
+
 // components/rich-text-rtl/editorConfig.ts
-var FontSize = import_core3.Extension.create({
+var FontSize = import_core4.Extension.create({
   name: "fontSize",
   addOptions() {
     return {
@@ -1085,7 +1223,7 @@ var FontSize = import_core3.Extension.create({
     };
   }
 });
-var LineHeight = import_core3.Extension.create({
+var LineHeight = import_core4.Extension.create({
   name: "lineHeight",
   addOptions() {
     return {
@@ -1166,6 +1304,7 @@ var editorExtensions = [
   import_extension_task_item.default.configure({ nested: true }),
   import_extension_code_block.default.configure({ HTMLAttributes: { class: "code-block", dir: "ltr" } }),
   SlashCommands_default,
+  TermMark,
   import_extension_font_family.FontFamily.configure({ types: ["textStyle"] }),
   FontSize.configure({ types: ["textStyle"] }),
   LineHeight.configure({
@@ -1174,22 +1313,543 @@ var editorExtensions = [
 ];
 
 // components/rich-text-rtl/ArabicRichTextEditor.tsx
-var import_react14 = require("react");
-var import_react15 = require("@tiptap/react");
+var import_react18 = require("react");
+var import_react19 = require("@tiptap/react");
+
+// components/rich-text-rtl/TermAutocomplete.ts
+var import_core5 = require("@tiptap/core");
+var import_tippy3 = __toESM(require("tippy.js"));
+var import_react10 = require("@tiptap/react");
+var import_suggestion2 = __toESM(require("@tiptap/suggestion"));
+var import_state2 = require("@tiptap/pm/state");
+var import_model = require("@tiptap/pm/model");
+
+// components/rich-text-rtl/TermAutocompleteList.tsx
+var import_react9 = __toESM(require("react"));
+var TermAutocompleteList = (0, import_react9.forwardRef)(
+  ({ items, command, className }, ref) => {
+    const [selectedIndex, setSelectedIndex] = (0, import_react9.useState)(0);
+    const listRef = (0, import_react9.useRef)(null);
+    const selectItem = (index) => {
+      const item = items[index];
+      if (item) {
+        command(item);
+      }
+    };
+    const upHandler = () => {
+      setSelectedIndex((prev) => (prev + items.length - 1) % items.length);
+    };
+    const downHandler = () => {
+      setSelectedIndex((prev) => (prev + 1) % items.length);
+    };
+    const enterHandler = () => {
+      selectItem(selectedIndex);
+    };
+    (0, import_react9.useEffect)(() => {
+      if (listRef.current) {
+        const selectedElement = listRef.current.querySelector(
+          `[data-index="${selectedIndex}"]`
+        );
+        if (selectedElement) {
+          selectedElement.scrollIntoView({ block: "nearest", behavior: "smooth" });
+        }
+      }
+    }, [selectedIndex]);
+    (0, import_react9.useEffect)(() => {
+      setSelectedIndex(0);
+    }, [items]);
+    (0, import_react9.useImperativeHandle)(ref, () => ({
+      onKeyDown: ({ event }) => {
+        if (event.key === "ArrowUp") {
+          upHandler();
+          return true;
+        }
+        if (event.key === "ArrowDown") {
+          downHandler();
+          return true;
+        }
+        if (event.key === "Enter" || event.key === "Tab") {
+          enterHandler();
+          return true;
+        }
+        return false;
+      }
+    }));
+    if (items.length === 0) {
+      return null;
+    }
+    return /* @__PURE__ */ import_react9.default.createElement(
+      Command,
+      {
+        className: cn(
+          "w-64 bg-white border border-gray-200 shadow-md rounded-md z-50 text-right direction-rtl",
+          className
+        ),
+        dir: "rtl"
+      },
+      /* @__PURE__ */ import_react9.default.createElement(CommandList, { ref: listRef, className: "max-h-60 overflow-y-auto p-1" }, /* @__PURE__ */ import_react9.default.createElement("div", { className: "px-2 py-1.5 text-[11px] font-semibold text-gray-400 border-b border-gray-100 mb-1" }, "\u0627\u0642\u062A\u0631\u0627\u062D\u0627\u062A \u0627\u0644\u0645\u0635\u0637\u0644\u062D\u0627\u062A (\u0627\u0636\u063A\u0637 Enter)"), /* @__PURE__ */ import_react9.default.createElement(CommandGroup, null, items.map((item, index) => {
+        var _a;
+        const isSelected = index === selectedIndex;
+        const isTopUsed = index === 0 && ((_a = item.usageCount) != null ? _a : 0) > 10;
+        return /* @__PURE__ */ import_react9.default.createElement(
+          CommandItem,
+          {
+            key: `${item.arabic}-${item.english}`,
+            value: `${item.arabic} ${item.english}`,
+            onSelect: () => selectItem(index),
+            "data-index": index,
+            className: cn(
+              "flex items-center justify-between p-2 text-sm text-foreground cursor-pointer rounded hover:bg-gray-100",
+              isSelected && "bg-gray-100 text-foreground"
+            )
+          },
+          /* @__PURE__ */ import_react9.default.createElement("div", { className: "flex items-center gap-1.5 min-w-0" }, /* @__PURE__ */ import_react9.default.createElement("span", { className: "font-medium text-gray-900" }, item.arabic), /* @__PURE__ */ import_react9.default.createElement("span", { className: "text-xs text-gray-400 font-mono" }, "(", item.english, ")")),
+          isTopUsed && /* @__PURE__ */ import_react9.default.createElement("span", { className: "text-[10px] bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded font-medium flex-shrink-0 mr-2" }, "\u0634\u0627\u0626\u0639")
+        );
+      })))
+    );
+  }
+);
+TermAutocompleteList.displayName = "TermAutocompleteList";
+var TermAutocompleteList_default = TermAutocompleteList;
+
+// components/rich-text-rtl/termDictionary.ts
+var LOCAL_STORAGE_KEY = "arabic-rich-text-editor-term-usage";
+function incrementTermUsage(arabic, english) {
+  var _a;
+  if (typeof window === "undefined") return;
+  try {
+    const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+    const parsed = stored ? JSON.parse(stored) : {};
+    const key = `${arabic}:${english}`;
+    parsed[key] = ((_a = parsed[key]) != null ? _a : 0) + 1;
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(parsed));
+  } catch (e) {
+    console.error("Failed to save term usage to localStorage", e);
+  }
+}
+function getCustomTermsFromStorage(customTerms) {
+  const mapTerm = (term, count) => {
+    var _a;
+    return {
+      arabic: term.arabic,
+      english: term.english,
+      description: (_a = term.description) != null ? _a : "",
+      usageCount: count
+    };
+  };
+  if (typeof window === "undefined") {
+    return customTerms.map((t) => {
+      var _a;
+      return mapTerm(t, (_a = t.usageCount) != null ? _a : 0);
+    });
+  }
+  try {
+    const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      return customTerms.map((term) => {
+        var _a, _b;
+        const key = `${term.arabic}:${term.english}`;
+        return mapTerm(term, (_b = (_a = parsed[key]) != null ? _a : term.usageCount) != null ? _b : 0);
+      });
+    }
+  } catch (e) {
+    console.error("Failed to read custom term usage from localStorage", e);
+  }
+  return customTerms.map((t) => {
+    var _a;
+    return mapTerm(t, (_a = t.usageCount) != null ? _a : 0);
+  });
+}
+function checkOutdatedTerms(editor, currentTerms) {
+  if (!editor || !currentTerms || currentTerms.length === 0) return 0;
+  let count = 0;
+  const termsMap = new Map(currentTerms.map((t) => [t.english.toLowerCase(), t]));
+  editor.state.doc.descendants((node) => {
+    const termMark = node.marks.find((mark) => mark.type.name === "term");
+    if (termMark) {
+      const { arabic, english } = termMark.attrs;
+      if (english) {
+        const currentTerm = termsMap.get(english.toLowerCase());
+        if (currentTerm && currentTerm.arabic !== arabic) {
+          count++;
+        }
+      }
+    }
+    return true;
+  });
+  return count;
+}
+function updateOutdatedTerms(editor, currentTerms) {
+  if (!editor || !currentTerms || currentTerms.length === 0) return 0;
+  const { state, view } = editor;
+  const { doc } = state;
+  const tr = state.tr;
+  const termsMap = new Map(currentTerms.map((t) => [t.english.toLowerCase(), t]));
+  const updates = [];
+  doc.descendants((node, pos) => {
+    const termMark = node.marks.find((mark) => mark.type.name === "term");
+    if (termMark) {
+      const { arabic, english } = termMark.attrs;
+      if (english) {
+        const currentTerm = termsMap.get(english.toLowerCase());
+        if (currentTerm && currentTerm.arabic !== arabic) {
+          const from = pos;
+          const to = pos + node.nodeSize;
+          const newText = `${currentTerm.arabic} (${currentTerm.english})`;
+          updates.push({ from, to, newText, term: currentTerm });
+        }
+      }
+    }
+    return true;
+  });
+  updates.sort((a, b) => b.from - a.from);
+  updates.forEach((update) => {
+    tr.insertText(update.newText, update.from, update.to);
+    const newTo = update.from + update.newText.length;
+    tr.removeMark(update.from, newTo, state.schema.marks.term);
+    const newMark = state.schema.marks.term.create({
+      arabic: update.term.arabic,
+      english: update.term.english,
+      description: update.term.description || ""
+    });
+    tr.addMark(update.from, newTo, newMark);
+  });
+  if (updates.length > 0) {
+    view.dispatch(tr);
+  }
+  return updates.length;
+}
+
+// components/rich-text-rtl/TermAutocomplete.ts
+function getOverlapLength(textBefore, termArabic) {
+  const t = textBefore.toLowerCase();
+  const s = termArabic.toLowerCase();
+  let maxOverlap = 0;
+  for (let i = 1; i <= Math.min(t.length, s.length); i++) {
+    const suffix = t.slice(-i);
+    const prefix = s.slice(0, i);
+    if (suffix === prefix) {
+      maxOverlap = i;
+    }
+  }
+  return maxOverlap;
+}
+function enrichText(text, terms, schema, originalMarks = []) {
+  if (!text) return [];
+  const sortedTerms = [...terms].sort(
+    (a, b) => b.english.length - a.english.length || b.arabic.length - a.arabic.length
+  );
+  let earliestMatch = null;
+  for (const term2 of sortedTerms) {
+    const escEnglish = term2.english.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+    const escArabic = term2.arabic.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+    const engRegex = new RegExp(`\\b${escEnglish}\\b`, "gi");
+    const araRegex = new RegExp(`(?<![\\s\\u200b\\ufeff])${escArabic}(?![\\s\\u200b\\ufeff])`, "g");
+    let match;
+    engRegex.lastIndex = 0;
+    while ((match = engRegex.exec(text)) !== null) {
+      if (earliestMatch === null || match.index < earliestMatch.index) {
+        earliestMatch = {
+          index: match.index,
+          length: match[0].length,
+          term: term2,
+          matchedText: match[0]
+        };
+      }
+    }
+    araRegex.lastIndex = 0;
+    while ((match = araRegex.exec(text)) !== null) {
+      if (earliestMatch === null || match.index < earliestMatch.index) {
+        earliestMatch = {
+          index: match.index,
+          length: match[0].length,
+          term: term2,
+          matchedText: match[0]
+        };
+      }
+    }
+  }
+  if (!earliestMatch) {
+    return [schema.text(text, originalMarks)];
+  }
+  const afterMatchOffset = earliestMatch.index + earliestMatch.length;
+  const trailingText = text.slice(afterMatchOffset);
+  const escEng = earliestMatch.term.english.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+  const escAra = earliestMatch.term.arabic.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+  let lookaheadRegex;
+  if (earliestMatch.matchedText.toLowerCase() === earliestMatch.term.arabic.toLowerCase()) {
+    lookaheadRegex = new RegExp(`^[\\s\\u200b\\ufeff]*\\(?[\\s\\u200b\\ufeff]*${escEng}\\b[\\s\\u200b\\ufeff]*\\)?`, "i");
+  } else {
+    lookaheadRegex = new RegExp(`^[\\s\\u200b\\ufeff]*\\(?[\\s\\u200b\\ufeff]*${escAra}(?![\\s\\u200b\\ufeff])[\\s\\u200b\\ufeff]*\\)?`, "i");
+  }
+  const lookaheadMatch = trailingText.match(lookaheadRegex);
+  let totalLength = earliestMatch.length;
+  if (lookaheadMatch) {
+    totalLength += lookaheadMatch[0].length;
+  }
+  const nodes = [];
+  const beforeText = text.slice(0, earliestMatch.index);
+  const afterText = text.slice(earliestMatch.index + totalLength);
+  if (beforeText) {
+    nodes.push(...enrichText(beforeText, terms, schema, originalMarks));
+  }
+  const term = earliestMatch.term;
+  const description = term.description || "\u0645\u0635\u0637\u0644\u062D \u062A\u0642\u0646\u064A \u0645\u0639\u062A\u0645\u062F.";
+  const termText = `${term.arabic} (${term.english})`;
+  const termMark = schema.marks.term.create({
+    arabic: term.arabic,
+    english: term.english,
+    description
+  });
+  const newMarks = [...originalMarks.filter((m) => m.type.name !== "term"), termMark];
+  nodes.push(schema.text(termText, newMarks));
+  if (afterText) {
+    nodes.push(...enrichText(afterText, terms, schema, originalMarks));
+  }
+  return nodes;
+}
+var TermAutocomplete = import_core5.Extension.create({
+  name: "termAutocomplete",
+  addOptions() {
+    return {
+      terms: []
+    };
+  },
+  addProseMirrorPlugins() {
+    const terms = this.options.terms || [];
+    const plugins = [
+      (0, import_suggestion2.default)({
+        pluginKey: new import_state2.PluginKey("termAutocomplete"),
+        editor: this.editor,
+        char: "",
+        // No trigger character, we use findSuggestionMatch for custom matching
+        findSuggestionMatch: ({ $position }) => {
+          var _a;
+          const text = $position.parent.textBetween(0, $position.parentOffset, null, "\0");
+          const match = text.match(/(\S+)$/);
+          if (!match) {
+            return null;
+          }
+          const query = match[0];
+          if (query.length < 2) {
+            return null;
+          }
+          const matchStart = (_a = match.index) != null ? _a : 0;
+          const matchEnd = matchStart + query.length;
+          const currentTerms = getCustomTermsFromStorage(terms);
+          const queryLower = query.toLowerCase();
+          const hasMatch = currentTerms.some(
+            (term) => term.arabic.toLowerCase().includes(queryLower) || term.english.toLowerCase().includes(queryLower)
+          );
+          if (!hasMatch) {
+            return null;
+          }
+          return {
+            range: {
+              from: $position.start() + matchStart,
+              to: $position.start() + matchEnd
+            },
+            query,
+            text: query
+          };
+        },
+        command: ({ editor, range, props }) => {
+          const term = props;
+          const { state } = editor;
+          const $from = state.doc.resolve(range.from);
+          const textBefore = $from.parent.textBetween(0, $from.parentOffset, null, "\0");
+          const overlapLen = getOverlapLength(textBefore, term.arabic);
+          const replaceFrom = overlapLen > 0 ? range.to - overlapLen : range.from;
+          const replaceTo = range.to;
+          incrementTermUsage(term.arabic, term.english);
+          const description = term.description || "\u0645\u0635\u0637\u0644\u062D \u062A\u0642\u0646\u064A \u0645\u0639\u062A\u0645\u062F.";
+          const insertHTML = `<span data-term="" data-arabic="${term.arabic}" data-english="${term.english}" data-description="${description}">${term.arabic} (${term.english})</span> `;
+          editor.chain().focus().insertContentAt({ from: replaceFrom, to: replaceTo }, insertHTML).run();
+        },
+        items: ({ query }) => {
+          const currentTerms = getCustomTermsFromStorage(terms);
+          const queryLower = query.toLowerCase();
+          return currentTerms.filter(
+            (term) => term.arabic.toLowerCase().includes(queryLower) || term.english.toLowerCase().includes(queryLower)
+          ).sort((a, b) => b.usageCount - a.usageCount).slice(0, 5);
+        },
+        render: () => {
+          let component;
+          let popup;
+          return {
+            onStart: (props) => {
+              component = new import_react10.ReactRenderer(TermAutocompleteList_default, {
+                props,
+                editor: props.editor
+              });
+              if (!props.clientRect) return;
+              popup = (0, import_tippy3.default)("body", {
+                getReferenceClientRect: props.clientRect,
+                appendTo: () => document.body,
+                content: component.element,
+                showOnCreate: true,
+                interactive: true,
+                trigger: "manual",
+                duration: 150,
+                placement: "bottom-start",
+                theme: "none",
+                arrow: false,
+                offset: [0, 5],
+                onCreate(instance) {
+                  const content = instance.popper.querySelector(".tippy-content");
+                  if (content) {
+                    content.setAttribute(
+                      "style",
+                      "padding: 0; background: transparent; border: none; box-shadow: none;"
+                    );
+                  }
+                }
+              });
+            },
+            onUpdate(props) {
+              component.updateProps(props);
+              if (!props.clientRect) return;
+              popup[0].setProps({
+                getReferenceClientRect: props.clientRect
+              });
+            },
+            onKeyDown(props) {
+              var _a;
+              if (props.event.key === "Escape") {
+                popup[0].hide();
+                return true;
+              }
+              return ((_a = component.ref) == null ? void 0 : _a.onKeyDown(props)) || false;
+            },
+            onExit() {
+              if (popup && popup[0]) popup[0].destroy();
+              if (component) component.destroy();
+            }
+          };
+        }
+      })
+    ];
+    if (terms.length > 0) {
+      plugins.push(
+        new import_state2.Plugin({
+          key: new import_state2.PluginKey("termPasteEnricher"),
+          props: {
+            transformPasted: (slice) => {
+              const schema = this.editor.schema;
+              const enrichFragment = (fragment) => {
+                const newNodes = [];
+                fragment.forEach((node) => {
+                  if (node.isText && node.text) {
+                    const hasTermMark = node.marks.some((m) => m.type.name === "term");
+                    if (hasTermMark) {
+                      newNodes.push(node);
+                    } else {
+                      newNodes.push(...enrichText(node.text || "", terms, schema, node.marks));
+                    }
+                  } else {
+                    newNodes.push(node.copy(enrichFragment(node.content)));
+                  }
+                });
+                return import_model.Fragment.fromArray(newNodes);
+              };
+              const result = new import_model.Slice(enrichFragment(slice.content), slice.openStart, slice.openEnd);
+              console.log("[Paste Diagnostics] Input plain text:", slice.content.textBetween(0, slice.content.size));
+              console.log("[Paste Diagnostics] Output plain text:", result.content.textBetween(0, result.content.size));
+              return result;
+            }
+          }
+        })
+      );
+    }
+    return plugins;
+  }
+});
+var TermAutocomplete_default = TermAutocomplete;
+
+// components/rich-text-rtl/Menu/OutdatedTermsBanner.tsx
+var import_react11 = __toESM(require("react"));
+var import_react12 = require("@tiptap/react");
+var import_lucide_react3 = require("lucide-react");
+var OutdatedTermsBanner = ({ autocompleteTerms }) => {
+  const { editor } = (0, import_react12.useCurrentEditor)();
+  const [outdatedCount, setOutdatedCount] = (0, import_react11.useState)(0);
+  const [ignored, setIgnored] = (0, import_react11.useState)(false);
+  (0, import_react11.useEffect)(() => {
+    if (!editor || !autocompleteTerms || autocompleteTerms.length === 0 || ignored) {
+      return;
+    }
+    const handleCheck = () => {
+      const count = checkOutdatedTerms(editor, autocompleteTerms);
+      setOutdatedCount(count);
+    };
+    handleCheck();
+    editor.on("update", handleCheck);
+    return () => {
+      editor.off("update", handleCheck);
+    };
+  }, [editor, autocompleteTerms, ignored]);
+  if (outdatedCount === 0 || ignored) {
+    return null;
+  }
+  const handleUpdate = () => {
+    if (editor && autocompleteTerms) {
+      const count = updateOutdatedTerms(editor, autocompleteTerms);
+      console.log(`Updated ${count} outdated terms.`);
+      setOutdatedCount(0);
+    }
+  };
+  return /* @__PURE__ */ import_react11.default.createElement(
+    "div",
+    {
+      dir: "rtl",
+      className: "fixed bottom-6 right-6 left-6 md:left-auto md:w-[420px] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 shadow-xl shadow-gray-200/50 dark:shadow-none z-50 flex flex-col gap-3 text-right direction-rtl animate-in fade-in slide-in-from-bottom-5 duration-300"
+    },
+    /* @__PURE__ */ import_react11.default.createElement("div", { className: "flex items-start justify-between gap-3" }, /* @__PURE__ */ import_react11.default.createElement("div", { className: "flex gap-2" }, /* @__PURE__ */ import_react11.default.createElement(import_lucide_react3.Sparkles, { className: "w-5 h-5 text-gray-500 dark:text-gray-400 shrink-0 mt-0.5" }), /* @__PURE__ */ import_react11.default.createElement("div", null, /* @__PURE__ */ import_react11.default.createElement("h4", { className: "font-semibold text-sm text-gray-900 dark:text-gray-100" }, "\u062A\u062D\u062F\u064A\u062B \u0627\u0644\u0645\u0635\u0637\u0644\u062D\u0627\u062A \u0627\u0644\u0645\u0639\u0631\u0651\u0628\u0629"), /* @__PURE__ */ import_react11.default.createElement("p", { className: "text-xs text-gray-600 dark:text-gray-400 mt-1 leading-relaxed" }, "\u062A\u0645 \u0627\u0644\u0639\u062B\u0648\u0631 \u0639\u0644\u0649 ", /* @__PURE__ */ import_react11.default.createElement("strong", null, outdatedCount, " \u0645\u0635\u0637\u0644\u062D\u0627\u062A"), " \u0641\u064A \u0647\u0630\u0627 \u0627\u0644\u0645\u0642\u0627\u0644 \u062A\u0645\u062A\u0644\u0643 \u062A\u0639\u0631\u064A\u0628\u0627\u062A \u0623\u062D\u062F\u062B \u0641\u064A \u0642\u0627\u0639\u062F\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A \u0627\u0644\u062C\u062F\u064A\u062F\u0629."))), /* @__PURE__ */ import_react11.default.createElement(
+      "button",
+      {
+        onClick: () => setIgnored(true),
+        className: "text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors p-1"
+      },
+      /* @__PURE__ */ import_react11.default.createElement(import_lucide_react3.X, { className: "w-4 h-4" })
+    )),
+    /* @__PURE__ */ import_react11.default.createElement("div", { className: "flex items-center gap-2 justify-end mt-1" }, /* @__PURE__ */ import_react11.default.createElement(
+      Button,
+      {
+        onClick: () => setIgnored(true),
+        variant: "ghost",
+        size: "sm",
+        className: "text-[11px] text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800"
+      },
+      "\u062A\u062C\u0627\u0647\u0644 \u0627\u0644\u062A\u0646\u0628\u064A\u0647"
+    ), /* @__PURE__ */ import_react11.default.createElement(
+      Button,
+      {
+        onClick: handleUpdate,
+        size: "sm",
+        variant: "outline",
+        className: "text-[11px] bg-white border border-gray-200 hover:bg-gray-50 text-gray-800 font-medium gap-1.5 shadow-sm dark:bg-gray-900 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800"
+      },
+      /* @__PURE__ */ import_react11.default.createElement(import_lucide_react3.RefreshCw, { className: "w-3 h-3 text-gray-500" }),
+      "\u062A\u062D\u062F\u064A\u062B \u0627\u0644\u0643\u0644 \u0627\u0644\u0622\u0646"
+    ))
+  );
+};
 
 // components/rich-text-rtl/Menu/AccessibleToolbars.tsx
-var import_react12 = __toESM(require("react"));
-var import_react13 = require("@tiptap/react");
+var import_react16 = __toESM(require("react"));
+var import_react17 = require("@tiptap/react");
 
 // components/ui/tooltip.tsx
-var React8 = __toESM(require("react"));
+var React10 = __toESM(require("react"));
 var TooltipPrimitive = __toESM(require("@radix-ui/react-tooltip"));
 var TooltipProvider = TooltipPrimitive.Provider;
 var Tooltip = TooltipPrimitive.Root;
 var TooltipTrigger = TooltipPrimitive.Trigger;
-var TooltipContent = React8.forwardRef((_a, ref) => {
+var TooltipContent = React10.forwardRef((_a, ref) => {
   var _b = _a, { className, sideOffset = 4 } = _b, props = __objRest(_b, ["className", "sideOffset"]);
-  return /* @__PURE__ */ React8.createElement(TooltipPrimitive.Portal, null, /* @__PURE__ */ React8.createElement(
+  return /* @__PURE__ */ React10.createElement(TooltipPrimitive.Portal, null, /* @__PURE__ */ React10.createElement(
     TooltipPrimitive.Content,
     __spreadValues({
       ref,
@@ -1204,14 +1864,14 @@ var TooltipContent = React8.forwardRef((_a, ref) => {
 TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 
 // components/rich-text-rtl/Menu/menu-config.tsx
-var import_lucide_react3 = require("lucide-react");
+var import_lucide_react4 = require("lucide-react");
 
 // components/ui/input.tsx
-var React9 = __toESM(require("react"));
-var Input = React9.forwardRef(
+var React11 = __toESM(require("react"));
+var Input = React11.forwardRef(
   (_a, ref) => {
     var _b = _a, { className, type } = _b, props = __objRest(_b, ["className", "type"]);
-    return /* @__PURE__ */ React9.createElement(
+    return /* @__PURE__ */ React11.createElement(
       "input",
       __spreadValues({
         type,
@@ -1256,7 +1916,7 @@ var ColorPickerIcon = ({
 };
 var menuItemsConfig = {
   bold: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react3.Bold, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Bold, { className: "w-4 h-4" }),
     label: "\u0639\u0631\u064A\u0636",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleBold().run();
@@ -1267,7 +1927,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleBold().run()
   },
   italic: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react3.Italic, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Italic, { className: "w-4 h-4" }),
     label: "\u0645\u0627\u0626\u0644",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleItalic().run();
@@ -1277,7 +1937,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleItalic().run()
   },
   underline: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react3.Underline, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Underline, { className: "w-4 h-4" }),
     label: "\u062A\u0633\u0637\u064A\u0631",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleUnderline().run();
@@ -1287,7 +1947,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleUnderline().run()
   },
   strike: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react3.Strikethrough, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Strikethrough, { className: "w-4 h-4" }),
     label: "\u064A\u062A\u0648\u0633\u0637 \u0627\u0644\u062E\u0637",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleStrike().run();
@@ -1297,7 +1957,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleStrike().run()
   },
   highlight: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react3.Highlighter, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Highlighter, { className: "w-4 h-4" }),
     label: "\u062A\u0645\u064A\u064A\u0632",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleHighlight().run();
@@ -1337,7 +1997,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleHeading({ level: 3 }).run()
   },
   paragraph: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react3.Type, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Type, { className: "w-4 h-4" }),
     label: "\u0641\u0642\u0631\u0629",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().setParagraph().run();
@@ -1346,7 +2006,7 @@ var menuItemsConfig = {
     isActive: (editor) => editor.isActive("paragraph")
   },
   alignLeft: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react3.AlignLeft, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.AlignLeft, { className: "w-4 h-4" }),
     label: "\u0645\u062D\u0627\u0630\u0627\u0629 \u0625\u0644\u0649 \u0627\u0644\u064A\u0633\u0627\u0631",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().setTextAlign("left").run();
@@ -1356,7 +2016,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().setTextAlign("left")
   },
   alignCenter: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react3.AlignCenter, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.AlignCenter, { className: "w-4 h-4" }),
     label: "\u0645\u062D\u0627\u0630\u0627\u0629 \u0625\u0644\u0649 \u0627\u0644\u0648\u0633\u0637",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().setTextAlign("center").run();
@@ -1366,7 +2026,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().setTextAlign("center")
   },
   alignRight: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react3.AlignRight, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.AlignRight, { className: "w-4 h-4" }),
     label: "\u0645\u062D\u0627\u0630\u0627\u0629 \u0625\u0644\u0649 \u0627\u0644\u064A\u0645\u064A\u0646",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().setTextAlign("right").run();
@@ -1376,7 +2036,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().setTextAlign("right")
   },
   alignJustify: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react3.AlignJustify, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.AlignJustify, { className: "w-4 h-4" }),
     label: "\u062A\u0648\u0632\u064A\u0639 \u0627\u0644\u0646\u0635",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().setTextAlign("justify").run();
@@ -1386,7 +2046,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().setTextAlign("justify")
   },
   bulletList: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react3.List, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.List, { className: "w-4 h-4" }),
     label: "\u0642\u0627\u0626\u0645\u0629 \u0646\u0642\u0637\u064A\u0629",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleBulletList().run();
@@ -1396,7 +2056,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleBulletList().run()
   },
   orderedList: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react3.ListOrdered, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.ListOrdered, { className: "w-4 h-4" }),
     label: "\u0642\u0627\u0626\u0645\u0629 \u0645\u0631\u0642\u0645\u0629",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleOrderedList().run();
@@ -1406,7 +2066,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleOrderedList().run()
   },
   taskList: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react3.CheckSquare, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.CheckSquare, { className: "w-4 h-4" }),
     label: "\u0642\u0627\u0626\u0645\u0629 \u0645\u0647\u0627\u0645",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleTaskList().run();
@@ -1416,7 +2076,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleTaskList().run()
   },
   codeBlock: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react3.Code, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Code, { className: "w-4 h-4" }),
     label: "\u0643\u0648\u062F \u0628\u0631\u0645\u062C\u064A",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleCodeBlock().run();
@@ -1434,7 +2094,7 @@ var menuItemsConfig = {
     }
   },
   image: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react3.Image, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Image, { className: "w-4 h-4" }),
     label: "\u0625\u062F\u0631\u0627\u062C \u0635\u0648\u0631\u0629",
     action: (editor, setIsSaved) => () => {
       const url = window.prompt("\u0623\u062F\u062E\u0644 \u0631\u0627\u0628\u0637 \u0627\u0644\u0635\u0648\u0631\u0629");
@@ -1445,7 +2105,7 @@ var menuItemsConfig = {
     }
   },
   table: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react3.Table, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Table, { className: "w-4 h-4" }),
     label: "\u0625\u062F\u0631\u0627\u062C \u062C\u062F\u0648\u0644",
     action: (editor) => () => {
       editor.chain().focus().insertContent({ type: "tablePlaceholder" }).run();
@@ -1453,7 +2113,7 @@ var menuItemsConfig = {
     isDisabled: () => false
   },
   link: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react3.Link, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Link, { className: "w-4 h-4" }),
     label: "\u0625\u062F\u0631\u0627\u062C \u0631\u0627\u0628\u0637",
     action: (editor, setIsSaved) => () => {
       const url = window.prompt("\u0623\u062F\u062E\u0644 \u0627\u0644\u0631\u0627\u0628\u0637");
@@ -1477,7 +2137,7 @@ var menuItemsConfig = {
     }
   },
   undo: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react3.Undo, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Undo, { className: "w-4 h-4" }),
     label: "\u062A\u0631\u0627\u062C\u0639",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().undo().run();
@@ -1486,7 +2146,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().undo().run()
   },
   redo: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react3.Redo, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Redo, { className: "w-4 h-4" }),
     label: "\u0625\u0639\u0627\u062F\u0629",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().redo().run();
@@ -1495,7 +2155,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().redo().run()
   },
   clearFormat: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react3.Eraser, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Eraser, { className: "w-4 h-4" }),
     // Using Eraser icon for "clear format"
     label: "\u0645\u0633\u062D \u0627\u0644\u062A\u0646\u0633\u064A\u0642",
     action: (editor, setIsSaved) => () => {
@@ -1504,7 +2164,7 @@ var menuItemsConfig = {
     }
   },
   clearNodes: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react3.X, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.X, { className: "w-4 h-4" }),
     // Using X icon for "clear nodes"
     label: "\u0645\u0633\u062D \u0627\u0644\u0639\u0646\u0627\u0635\u0631",
     action: (editor, setIsSaved) => () => {
@@ -1515,7 +2175,7 @@ var menuItemsConfig = {
 };
 
 // components/rich-text-rtl/Menu/EditorControls.tsx
-var import_react9 = __toESM(require("react"));
+var import_react13 = __toESM(require("react"));
 var EditorControls = ({
   editor,
   menuItems,
@@ -1523,7 +2183,7 @@ var EditorControls = ({
   setIsSaved
 }) => {
   const getMenuItemConfig = (id) => menuItems.find((item) => item.id === id) || { id, enabled: false };
-  return /* @__PURE__ */ import_react9.default.createElement(
+  return /* @__PURE__ */ import_react13.default.createElement(
     "div",
     {
       className: cn(
@@ -1539,14 +2199,14 @@ var EditorControls = ({
       const icon = itemConfig.customIcon || config.icon;
       const label = itemConfig.customLabel || config.label;
       const isColorInput = ["textColor", "highlightColor"].includes(id);
-      return /* @__PURE__ */ import_react9.default.createElement(Tooltip, { key: id }, /* @__PURE__ */ import_react9.default.createElement(TooltipTrigger, { asChild: true }, isColorInput ? import_react9.default.cloneElement(
+      return /* @__PURE__ */ import_react13.default.createElement(Tooltip, { key: id }, /* @__PURE__ */ import_react13.default.createElement(TooltipTrigger, { asChild: true }, isColorInput ? import_react13.default.cloneElement(
         icon,
         {
           value: id === "textColor" ? ((_a = editor.getAttributes("textStyle")) == null ? void 0 : _a.color) || "#000000" : ((_b = editor.getAttributes("highlight")) == null ? void 0 : _b.color) || "#00000000",
           editor,
           setIsSaved
         }
-      ) : /* @__PURE__ */ import_react9.default.createElement(
+      ) : /* @__PURE__ */ import_react13.default.createElement(
         Button,
         {
           variant: ((_c = config.isActive) == null ? void 0 : _c.call(config, editor)) ? "secondary" : "ghost",
@@ -1556,38 +2216,38 @@ var EditorControls = ({
           className: "w-9 h-9 md:w-10 md:h-10",
           "aria-label": label
         },
-        /* @__PURE__ */ import_react9.default.createElement(import_react9.default.Fragment, null, icon)
-      )), /* @__PURE__ */ import_react9.default.createElement(TooltipContent, null, label));
+        /* @__PURE__ */ import_react13.default.createElement(import_react13.default.Fragment, null, icon)
+      )), /* @__PURE__ */ import_react13.default.createElement(TooltipContent, null, label));
     })
   );
 };
 
 // components/rich-text-rtl/Menu/AccessibleToolbars.tsx
-var import_lucide_react5 = require("lucide-react");
+var import_lucide_react6 = require("lucide-react");
 
 // components/rich-text-rtl/Menu/TableBubbleMenu.tsx
-var import_react10 = __toESM(require("react"));
-var import_react11 = require("@tiptap/react");
-var import_lucide_react4 = require("lucide-react");
+var import_react14 = __toESM(require("react"));
+var import_react15 = require("@tiptap/react");
+var import_lucide_react5 = require("lucide-react");
 var TableBubbleMenu = () => {
-  const { editor } = (0, import_react11.useCurrentEditor)();
+  const { editor } = (0, import_react15.useCurrentEditor)();
   if (!editor) {
     return null;
   }
   const tableControls = [
     {
       label: "\u0625\u0636\u0627\u0641\u0629 \u0635\u0641 \u0644\u0644\u0623\u0639\u0644\u0649",
-      icon: /* @__PURE__ */ import_react10.default.createElement(import_lucide_react4.ArrowUpToLine, { className: "w-4 h-4" }),
+      icon: /* @__PURE__ */ import_react14.default.createElement(import_lucide_react5.ArrowUpToLine, { className: "w-4 h-4" }),
       action: () => editor.chain().focus().addRowBefore().run()
     },
     {
       label: "\u0625\u0636\u0627\u0641\u0629 \u0635\u0641 \u0644\u0644\u0623\u0633\u0641\u0644",
-      icon: /* @__PURE__ */ import_react10.default.createElement(import_lucide_react4.ArrowDownToLine, { className: "w-4 h-4" }),
+      icon: /* @__PURE__ */ import_react14.default.createElement(import_lucide_react5.ArrowDownToLine, { className: "w-4 h-4" }),
       action: () => editor.chain().focus().addRowAfter().run()
     },
     {
       label: "\u062D\u0630\u0641 \u0635\u0641",
-      icon: /* @__PURE__ */ import_react10.default.createElement(import_lucide_react4.Trash2, { className: "w-4 h-4 text-red-500" }),
+      icon: /* @__PURE__ */ import_react14.default.createElement(import_lucide_react5.Trash2, { className: "w-4 h-4 text-red-500" }),
       action: () => editor.chain().focus().deleteRow().run()
     },
     {
@@ -1595,19 +2255,19 @@ var TableBubbleMenu = () => {
     },
     {
       label: "\u0625\u0636\u0627\u0641\u0629 \u0639\u0645\u0648\u062F \u0644\u0644\u064A\u0645\u064A\u0646",
-      icon: /* @__PURE__ */ import_react10.default.createElement(import_lucide_react4.ArrowRightToLine, { className: "w-4 h-4" }),
+      icon: /* @__PURE__ */ import_react14.default.createElement(import_lucide_react5.ArrowRightToLine, { className: "w-4 h-4" }),
       action: () => editor.chain().focus().addColumnBefore().run()
       // In RTL, before is right
     },
     {
       label: "\u0625\u0636\u0627\u0641\u0629 \u0639\u0645\u0648\u062F \u0644\u0644\u064A\u0633\u0627\u0631",
-      icon: /* @__PURE__ */ import_react10.default.createElement(import_lucide_react4.ArrowLeftToLine, { className: "w-4 h-4" }),
+      icon: /* @__PURE__ */ import_react14.default.createElement(import_lucide_react5.ArrowLeftToLine, { className: "w-4 h-4" }),
       action: () => editor.chain().focus().addColumnAfter().run()
       // In RTL, after is left
     },
     {
       label: "\u062D\u0630\u0641 \u0639\u0645\u0648\u062F",
-      icon: /* @__PURE__ */ import_react10.default.createElement(import_lucide_react4.Trash2, { className: "w-4 h-4 text-red-500" }),
+      icon: /* @__PURE__ */ import_react14.default.createElement(import_lucide_react5.Trash2, { className: "w-4 h-4 text-red-500" }),
       action: () => editor.chain().focus().deleteColumn().run()
     },
     {
@@ -1615,12 +2275,12 @@ var TableBubbleMenu = () => {
     },
     {
       label: "\u062D\u0630\u0641 \u0627\u0644\u062C\u062F\u0648\u0644",
-      icon: /* @__PURE__ */ import_react10.default.createElement(import_lucide_react4.Trash, { className: "w-4 h-4 text-red-600" }),
+      icon: /* @__PURE__ */ import_react14.default.createElement(import_lucide_react5.Trash, { className: "w-4 h-4 text-red-600" }),
       action: () => editor.chain().focus().deleteTable().run()
     }
   ];
-  return /* @__PURE__ */ import_react10.default.createElement(
-    import_react11.BubbleMenu,
+  return /* @__PURE__ */ import_react14.default.createElement(
+    import_react15.BubbleMenu,
     {
       editor,
       tippyOptions: { duration: 100, placement: "bottom" },
@@ -1629,9 +2289,9 @@ var TableBubbleMenu = () => {
     },
     tableControls.map((control, index) => {
       if (control.divider) {
-        return /* @__PURE__ */ import_react10.default.createElement("div", { key: `div-${index}`, className: "w-px h-5 bg-gray-200 mx-1" });
+        return /* @__PURE__ */ import_react14.default.createElement("div", { key: `div-${index}`, className: "w-px h-5 bg-gray-200 mx-1" });
       }
-      return /* @__PURE__ */ import_react10.default.createElement(Tooltip, { key: index }, /* @__PURE__ */ import_react10.default.createElement(TooltipTrigger, { asChild: true }, /* @__PURE__ */ import_react10.default.createElement(
+      return /* @__PURE__ */ import_react14.default.createElement(Tooltip, { key: index }, /* @__PURE__ */ import_react14.default.createElement(TooltipTrigger, { asChild: true }, /* @__PURE__ */ import_react14.default.createElement(
         Button,
         {
           variant: "ghost",
@@ -1640,19 +2300,19 @@ var TableBubbleMenu = () => {
           onClick: control.action
         },
         control.icon
-      )), /* @__PURE__ */ import_react10.default.createElement(TooltipContent, null, /* @__PURE__ */ import_react10.default.createElement("p", null, control.label)));
+      )), /* @__PURE__ */ import_react14.default.createElement(TooltipContent, null, /* @__PURE__ */ import_react14.default.createElement("p", null, control.label)));
     })
   );
 };
 
 // components/rich-text-rtl/Menu/AccessibleToolbars.tsx
 var AccessibleToolbars = ({ menuItems }) => {
-  const { editor } = (0, import_react13.useCurrentEditor)();
+  const { editor } = (0, import_react17.useCurrentEditor)();
   if (!editor) {
     return null;
   }
-  return /* @__PURE__ */ import_react12.default.createElement(TooltipProvider, null, /* @__PURE__ */ import_react12.default.createElement(TableBubbleMenu, null), /* @__PURE__ */ import_react12.default.createElement(
-    import_react13.BubbleMenu,
+  return /* @__PURE__ */ import_react16.default.createElement(TooltipProvider, null, /* @__PURE__ */ import_react16.default.createElement(TableBubbleMenu, null), /* @__PURE__ */ import_react16.default.createElement(
+    import_react17.BubbleMenu,
     {
       editor,
       tippyOptions: { duration: 100 },
@@ -1665,7 +2325,7 @@ var AccessibleToolbars = ({ menuItems }) => {
       },
       className: "flex bg-background border shadow-md rounded-md p-1 items-center z-50"
     },
-    /* @__PURE__ */ import_react12.default.createElement(
+    /* @__PURE__ */ import_react16.default.createElement(
       EditorControls,
       {
         editor,
@@ -1675,13 +2335,13 @@ var AccessibleToolbars = ({ menuItems }) => {
         }
       }
     )
-  ), /* @__PURE__ */ import_react12.default.createElement(import_react13.FloatingMenu, { editor, tippyOptions: { duration: 100, placement: "left-start" }, className: "flex gap-1 z-50" }, /* @__PURE__ */ import_react12.default.createElement(Button, { variant: "ghost", size: "icon", onClick: () => editor.commands.insertContent("/"), className: "rounded-full w-6 h-6 bg-background border shadow-sm text-muted-foreground hover:text-foreground" }, /* @__PURE__ */ import_react12.default.createElement(import_lucide_react5.Plus, { className: "w-3 h-3" }))));
+  ), /* @__PURE__ */ import_react16.default.createElement(import_react17.FloatingMenu, { editor, tippyOptions: { duration: 100, placement: "left-start" }, className: "flex gap-1 z-50" }, /* @__PURE__ */ import_react16.default.createElement(Button, { variant: "ghost", size: "icon", onClick: () => editor.commands.insertContent("/"), className: "rounded-full w-6 h-6 bg-background border shadow-sm text-muted-foreground hover:text-foreground" }, /* @__PURE__ */ import_react16.default.createElement(import_lucide_react6.Plus, { className: "w-3 h-3" }))));
 };
 
 // components/rich-text-rtl/ArabicRichTextEditor.tsx
 var defaultContent = `
 <h1 style="text-align: center;">\u0627\u062E\u062A\u0628\u0627\u0631 \u0645\u062D\u0631\u0631 \u0627\u0644\u0646\u0635\u0648\u0635 \u0627\u0644\u063A\u0646\u064A\u0629</h1>
-<p>\u0645\u0631\u062D\u0628\u064B\u0627! \u0647\u0630\u0627 \u0646\u0635 \u0627\u062E\u062A\u0628\u0627\u0631\u064A \u0644\u062A\u062C\u0631\u0628\u0629 <strong>\u0627\u0644\u062A\u0646\u0633\u064A\u0642 \u0627\u0644\u0639\u0631\u064A\u0636</strong> \u0648<em>\u0627\u0644\u0645\u0627\u0626\u0644</em> \u0648<ins>\u0627\u0644\u062A\u0633\u0637\u064A\u0631</ins> \u0648<s>\u0627\u0644\u062E\u0637 \u0627\u0644\u0645\u0634\u0637\u0648\u0628</s>. \u064A\u0645\u0643\u0646\u0646\u0627 \u0623\u064A\u0636\u064B\u0627 \u062A\u062C\u0631\u0628\u0629 <mark>\u0627\u0644\u062A\u0645\u064A\u064A\u0632</mark> \u0628\u0644\u0648\u0646 \u0645\u062E\u062A\u0644\u0641.</p>
+<p>\u0645\u0631\u062D\u0628\u064B\u0627! \u0647\u0630\u0627 \u0646\u0635 \u0627\u062E\u062A\u0628\u0627\u0631\u064A \u0644\u062A\u062C\u0631\u0628\u0629 <span data-term="" data-arabic="\u0645\u0639\u0637\u064A\u0627\u062A" data-english="data" data-description="\u0645\u0633\u062A\u0648\u062F\u0639 \u0642\u062F\u064A\u0645 \u0644\u0644\u0628\u064A\u0627\u0646\u0627\u062A \u0627\u0644\u0631\u0642\u0645\u064A\u0629.">\u0645\u0639\u0637\u064A\u0627\u062A (data)</span> \u0648\u062A\u062D\u062F\u064A\u062B \u0627\u0644\u0645\u0635\u0637\u0644\u062D\u0627\u062A \u0627\u0644\u0642\u062F\u064A\u0645\u0629 \u062A\u0644\u0642\u0627\u0626\u064A\u0627\u064B.</p>
 
 <h2>\u0642\u0648\u0627\u0626\u0645</h2>
 <ul>
@@ -1789,9 +2449,14 @@ var ArabicRichTextEditor = ({
   extensions = editorExtensions,
   editorProps = defaultEditorProps,
   className = "flex flex-col min-h-screen bg-background",
-  injectStyles = true
+  injectStyles = true,
+  autocompleteTerms
 }) => {
-  (0, import_react14.useEffect)(() => {
+  const finalExtensions = [
+    ...extensions.filter((ext) => ext.name !== "termAutocomplete"),
+    ...autocompleteTerms && autocompleteTerms.length > 0 ? [TermAutocomplete_default.configure({ terms: autocompleteTerms })] : []
+  ];
+  (0, import_react18.useEffect)(() => {
     if (injectStyles) {
       injectEditorStyles();
     }
@@ -1802,22 +2467,29 @@ var ArabicRichTextEditor = ({
     }
   };
   return /* @__PURE__ */ React.createElement("div", { className }, /* @__PURE__ */ React.createElement(
-    import_react15.EditorProvider,
+    import_react19.EditorProvider,
     {
       slotBefore: null,
-      extensions,
+      extensions: finalExtensions,
       content,
       editorProps,
       onUpdate: handleUpdate
     },
-    /* @__PURE__ */ React.createElement(AccessibleToolbars, { menuItems })
+    /* @__PURE__ */ React.createElement(AccessibleToolbars, { menuItems }),
+    /* @__PURE__ */ React.createElement(OutdatedTermsBanner, { autocompleteTerms })
   ));
 };
 var ArabicRichTextEditor_default = ArabicRichTextEditor;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   ArabicRichTextEditor,
+  TermAutocomplete,
+  TermMark,
+  checkOutdatedTerms,
   editorExtensions,
-  injectEditorStyles
+  getCustomTermsFromStorage,
+  incrementTermUsage,
+  injectEditorStyles,
+  updateOutdatedTerms
 });
 //# sourceMappingURL=index.js.map
