@@ -60,7 +60,7 @@
     "framer-motion": "^11.10.0",
     "lodash": "^4.17.21",
     "lucide-react": "^0.447.0",
-    "next": "15.2.1",
+    "next": "15.2.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwind-merge": "^2.5.2",
