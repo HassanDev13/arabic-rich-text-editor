@@ -1,10 +1,16 @@
 {
   "name": "arabic-rich-text-editor",
   "version": "2.0.0",
-  "private": true,
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "build:package": "tsup",
     "start": "next start",
     "lint": "next lint"
   },
@@ -68,6 +74,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "tailwindcss": "^4",
+    "tsup": "^8.5.1",
     "typescript": "^5"
   }
 }
