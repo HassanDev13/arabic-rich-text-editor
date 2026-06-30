@@ -19,6 +19,10 @@ import CodeBlock from "@tiptap/extension-code-block";
 import { FontFamily } from "@tiptap/extension-font-family";
 import { Extension } from "@tiptap/core";
 import SlashCommands from "./SlashCommands";
+import TermAutocomplete from "./TermAutocomplete";
+import { TermMark } from "./TermMark";
+
+
 
 // Custom FontSize Extension
 const FontSize = Extension.create({
@@ -148,6 +152,7 @@ export const editorExtensions = [
   TaskItem.configure({ nested: true }),
   CodeBlock.configure({ HTMLAttributes: { class: "code-block", dir: "ltr" } }),
   SlashCommands,
+  TermMark,
   FontFamily.configure({ types: ["textStyle"] }),
   FontSize.configure({ types: ["textStyle"] }),
   LineHeight.configure({

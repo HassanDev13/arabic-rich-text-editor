@@ -1,6 +1,8 @@
 import { AnyExtension, EditorProviderProps } from "@tiptap/react";
 import { SuggestionOptions } from "@tiptap/suggestion";
 import { ReactNode } from "react";
+import { TermItem } from "./termDictionary";
+
 
 export type MenuItemId =
   | "bold"
@@ -79,6 +81,7 @@ export interface ArabicRichTextEditorProps {
   injectStyles?: boolean;
   slotBefore?: ReactNode;
   menuBarClassName?: string;
+  autocompleteTerms?: TermItem[];
 }
 
 export interface CommandProps {

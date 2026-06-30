@@ -5,10 +5,14 @@ import { editorExtensions } from "./editorConfig";
 import { ArabicRichTextEditorProps, MenuItemConfig } from "./types";
 import { useEffect } from "react";
 import { EditorProvider } from "@tiptap/react";
+import TermAutocomplete from "./TermAutocomplete";
+import { OutdatedTermsBanner } from "./Menu/OutdatedTermsBanner";
+
+
 
 const defaultContent = `
 <h1 style="text-align: center;">اختبار محرر النصوص الغنية</h1>
-<p>مرحبًا! هذا نص اختباري لتجربة <strong>التنسيق العريض</strong> و<em>المائل</em> و<ins>التسطير</ins> و<s>الخط المشطوب</s>. يمكننا أيضًا تجربة <mark>التمييز</mark> بلون مختلف.</p>
+<p>مرحبًا! هذا نص اختباري لتجربة <span data-term="" data-arabic="معطيات" data-english="data" data-description="مستودع قديم للبيانات الرقمية.">معطيات (data)</span> وتحديث المصطلحات القديمة تلقائياً.</p>
 
 <h2>قوائم</h2>
 <ul>
@@ -123,7 +127,16 @@ const ArabicRichTextEditor: React.FC<ArabicRichTextEditorProps> = ({
   editorProps = defaultEditorProps,
   className = "flex flex-col min-h-screen bg-background",
   injectStyles = true,
+  autocompleteTerms,
 }) => {
+  // Compute final extensions list based on whether autocompleteTerms prop is provided
+  const finalExtensions = [
+    ...extensions.filter((ext) => ext.name !== "termAutocomplete"),
+    ...(autocompleteTerms && autocompleteTerms.length > 0
+      ? [TermAutocomplete.configure({ terms: autocompleteTerms })]
+      : []),
+  ];
+
   useEffect(() => {
     if (injectStyles) {
       injectEditorStyles();
@@ -140,12 +153,13 @@ const ArabicRichTextEditor: React.FC<ArabicRichTextEditorProps> = ({
     <div className={className}>
       <EditorProvider
         slotBefore={null}
-        extensions={extensions}
+        extensions={finalExtensions}
         content={content}
         editorProps={editorProps}
         onUpdate={handleUpdate}
       >
         <AccessibleToolbars menuItems={menuItems} />
+        <OutdatedTermsBanner autocompleteTerms={autocompleteTerms} />
       </EditorProvider>
     </div>
   );

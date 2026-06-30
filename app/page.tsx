@@ -7,6 +7,8 @@ import React from "react";
 
 
 
+
+
 const customSlashCommands = SlashCommands.configure({
   triggerChar: "/", // Default, can change to "#", "@", etc.
   commands: [
@@ -29,6 +31,8 @@ const customSlashCommands = SlashCommands.configure({
     placement: "top-start", // Example customization
   },
 });
+
+import testTerms from "./software-engineering-terms.json";
 
 const App: React.FC = () => {
   return (
@@ -56,7 +60,7 @@ const App: React.FC = () => {
       className="flex flex-col min-h-screen bg-gray-100 "
       injectStyles={true}
       menuBarClassName="bg-gray-100"
-      
+      autocompleteTerms={testTerms}
     />
   );
 };
