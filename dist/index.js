@@ -706,8 +706,7 @@ var import_jsx_runtime3 = require("react/jsx-runtime");
 var TablePlaceholderBlock = ({ editor, getPos, deleteNode, selected }) => {
   const [rows, setRows] = (0, import_react4.useState)(2);
   const [cols, setCols] = (0, import_react4.useState)(2);
-  const createTable = (e) => {
-    e.preventDefault();
+  const createTable = () => {
     const pos = getPos();
     deleteNode();
     setTimeout(() => {
@@ -720,7 +719,7 @@ var TablePlaceholderBlock = ({ editor, getPos, deleteNode, selected }) => {
       /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: "\u062C\u062F\u0648\u0644" })
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { className: "text-sm text-gray-500", children: "\u0625\u062F\u0631\u0627\u062C \u062C\u062F\u0648\u0644 \u0644\u0645\u0634\u0627\u0631\u0643\u0629 \u0628\u064A\u0627\u0646\u0627\u062A." }),
-    /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("form", { onSubmit: createTable, className: "flex flex-col items-center gap-4 mt-2", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "flex flex-col items-center gap-4 mt-2", children: [
       /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "flex gap-4", children: [
         /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "flex flex-col items-start gap-1", children: [
           /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("label", { className: "text-sm text-gray-600", htmlFor: "cols-input", children: "\u0639\u062F\u062F \u0627\u0644\u0623\u0639\u0645\u062F\u0629" }),
@@ -751,7 +750,7 @@ var TablePlaceholderBlock = ({ editor, getPos, deleteNode, selected }) => {
           )
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Button, { type: "submit", variant: "default", className: "w-full max-w-[270px]", children: "\u0625\u0646\u0634\u0627\u0621 \u062C\u062F\u0648\u0644" })
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Button, { type: "button", onClick: createTable, variant: "default", className: "w-full max-w-[270px]", children: "\u0625\u0646\u0634\u0627\u0621 \u062C\u062F\u0648\u0644" })
     ] })
   ] }) }) });
 };
@@ -2791,6 +2790,7 @@ var EditorControls = ({
             ) : /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
               Button,
               {
+                type: "button",
                 variant: "ghost",
                 size: "sm",
                 onClick: action,
@@ -2812,6 +2812,7 @@ var EditorControls = ({
           /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(TooltipTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
             Button,
             {
+              type: "button",
               variant: "ghost",
               size: "sm",
               onClick: () => setIsExpanded(!isExpanded),
@@ -2923,6 +2924,7 @@ var TableBubbleMenu = () => {
           /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(TooltipTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
             Button,
             {
+              type: "button",
               variant: "ghost",
               size: "sm",
               className: "h-8 w-8 p-0",
@@ -3007,7 +3009,7 @@ var AccessibleToolbars = ({ menuItems }) => {
           appendTo: () => document.body
         },
         className: "flex gap-1 z-50",
-        children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Button, { variant: "ghost", size: "icon", onClick: () => editor.commands.insertContent("/"), onMouseDown: (e) => e.preventDefault(), onPointerDown: (e) => e.preventDefault(), className: "rounded-full w-6 h-6 bg-background border shadow-sm text-muted-foreground hover:text-foreground", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_lucide_react7.Plus, { className: "w-3 h-3" }) })
+        children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Button, { type: "button", variant: "ghost", size: "icon", onClick: () => editor.commands.insertContent("/"), onMouseDown: (e) => e.preventDefault(), onPointerDown: (e) => e.preventDefault(), className: "rounded-full w-6 h-6 bg-background border shadow-sm text-muted-foreground hover:text-foreground", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_lucide_react7.Plus, { className: "w-3 h-3" }) })
       }
     )
   ] });

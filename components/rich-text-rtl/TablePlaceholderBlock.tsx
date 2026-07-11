@@ -7,8 +7,7 @@ export const TablePlaceholderBlock: React.FC<NodeViewProps> = ({ editor, getPos,
   const [rows, setRows] = useState(2);
   const [cols, setCols] = useState(2);
 
-  const createTable = (e: React.FormEvent) => {
-    e.preventDefault();
+  const createTable = () => {
     
     // We need to know where we are to replace this placeholder
     const pos = getPos();
@@ -41,7 +40,7 @@ export const TablePlaceholderBlock: React.FC<NodeViewProps> = ({ editor, getPos,
             إدراج جدول لمشاركة بيانات.
           </p>
           
-          <form onSubmit={createTable} className="flex flex-col items-center gap-4 mt-2">
+          <div className="flex flex-col items-center gap-4 mt-2">
             <div className="flex gap-4">
               <div className="flex flex-col items-start gap-1">
                 <label className="text-sm text-gray-600" htmlFor="cols-input">عدد الأعمدة</label>
@@ -67,10 +66,10 @@ export const TablePlaceholderBlock: React.FC<NodeViewProps> = ({ editor, getPos,
               </div>
             </div>
             
-            <Button type="submit" variant="default" className="w-full max-w-[270px]">
+            <Button type="button" onClick={createTable} variant="default" className="w-full max-w-[270px]">
               إنشاء جدول
             </Button>
-          </form>
+          </div>
         </div>
       </div>
     </NodeViewWrapper>

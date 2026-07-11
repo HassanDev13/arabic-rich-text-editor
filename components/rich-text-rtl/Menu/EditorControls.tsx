@@ -80,6 +80,7 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
                 )
               ) : (
                 <Button
+                  type="button"
                   variant="ghost"
                   size="sm"
                   onClick={action}
@@ -107,6 +108,7 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
+              type="button"
               variant="ghost"
               size="sm"
               onClick={() => setIsExpanded(!isExpanded)}

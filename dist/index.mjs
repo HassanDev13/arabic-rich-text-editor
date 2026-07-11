@@ -665,8 +665,7 @@ import { jsx as jsx3, jsxs as jsxs2 } from "react/jsx-runtime";
 var TablePlaceholderBlock = ({ editor, getPos, deleteNode, selected }) => {
   const [rows, setRows] = useState2(2);
   const [cols, setCols] = useState2(2);
-  const createTable = (e) => {
-    e.preventDefault();
+  const createTable = () => {
     const pos = getPos();
     deleteNode();
     setTimeout(() => {
@@ -679,7 +678,7 @@ var TablePlaceholderBlock = ({ editor, getPos, deleteNode, selected }) => {
       /* @__PURE__ */ jsx3("span", { children: "\u062C\u062F\u0648\u0644" })
     ] }),
     /* @__PURE__ */ jsx3("p", { className: "text-sm text-gray-500", children: "\u0625\u062F\u0631\u0627\u062C \u062C\u062F\u0648\u0644 \u0644\u0645\u0634\u0627\u0631\u0643\u0629 \u0628\u064A\u0627\u0646\u0627\u062A." }),
-    /* @__PURE__ */ jsxs2("form", { onSubmit: createTable, className: "flex flex-col items-center gap-4 mt-2", children: [
+    /* @__PURE__ */ jsxs2("div", { className: "flex flex-col items-center gap-4 mt-2", children: [
       /* @__PURE__ */ jsxs2("div", { className: "flex gap-4", children: [
         /* @__PURE__ */ jsxs2("div", { className: "flex flex-col items-start gap-1", children: [
           /* @__PURE__ */ jsx3("label", { className: "text-sm text-gray-600", htmlFor: "cols-input", children: "\u0639\u062F\u062F \u0627\u0644\u0623\u0639\u0645\u062F\u0629" }),
@@ -710,7 +709,7 @@ var TablePlaceholderBlock = ({ editor, getPos, deleteNode, selected }) => {
           )
         ] })
       ] }),
-      /* @__PURE__ */ jsx3(Button, { type: "submit", variant: "default", className: "w-full max-w-[270px]", children: "\u0625\u0646\u0634\u0627\u0621 \u062C\u062F\u0648\u0644" })
+      /* @__PURE__ */ jsx3(Button, { type: "button", onClick: createTable, variant: "default", className: "w-full max-w-[270px]", children: "\u0625\u0646\u0634\u0627\u0621 \u062C\u062F\u0648\u0644" })
     ] })
   ] }) }) });
 };
@@ -2772,6 +2771,7 @@ var EditorControls = ({
             ) : /* @__PURE__ */ jsx12(
               Button,
               {
+                type: "button",
                 variant: "ghost",
                 size: "sm",
                 onClick: action,
@@ -2793,6 +2793,7 @@ var EditorControls = ({
           /* @__PURE__ */ jsx12(TooltipTrigger, { asChild: true, children: /* @__PURE__ */ jsx12(
             Button,
             {
+              type: "button",
               variant: "ghost",
               size: "sm",
               onClick: () => setIsExpanded(!isExpanded),
@@ -2911,6 +2912,7 @@ var TableBubbleMenu = () => {
           /* @__PURE__ */ jsx13(TooltipTrigger, { asChild: true, children: /* @__PURE__ */ jsx13(
             Button,
             {
+              type: "button",
               variant: "ghost",
               size: "sm",
               className: "h-8 w-8 p-0",
@@ -2995,7 +2997,7 @@ var AccessibleToolbars = ({ menuItems }) => {
           appendTo: () => document.body
         },
         className: "flex gap-1 z-50",
-        children: /* @__PURE__ */ jsx14(Button, { variant: "ghost", size: "icon", onClick: () => editor.commands.insertContent("/"), onMouseDown: (e) => e.preventDefault(), onPointerDown: (e) => e.preventDefault(), className: "rounded-full w-6 h-6 bg-background border shadow-sm text-muted-foreground hover:text-foreground", children: /* @__PURE__ */ jsx14(Plus2, { className: "w-3 h-3" }) })
+        children: /* @__PURE__ */ jsx14(Button, { type: "button", variant: "ghost", size: "icon", onClick: () => editor.commands.insertContent("/"), onMouseDown: (e) => e.preventDefault(), onPointerDown: (e) => e.preventDefault(), className: "rounded-full w-6 h-6 bg-background border shadow-sm text-muted-foreground hover:text-foreground", children: /* @__PURE__ */ jsx14(Plus2, { className: "w-3 h-3" }) })
       }
     )
   ] });

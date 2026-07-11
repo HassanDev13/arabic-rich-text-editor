@@ -100,6 +100,7 @@ export const TableBubbleMenu = () => {
           <Tooltip key={index}>
             <TooltipTrigger asChild>
               <Button
+                type="button"
                 variant="ghost"
                 size="sm"
                 className="h-8 w-8 p-0"

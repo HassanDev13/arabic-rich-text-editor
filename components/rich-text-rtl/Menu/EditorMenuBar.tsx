@@ -104,7 +104,7 @@ export const EditorMenuBar: React.FC<EditorMenuBarProps> = ({
 
           <div className="flex items-center gap-2">
             {onSave && !saveAuto && (
-              <Button onClick={handleSave} disabled={isSaving} className="min-w-[80px]">
+              <Button type="button" onClick={handleSave} disabled={isSaving} className="min-w-[80px]">
                 {isSaving ? "جارٍ الحفظ..." : "حفظ"}
               </Button>
             )}
@@ -119,11 +119,12 @@ export const EditorMenuBar: React.FC<EditorMenuBarProps> = ({
               </span>
             )}
             {showSwitchDirection && (
-              <Button variant="outline" onClick={toggleRTL}>
+              <Button type="button" variant="outline" onClick={toggleRTL}>
                 {isRTL ? "LTR" : "RTL"}
               </Button>
             )}
             <Button
+              type="button"
               variant="ghost"
               size="sm"
               className="md:hidden"
