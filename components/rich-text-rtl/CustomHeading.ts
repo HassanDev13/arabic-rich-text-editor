@@ -1,5 +1,5 @@
 import { Heading } from '@tiptap/extension-heading'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state'
 
 export const CustomHeading = Heading.extend({
   addAttributes() {
@@ -136,6 +136,10 @@ export const CustomHeading = Heading.extend({
                   
                   currentPos += node.nodeSize;
                 }
+                
+                // Set cursor to the end of the clicked heading to prevent unwanted jumping/scrolling
+                const endPos = nodePos + headingNode.nodeSize - 1;
+                tr.setSelection(TextSelection.create(tr.doc, endPos));
                 
                 view.dispatch(tr);
                 return true;

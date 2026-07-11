@@ -19,10 +19,50 @@ import TaskItem from "@tiptap/extension-task-item";
 import CodeBlock from "@tiptap/extension-code-block";
 import { FontFamily } from "@tiptap/extension-font-family";
 import { Extension } from "@tiptap/core";
+import { Plugin, PluginKey, TextSelection } from "@tiptap/pm/state";
 import SlashCommands from "./SlashCommands";
 import TermAutocomplete from "./TermAutocomplete";
 import { TermMark } from "./TermMark";
 import { AutoDirection } from "./AutoDirection";
+
+// Custom Extension to fix TaskItem cursor jumping
+const TaskItemCursorFix = Extension.create({
+  name: "taskItemCursorFix",
+  addProseMirrorPlugins() {
+    return [
+      new Plugin({
+        key: new PluginKey("taskItemCursorFix"),
+        props: {
+          handleDOMEvents: {
+            mousedown: (view, event) => {
+              const target = event.target as HTMLElement;
+              if (target && target.tagName === "INPUT" && target.getAttribute("type") === "checkbox") {
+                const taskItem = target.closest('li[data-type="taskItem"]');
+                if (taskItem) {
+                  const pos = view.posAtDOM(taskItem, 0);
+                  if (pos >= 0) {
+                    const $pos = view.state.doc.resolve(pos);
+                    const nodePos = $pos.before();
+                    const node = view.state.doc.nodeAt(nodePos);
+                    if (node && node.type.name === "taskItem") {
+                      // Set the cursor to the end of the task item to prevent jumping/scrolling
+                      const endPos = nodePos + node.nodeSize - 1;
+                      const tr = view.state.tr;
+                      tr.setSelection(TextSelection.create(tr.doc, endPos));
+                      view.dispatch(tr);
+                      // Do not prevent default so that the checkbox still gets toggled by the browser
+                    }
+                  }
+                }
+              }
+              return false;
+            },
+          },
+        },
+      }) as any,
+    ];
+  },
+});
 
 
 
@@ -154,6 +194,7 @@ export const editorExtensions = [
 
   TaskList,
   TaskItem.configure({ nested: true }),
+  TaskItemCursorFix,
   CodeBlock.configure({ HTMLAttributes: { class: "code-block", dir: "ltr" } }),
   SlashCommands,
   TermMark,
