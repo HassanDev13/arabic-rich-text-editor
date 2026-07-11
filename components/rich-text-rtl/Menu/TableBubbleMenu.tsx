@@ -104,6 +104,7 @@ export const TableBubbleMenu = () => {
                 size="sm"
                 className="h-8 w-8 p-0"
                 onClick={control.action}
+                onMouseDown={(e) => e.preventDefault()}
               >
                 {control.icon}
               </Button>
