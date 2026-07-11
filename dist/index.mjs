@@ -1,4 +1,6 @@
 var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
 var __getOwnPropSymbols = Object.getOwnPropertySymbols;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __propIsEnum = Object.prototype.propertyIsEnumerable;
@@ -14,6 +16,7 @@ var __spreadValues = (a, b) => {
     }
   return a;
 };
+var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
 var __objRest = (source, exclude) => {
   var target = {};
   for (var prop in source)
@@ -31,10 +34,106 @@ var __objRest = (source, exclude) => {
 var googleFontsLink = `
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Cairo&family=Noto+Naskh+Arabic&family=Scheherazade+New&family=Tajawal&family=Almarai&family=Dubai&family=Lalezar&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo&family=Noto+Naskh+Arabic&family=Scheherazade+New&family=Tajawal&family=Almarai&family=Dubai&family=Lalezar&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
 `;
 var editorStyles = `
+  @font-face {
+    font-family: 'Amiri';
+    src: url('/Amiri/Amiri-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Amiri';
+    src: url('/Amiri/Amiri-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Amiri';
+    src: url('/Amiri/Amiri-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Amiri';
+    src: url('/Amiri/Amiri-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  :root {
+    --tiptap-font-family: 'Amiri', serif;
+    --tiptap-font-size: 18px;
+    --tiptap-line-height: 1.6;
+    --tiptap-code-font: 'JetBrains Mono', monospace;
+
+    /* Light Theme Colors */
+    --tiptap-text: #2c3e50;
+    --tiptap-heading: #2c3e50;
+    --tiptap-primary: #020617; /* Super Dark */
+    --tiptap-primary-hover: #000000;
+    --tiptap-border: #e2e8f0;
+    --tiptap-muted: #6b7280;
+    --tiptap-icon: #64748b;
+    
+    --tiptap-bg-code: #f3e8ff;
+    --tiptap-text-code: #5a189a;
+    
+    --tiptap-bg-pre: #ffffff;
+    --tiptap-text-pre: #1e293b;
+    --tiptap-border-pre: #e2e8f0;
+    
+    --tiptap-bg-quote: #ffffff;
+    --tiptap-text-quote: #1e293b;
+    --tiptap-border-quote: #e2e8f0;
+    
+    --tiptap-bg-table-header: #f8fafc;
+    --tiptap-text-table-header: #2c3e50;
+    --tiptap-border-table: #e2e8f0;
+    
+    --tiptap-bg-mark: rgba(253, 224, 71, 0.4);
+    --tiptap-text-mark: inherit;
+
+    --tiptap-bg-suggestion: #f8fafc;
+  }
+
+  .dark {
+    /* Dark Theme Colors */
+    --tiptap-text: #f3f4f6;
+    --tiptap-heading: #f3f4f6;
+    --tiptap-primary: #f8fafc; /* Super Light for contrast in dark mode */
+    --tiptap-primary-hover: #ffffff;
+    --tiptap-border: #374151;
+    --tiptap-muted: #9ca3af;
+    --tiptap-icon: #cbd5e1;
+    
+    --tiptap-bg-code: #374151;
+    --tiptap-text-code: #e5e7eb;
+    
+    --tiptap-bg-pre: #000000;
+    --tiptap-text-pre: #f3f4f6;
+    --tiptap-border-pre: #374151;
+    
+    --tiptap-bg-quote: #000000;
+    --tiptap-text-quote: #f3f4f6;
+    --tiptap-border-quote: #374151;
+    
+    --tiptap-bg-table-header: #1f2937;
+    --tiptap-text-table-header: #f3f4f6;
+    --tiptap-border-table: #4b5563;
+    
+    --tiptap-bg-mark: rgba(253, 224, 71, 0.2);
+    --tiptap-text-mark: #fde047;
+
+    --tiptap-bg-suggestion: #1f2937;
+  }
+
   /* Base Tiptap Editor Styles */
   .tiptap {
     padding: 1.5rem 2rem;
@@ -44,10 +143,10 @@ var editorStyles = `
     margin-right: auto;
     text-align: right;
    
-    font-size: 18px;
-    line-height: 1.6;
-    font-family: 'Amiri', serif;
-    color: #2c3e50;
+    font-size: var(--tiptap-font-size);
+    line-height: var(--tiptap-line-height);
+    font-family: var(--tiptap-font-family);
+    color: var(--tiptap-text) !important;
   }
 
   .tiptap p {
@@ -71,8 +170,9 @@ var editorStyles = `
 
   /* List Styles */
   .tiptap ul, .tiptap ol {
-    padding: 0 1.5rem;
-    margin: 1.5rem 1rem 1.5rem 0.5rem;
+    padding: 0;
+    padding-inline-start: 1.5rem;
+    margin: 1.5rem 0;
     list-style-position: outside;
   }
 
@@ -88,65 +188,47 @@ var editorStyles = `
     margin-top: 0.5em;
     margin-bottom: 0.5em;
   }
-/* Task List Styles */
-.tiptap ul[data-type="taskList"] {
-  list-style: none;
-  padding: 0;
-  margin: 1.5rem 0; /* Simplified margin */
-}
 
-.tiptap ul[data-type="taskList"] li {
-  display: flex;
-  align-items: flex-start;
-  padding: 0.25rem 0;
-  gap: 0.5rem; /* Gap between checkbox and text */
-}
-
-.tiptap ul[data-type="taskList"] li > label {
-  flex: 0 0 auto;
-  user-select: none;
-  margin-top: 0.25rem; /* align checkbox visually with first line of text */
-}
-
-.tiptap ul[data-type="taskList"] li > div {
-  flex: 1 1 auto;
-  text-align: right;
-}
-
-.tiptap ul[data-type="taskList"] input[type="checkbox"] {
-  cursor: pointer;
-  width: 1.1rem;
-  height: 1.1rem;
-  flex-shrink: 0;
-  accent-color: #8b5cf6; 
-  transition: transform 0.2s ease;
-}
-
-.tiptap ul[data-type="taskList"] input[type="checkbox"]:hover {
-  transform: scale(1.1); 
-}
-
-.tiptap ul[data-type="taskList"] input[type="checkbox"]:checked + div {
-  text-decoration: line-through;
-  color: #6b7280; 
-}
-
-  /* RTL Overrides for Task List */
-  [dir="rtl"] .tiptap ul[data-type="taskList"] {
-    direction: rtl !important;
-    margin: 1rem 0.5rem 1rem 0.5rem;
+  /* Task List Styles */
+  .tiptap ul[data-type="taskList"] {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
   }
 
-  [dir="rtl"] .tiptap ul[data-type="taskList"] li {
-    direction: rtl !important;
-    flex-direction: row;
-    justify-content: flex-start;
+  .tiptap ul[data-type="taskList"] li {
+    display: flex;
+    align-items: flex-start;
+    padding: 0.25rem 0;
+    gap: 0.5rem;
   }
 
-  /* Removed the extra margin on label that was causing too much space */
-  [dir="rtl"] .tiptap ul[data-type="taskList"] li > label {
-    margin: 0;
-    margin-top: 0.35rem; /* Re-apply top margin for alignment */
+  .tiptap ul[data-type="taskList"] li > label {
+    flex: 0 0 auto;
+    user-select: none;
+    margin-top: 0.35rem;
+  }
+
+  .tiptap ul[data-type="taskList"] li > div {
+    flex: 1 1 auto;
+  }
+
+  .tiptap ul[data-type="taskList"] input[type="checkbox"] {
+    cursor: pointer;
+    width: 1.1rem;
+    height: 1.1rem;
+    flex-shrink: 0;
+    accent-color: var(--tiptap-primary); 
+    transition: transform 0.2s ease;
+  }
+
+  .tiptap ul[data-type="taskList"] input[type="checkbox"]:hover {
+    transform: scale(1.1); 
+  }
+
+  .tiptap ul[data-type="taskList"] input[type="checkbox"]:checked + div {
+    text-decoration: line-through;
+    color: var(--tiptap-muted) !important; 
   }
 
   /* Headings */
@@ -155,8 +237,7 @@ var editorStyles = `
     margin-top: 2.5rem;
     margin-bottom: 1rem;
     text-wrap: pretty;
-    text-align: center;
-    color: #2c3e50;
+    color: var(--tiptap-heading) !important;
   }
 
   .tiptap h1, .tiptap h2 {
@@ -169,24 +250,63 @@ var editorStyles = `
   .tiptap h3 { font-size: 1.3rem; font-weight: 500; }
   .tiptap h4, .tiptap h5, .tiptap h6 { font-size: 1.1rem; font-weight: 500; }
 
+  /* Collapsible Headings */
+  .collapsible-heading {
+    position: relative;
+    padding-inline-start: 1.5rem;
+  }
+  
+  .collapsible-heading::before {
+    content: "\u25BC";
+    position: absolute;
+    inset-inline-start: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.8rem;
+    color: var(--tiptap-icon) !important;
+    opacity: 0.3;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .collapsible-heading:hover::before {
+    opacity: 1;
+  }
+  
+  .collapsible-heading.collapsed::before {
+    content: "\u25C0";
+    opacity: 1;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+
   /* Code Styles */
   .tiptap code {
-    background-color: #f3e8ff;
+    background-color: var(--tiptap-bg-code) !important;
     border-radius: 0.4rem;
-    color: #5a189a;
+    color: var(--tiptap-text-code) !important;
     font-size: 0.85rem;
     padding: 0.25em 0.4em;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--tiptap-code-font);
     direction: ltr;
     unicode-bidi: embed;
     display: inline-block;
   }
 
   .tiptap pre {
-    background: #0f172a !important;
+    background: var(--tiptap-bg-pre) !important;
+    border: 1px solid var(--tiptap-border-pre) !important;
     border-radius: 0.5rem;
-    color: #e2e8f0;
-    font-family: 'JetBrains Mono', monospace;
+    color: var(--tiptap-text-pre) !important;
+    font-family: var(--tiptap-code-font);
     margin: 1.5rem 0;
     padding: 1rem;
     direction: ltr;
@@ -195,97 +315,142 @@ var editorStyles = `
   }
 
   .tiptap pre code {
-    background: none;
-    color: inherit;
+    background: none !important;
+    background-color: transparent !important;
+    color: inherit !important;
     font-size: 0.8rem;
     padding: 0;
   }
 
   /* Blockquote Styles */
   .tiptap blockquote {
-    border-left: 4px solid #8b5cf6;
+    background: var(--tiptap-bg-quote) !important;
+    border: 1px solid var(--tiptap-border-quote) !important;
+    border-inline-start: 4px solid var(--tiptap-primary) !important;
+    border-radius: 0.25rem;
     margin: 1.5rem 0;
     padding: 0.75rem 1.5rem;
-    text-align: center;
     font-style: italic;
-    color: #4a5568;
-    background-color: #f5f3ff;
-  }
-
-  [dir="rtl"] .tiptap blockquote {
-    border-left: none;
-    border-right: 4px solid #8b5cf6;
+    color: var(--tiptap-text-quote) !important;
   }
 
   /* Horizontal Rule */
   .tiptap hr {
     border: none;
-    border-top: 2px solid #8b5cf6;
+    border-top: 2px solid var(--tiptap-border) !important;
     margin: 2rem 0;
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
+  }
+
+  /* Images */
+  .tiptap img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin: 1.5rem auto;
+    display: block;
   }
 
   /* Table Styles */
+  .tiptap .tableWrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin: 1.5rem 0;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .tiptap table {
     border-collapse: collapse;
     width: 100%;
-    margin: 0 auto 1.5rem auto;
-    text-align: center;
+    margin: 0;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   }
 
   .tiptap table td, .tiptap table th {
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--tiptap-border-table) !important;
     padding: 0.75rem;
     min-width: 50px;
+    position: relative;
   }
 
   .tiptap table th {
-    background-color: #f8fafc;
+    background-color: var(--tiptap-bg-table-header) !important;
     font-weight: bold;
-    color: #2c3e50;
+    color: var(--tiptap-text-table-header) !important;
+  }
+
+  /* Table Column Resizing */
+  .tiptap .column-resize-handle {
+    background-color: var(--tiptap-primary);
+    bottom: -2px;
+    position: absolute;
+    right: auto;
+    inset-inline-end: -2px;
+    pointer-events: none;
+    top: -2px;
+    width: 4px;
+  }
+
+  .tiptap.resize-cursor {
+    cursor: ew-resize;
+    cursor: col-resize;
   }
 
   /* Links */
   .tiptap a {
-    color: #8b5cf6;
+    color: var(--tiptap-primary) !important;
     text-decoration: none;
     transition: color 0.3s ease;
   }
 
   .tiptap a:hover {
-    color: #6d28d9;
+    color: var(--tiptap-primary-hover) !important;
     text-decoration: underline;
   }
 
+  /* Mark / Highlight */
+  .tiptap mark {
+    background-color: var(--tiptap-bg-mark) !important;
+    color: var(--tiptap-text-mark) !important;
+    border-radius: 0.2rem;
+    padding: 0.1em 0.2em;
+  }
+
   /* General RTL Support */
-  [dir="rtl"] .tiptap {
-    direction: rtl !important;
+  .tiptap:dir(rtl) {
     text-align: right;
   }
 
   /* Prosemirror and Editor Content */
   .ProseMirror, .editor-content {
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
     margin-left: auto;
     margin-right: auto;
     padding: 1.5rem;
-    text-align: center;
+    text-align: start;
   }
 
-  [dir="rtl"] .ProseMirror, [dir="rtl"] .editor-content {
-    direction: rtl !important;
-    text-align: right;
+  .ProseMirror-focused {
+    outline: none;
   }
 
-  /* Suggestion Menu Styles */
-  .suggestion-menu {
-    max-height: 200px;
-    overflow-y: auto;
-    background: white;
-    border: 1px solid #e2e8f0;
+  /* Term Autocomplete Styles */
+  span[data-term] {
+    border-bottom: 2px dashed var(--tiptap-primary);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+  }
+  
+  span[data-term]:hover {
+    background-color: var(--tiptap-bg-suggestion);
+  }
+
+  .suggestion-list {
+    background: var(--tiptap-bg-pre); /* or white */
+    border: 1px solid var(--tiptap-border);
     border-radius: 0.5rem;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   }
@@ -294,12 +459,13 @@ var editorStyles = `
     transition: all 0.2s ease;
     padding: 0.5rem;
     cursor: pointer;
+    color: var(--tiptap-text);
   }
 
   .suggestion-item:hover,
   .suggestion-item.selected {
-    background-color: #f8fafc;
-    color: #8b5cf6;
+    background-color: var(--tiptap-bg-suggestion);
+    color: var(--tiptap-primary);
   }
 `;
 var injectEditorStyles = () => {
@@ -326,7 +492,7 @@ import { ReactNodeViewRenderer } from "@tiptap/react";
 // components/rich-text-rtl/ImageBlock.tsx
 import React3, { useRef, useState } from "react";
 import { NodeViewWrapper } from "@tiptap/react";
-import { Image as ImageIcon, Upload, Link as LinkIcon } from "lucide-react";
+import { Image as ImageIcon, Upload, Link as LinkIcon, Trash2 } from "lucide-react";
 
 // components/ui/button.tsx
 import * as React2 from "react";
@@ -382,7 +548,7 @@ var Button = React2.forwardRef(
 Button.displayName = "Button";
 
 // components/rich-text-rtl/ImageBlock.tsx
-var ImageBlock = ({ node, updateAttributes, selected }) => {
+var ImageBlock = ({ node, updateAttributes, selected, deleteNode, editor, getPos }) => {
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef(null);
   const handleUpload = (event) => {
@@ -396,6 +562,10 @@ var ImageBlock = ({ node, updateAttributes, selected }) => {
         const src = (_a2 = e.target) == null ? void 0 : _a2.result;
         updateAttributes({ src, alt: file.name });
         setIsUploading(false);
+        if (typeof getPos === "function") {
+          const pos = getPos() + node.nodeSize;
+          editor.chain().insertContentAt(pos, "<p></p>").focus(pos + 1).run();
+        }
       };
       reader.readAsDataURL(file);
     }
@@ -404,12 +574,16 @@ var ImageBlock = ({ node, updateAttributes, selected }) => {
     const url = window.prompt("\u0623\u062F\u062E\u0644 \u0631\u0627\u0628\u0637 \u0627\u0644\u0635\u0648\u0631\u0629 (URL):");
     if (url) {
       updateAttributes({ src: url });
+      if (typeof getPos === "function") {
+        const pos = getPos() + node.nodeSize;
+        editor.chain().insertContentAt(pos, "<p></p>").focus(pos + 1).run();
+      }
     }
   };
   if (node.attrs.src) {
-    return /* @__PURE__ */ React3.createElement(NodeViewWrapper, { as: "figure", className: `relative rounded-md overflow-hidden ${selected ? "ring-2 ring-primary ring-offset-2" : ""}` }, /* @__PURE__ */ React3.createElement("img", { src: node.attrs.src, alt: node.attrs.alt || "\u0635\u0648\u0631\u0629", className: "w-full h-auto rounded-md object-contain max-h-[500px] mx-auto bg-gray-50" }));
+    return /* @__PURE__ */ React3.createElement(NodeViewWrapper, { as: "figure", className: "relative group my-8" }, /* @__PURE__ */ React3.createElement("div", { className: `relative rounded-md overflow-hidden ${selected ? "ring-2 ring-primary ring-offset-2" : ""}` }, /* @__PURE__ */ React3.createElement("img", { src: node.attrs.src, alt: node.attrs.alt || "\u0635\u0648\u0631\u0629", className: "w-full h-auto rounded-md object-contain max-h-[500px] mx-auto bg-muted" }), /* @__PURE__ */ React3.createElement("div", { className: "absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity" }, /* @__PURE__ */ React3.createElement(Button, { variant: "destructive", size: "icon", className: "h-8 w-8 shadow-md", onClick: () => deleteNode() }, /* @__PURE__ */ React3.createElement(Trash2, { className: "h-4 w-4" })))));
   }
-  return /* @__PURE__ */ React3.createElement(NodeViewWrapper, { as: "div", className: "my-6" }, /* @__PURE__ */ React3.createElement("div", { className: `border-2 border-dashed rounded-lg p-8 bg-gray-50/50 text-center transition-colors ${selected ? "border-primary bg-primary/5" : "border-gray-200"}` }, /* @__PURE__ */ React3.createElement("div", { className: "flex flex-col items-center justify-center gap-4" }, /* @__PURE__ */ React3.createElement("div", { className: "flex items-center gap-2 text-gray-500 font-medium" }, /* @__PURE__ */ React3.createElement(ImageIcon, { className: "w-6 h-6" }), /* @__PURE__ */ React3.createElement("span", null, "\u0635\u0648\u0631\u0629")), /* @__PURE__ */ React3.createElement("p", { className: "text-sm text-gray-500" }, "\u0627\u062E\u062A\u0631 \u0635\u0648\u0631\u0629 \u0645\u0646 \u062C\u0647\u0627\u0632\u0643 \u0623\u0648 \u0623\u062F\u0631\u062C\u0647\u0627 \u0645\u0646 \u0631\u0627\u0628\u0637."), /* @__PURE__ */ React3.createElement("div", { className: "flex flex-wrap items-center justify-center gap-3 mt-2" }, /* @__PURE__ */ React3.createElement(
+  return /* @__PURE__ */ React3.createElement(NodeViewWrapper, { as: "div", className: "my-6" }, /* @__PURE__ */ React3.createElement("div", { className: `border-2 border-dashed rounded-lg p-8 bg-muted/50 text-center transition-colors ${selected ? "border-primary bg-primary/5" : "border-muted-foreground/20"}` }, /* @__PURE__ */ React3.createElement("div", { className: "flex flex-col items-center justify-center gap-4" }, /* @__PURE__ */ React3.createElement("div", { className: "flex items-center gap-2 text-muted-foreground font-medium" }, /* @__PURE__ */ React3.createElement(ImageIcon, { className: "w-6 h-6" }), /* @__PURE__ */ React3.createElement("span", null, "\u0635\u0648\u0631\u0629")), /* @__PURE__ */ React3.createElement("p", { className: "text-sm text-muted-foreground" }, "\u0627\u062E\u062A\u0631 \u0635\u0648\u0631\u0629 \u0645\u0646 \u062C\u0647\u0627\u0632\u0643 \u0623\u0648 \u0623\u062F\u0631\u062C\u0647\u0627 \u0645\u0646 \u0631\u0627\u0628\u0637."), /* @__PURE__ */ React3.createElement("div", { className: "flex flex-wrap items-center justify-center gap-3 mt-2" }, /* @__PURE__ */ React3.createElement(
     Button,
     {
       variant: "default",
@@ -435,7 +609,7 @@ var ImageBlock = ({ node, updateAttributes, selected }) => {
     {
       variant: "outline",
       onClick: promptForUrl,
-      className: "bg-white"
+      className: "bg-background"
     },
     /* @__PURE__ */ React3.createElement(LinkIcon, { className: "w-4 h-4 ml-2" }),
     "\u0623\u062F\u0631\u062C \u0645\u0646 \u0631\u0627\u0628\u0637 (URL)"
@@ -530,15 +704,183 @@ import TextStyle from "@tiptap/extension-text-style";
 import Highlight from "@tiptap/extension-highlight";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
-import Heading from "@tiptap/extension-heading";
+
+// components/rich-text-rtl/CustomHeading.ts
+import { Heading } from "@tiptap/extension-heading";
+import { Plugin, PluginKey, TextSelection } from "@tiptap/pm/state";
+var CustomHeading = Heading.extend({
+  addAttributes() {
+    var _a;
+    return __spreadProps(__spreadValues({}, (_a = this.parent) == null ? void 0 : _a.call(this)), {
+      collapsed: {
+        default: false,
+        parseHTML: (element) => element.getAttribute("data-collapsed") === "true",
+        renderHTML: (attributes) => {
+          if (!attributes.collapsed) return { "data-collapsed": "false", class: "collapsible-heading" };
+          return { "data-collapsed": "true", class: "collapsible-heading collapsed" };
+        }
+      }
+    });
+  },
+  addKeyboardShortcuts() {
+    var _a;
+    return __spreadProps(__spreadValues({}, (_a = this.parent) == null ? void 0 : _a.call(this)), {
+      Enter: ({ editor }) => {
+        const { state } = editor;
+        const { selection } = state;
+        const { $from, empty } = selection;
+        if (!empty || $from.parent.type.name !== this.name) {
+          return false;
+        }
+        const isAtStart = $from.parentOffset === 0;
+        if (isAtStart) {
+          return editor.chain().command(({ tr, dispatch }) => {
+            if (dispatch) {
+              const node = state.schema.nodes.paragraph.create();
+              tr.insert($from.before(), node);
+            }
+            return true;
+          }).scrollIntoView().run();
+        }
+        return editor.chain().command(({ tr, dispatch }) => {
+          if (dispatch) {
+            tr.split($from.pos, 1, [{ type: state.schema.nodes.paragraph }]);
+          }
+          return true;
+        }).scrollIntoView().run();
+      }
+    });
+  },
+  addProseMirrorPlugins() {
+    var _a;
+    const parentPlugins = ((_a = this.parent) == null ? void 0 : _a.call(this)) || [];
+    const clickPlugin = new Plugin({
+      key: new PluginKey("headingClick"),
+      props: {
+        handleDOMEvents: {
+          mousedown: (view, event) => {
+            const target = event.target;
+            if (!target) return false;
+            const heading = target.closest(".collapsible-heading");
+            if (!heading) return false;
+            const rect = heading.getBoundingClientRect();
+            const clickX = event.clientX;
+            const dir = window.getComputedStyle(heading).direction;
+            let isClickOnArrow = false;
+            if (dir === "rtl") {
+              isClickOnArrow = rect.right - clickX <= 35 && rect.right - clickX >= -10;
+            } else {
+              isClickOnArrow = clickX - rect.left <= 35 && clickX - rect.left >= -10;
+            }
+            if (isClickOnArrow) {
+              event.preventDefault();
+              const pos = view.posAtDOM(heading, 0);
+              if (pos < 0) return false;
+              const $pos = view.state.doc.resolve(pos);
+              if ($pos.depth === 0) return false;
+              const nodePos = $pos.before();
+              const headingNode = view.state.doc.nodeAt(nodePos);
+              if (headingNode && headingNode.type.name === "heading") {
+                const isCollapsed = !headingNode.attrs.collapsed;
+                const level = headingNode.attrs.level;
+                const tr = view.state.tr;
+                tr.setNodeMarkup(nodePos, null, __spreadProps(__spreadValues({}, headingNode.attrs), {
+                  collapsed: isCollapsed
+                }));
+                let currentPos = nodePos + headingNode.nodeSize;
+                let skipUntilLevel = null;
+                while (currentPos < tr.doc.content.size) {
+                  const node = tr.doc.nodeAt(currentPos);
+                  if (!node) break;
+                  if (node.type.name === "heading") {
+                    if (node.attrs.level <= level) break;
+                    if (!isCollapsed) {
+                      if (skipUntilLevel !== null && node.attrs.level <= skipUntilLevel) {
+                        skipUntilLevel = null;
+                      }
+                      if (skipUntilLevel === null) {
+                        tr.setNodeMarkup(currentPos, null, __spreadProps(__spreadValues({}, node.attrs), { hidden: false }));
+                        if (node.attrs.collapsed) {
+                          skipUntilLevel = node.attrs.level;
+                        }
+                      }
+                    } else {
+                      tr.setNodeMarkup(currentPos, null, __spreadProps(__spreadValues({}, node.attrs), { hidden: true }));
+                    }
+                  } else {
+                    if (isCollapsed) {
+                      tr.setNodeMarkup(currentPos, null, __spreadProps(__spreadValues({}, node.attrs), { hidden: true }));
+                    } else {
+                      if (skipUntilLevel === null) {
+                        tr.setNodeMarkup(currentPos, null, __spreadProps(__spreadValues({}, node.attrs), { hidden: false }));
+                      }
+                    }
+                  }
+                  currentPos += node.nodeSize;
+                }
+                const endPos = nodePos + headingNode.nodeSize - 1;
+                tr.setSelection(TextSelection.create(tr.doc, endPos));
+                view.dispatch(tr);
+                return true;
+              }
+            }
+            return false;
+          }
+        }
+      }
+    });
+    return [...parentPlugins, clickPlugin];
+  }
+});
+
+// components/rich-text-rtl/HiddenAttribute.ts
+import { Extension } from "@tiptap/core";
+var HiddenAttribute = Extension.create({
+  name: "hiddenAttribute",
+  addGlobalAttributes() {
+    return [
+      {
+        types: [
+          "paragraph",
+          "heading",
+          "bulletList",
+          "orderedList",
+          "taskList",
+          "blockquote",
+          "table",
+          "horizontalRule",
+          "image",
+          "figure",
+          "taskItem",
+          "listItem"
+        ],
+        attributes: {
+          hidden: {
+            default: false,
+            parseHTML: (element) => element.classList.contains("hidden"),
+            renderHTML: (attributes) => {
+              if (attributes.hidden) {
+                return { class: "hidden" };
+              }
+              return {};
+            }
+          }
+        }
+      }
+    ];
+  }
+});
+
+// components/rich-text-rtl/editorConfig.ts
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import CodeBlock from "@tiptap/extension-code-block";
 import { FontFamily } from "@tiptap/extension-font-family";
-import { Extension as Extension2 } from "@tiptap/core";
+import { Extension as Extension4 } from "@tiptap/core";
+import { Plugin as Plugin4, PluginKey as PluginKey4, TextSelection as TextSelection2 } from "@tiptap/pm/state";
 
 // components/rich-text-rtl/SlashCommands.ts
-import { Extension } from "@tiptap/core";
+import { Extension as Extension2 } from "@tiptap/core";
 import tippy from "tippy.js";
 import { ReactRenderer } from "@tiptap/react";
 
@@ -837,7 +1179,7 @@ var SlashCommandList_default = SlashCommandList;
 
 // components/rich-text-rtl/SlashCommands.ts
 import Suggestion from "@tiptap/suggestion";
-var SlashCommands = Extension.create({
+var SlashCommands = Extension2.create({
   name: "slashCommands",
   addOptions() {
     return {
@@ -846,61 +1188,73 @@ var SlashCommands = Extension.create({
         {
           title: "\u0639\u0646\u0648\u0627\u0646 1",
           description: "\u0625\u0636\u0627\u0641\u0629 \u0639\u0646\u0648\u0627\u0646 \u0631\u0626\u064A\u0633\u064A",
+          searchTerms: ["h1", "heading 1", "title"],
           command: ({ editor, range }) => editor.chain().focus().deleteRange(range).setNode("heading", { level: 1 }).run()
         },
         {
           title: "\u0639\u0646\u0648\u0627\u0646 2",
           description: "\u0625\u0636\u0627\u0641\u0629 \u0639\u0646\u0648\u0627\u0646 \u0641\u0631\u0639\u064A",
+          searchTerms: ["h2", "heading 2", "subtitle"],
           command: ({ editor, range }) => editor.chain().focus().deleteRange(range).setNode("heading", { level: 2 }).run()
         },
         {
           title: "\u0639\u0646\u0648\u0627\u0646 3",
           description: "\u0625\u0636\u0627\u0641\u0629 \u0639\u0646\u0648\u0627\u0646 \u0641\u0631\u0639\u064A \u0635\u063A\u064A\u0631",
+          searchTerms: ["h3", "heading 3", "subheading"],
           command: ({ editor, range }) => editor.chain().focus().deleteRange(range).setNode("heading", { level: 3 }).run()
         },
         {
           title: "\u0641\u0642\u0631\u0629",
           description: "\u0625\u0636\u0627\u0641\u0629 \u0646\u0635 \u0639\u0627\u062F\u064A",
+          searchTerms: ["p", "paragraph", "text"],
           command: ({ editor, range }) => editor.chain().focus().deleteRange(range).setNode("paragraph").run()
         },
         {
           title: "\u0642\u0627\u0626\u0645\u0629 \u0646\u0642\u0637\u064A\u0629",
           description: "\u0625\u0646\u0634\u0627\u0621 \u0642\u0627\u0626\u0645\u0629 \u0628\u0646\u0642\u0627\u0637",
+          searchTerms: ["ul", "bullet", "list", "unordered"],
           command: ({ editor, range }) => editor.chain().focus().deleteRange(range).toggleBulletList().run()
         },
         {
           title: "\u0642\u0627\u0626\u0645\u0629 \u0645\u0631\u0642\u0645\u0629",
           description: "\u0625\u0646\u0634\u0627\u0621 \u0642\u0627\u0626\u0645\u0629 \u0645\u0631\u0642\u0645\u0629",
+          searchTerms: ["ol", "ordered", "list", "number"],
           command: ({ editor, range }) => editor.chain().focus().deleteRange(range).toggleOrderedList().run()
         },
         {
           title: "\u0642\u0627\u0626\u0645\u0629 \u0645\u0647\u0627\u0645",
           description: "\u0625\u0646\u0634\u0627\u0621 \u0642\u0627\u0626\u0645\u0629 \u0645\u0647\u0627\u0645 \u062A\u0641\u0627\u0639\u0644\u064A\u0629",
+          searchTerms: ["task", "todo", "checklist", "check"],
           command: ({ editor, range }) => editor.chain().focus().deleteRange(range).toggleTaskList().run()
         },
         {
           title: "\u062C\u062F\u0648\u0644",
           description: "\u0625\u062F\u0631\u0627\u062C \u062C\u062F\u0648\u0644 \u0644\u0645\u0634\u0627\u0631\u0643\u0629 \u0628\u064A\u0627\u0646\u0627\u062A",
+          searchTerms: ["table", "grid"],
           command: ({ editor, range }) => editor.chain().focus().deleteRange(range).insertContent({ type: "tablePlaceholder" }).run()
         },
         {
           title: "\u0643\u0648\u062F \u0628\u0631\u0645\u062C\u064A",
           description: "\u0625\u062F\u0631\u0627\u062C \u0643\u062A\u0644\u0629 \u0643\u0648\u062F",
+          searchTerms: ["code", "block", "pre"],
           command: ({ editor, range }) => editor.chain().focus().deleteRange(range).toggleCodeBlock().run()
         },
         {
           title: "\u0627\u0642\u062A\u0628\u0627\u0633",
           description: "\u0625\u0636\u0627\u0641\u0629 \u0627\u0642\u062A\u0628\u0627\u0633",
+          searchTerms: ["quote", "blockquote"],
           command: ({ editor, range }) => editor.chain().focus().deleteRange(range).toggleBlockquote().run()
         },
         {
           title: "\u062E\u0637 \u0623\u0641\u0642\u064A",
           description: "\u0625\u062F\u0631\u0627\u062C \u0641\u0627\u0635\u0644 \u0623\u0641\u0642\u064A",
+          searchTerms: ["hr", "horizontal", "rule", "line", "divider"],
           command: ({ editor, range }) => editor.chain().focus().deleteRange(range).setHorizontalRule().run()
         },
         {
           title: "\u0635\u0648\u0631\u0629",
           description: "\u0623\u0636\u0641 \u0635\u0648\u0631\u0629 \u0623\u0648 \u0627\u0631\u0641\u0639\u0647\u0627 \u0645\u0646 \u062C\u0647\u0627\u0632\u0643",
+          searchTerms: ["image", "picture", "img", "photo"],
           command: ({ editor, range }) => {
             editor.chain().focus().deleteRange(range).setImage({ src: "" }).run();
           }
@@ -908,6 +1262,7 @@ var SlashCommands = Extension.create({
         {
           title: "\u0631\u0627\u0628\u0637",
           description: "\u0625\u0636\u0627\u0641\u0629 \u0631\u0627\u0628\u0637 \u062A\u0634\u0639\u0628\u064A",
+          searchTerms: ["link", "url", "a", "href"],
           command: ({ editor, range }) => {
             const url = window.prompt("\u0623\u062F\u062E\u0644 \u0627\u0644\u0631\u0627\u0628\u0637");
             if (url)
@@ -964,9 +1319,10 @@ var SlashCommands = Extension.create({
           props.command({ editor, range });
         },
         items: ({ query }) => {
-          return (this.options.commands || []).filter(
-            (item) => item.title.toLowerCase().includes(query.toLowerCase())
-          ).slice(0, 10);
+          return (this.options.commands || []).filter((item) => {
+            const q = query.toLowerCase();
+            return item.title.toLowerCase().includes(q) || item.searchTerms && item.searchTerms.some((term) => term.toLowerCase().includes(q));
+          }).slice(0, 10);
         },
         render: () => {
           let component;
@@ -1016,7 +1372,7 @@ var SlashCommands_default = SlashCommands;
 
 // components/rich-text-rtl/TermMark.ts
 import { Mark, mergeAttributes as mergeAttributes2 } from "@tiptap/core";
-import { Plugin, PluginKey } from "@tiptap/pm/state";
+import { Plugin as Plugin2, PluginKey as PluginKey2 } from "@tiptap/pm/state";
 import tippy2 from "tippy.js";
 var TermMark = Mark.create({
   name: "term",
@@ -1067,8 +1423,8 @@ var TermMark = Mark.create({
   },
   addProseMirrorPlugins() {
     return [
-      new Plugin({
-        key: new PluginKey("termTooltip"),
+      new Plugin2({
+        key: new PluginKey2("termTooltip"),
         props: {
           handleDOMEvents: {
             mouseover(view, event) {
@@ -1146,8 +1502,120 @@ var TermMark = Mark.create({
   }
 });
 
+// components/rich-text-rtl/AutoDirection.ts
+import { Extension as Extension3 } from "@tiptap/core";
+import { Plugin as Plugin3, PluginKey as PluginKey3 } from "@tiptap/pm/state";
+function getDirection(text) {
+  if (text.startsWith("/")) return null;
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+    if (/[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/.test(char)) return "rtl";
+    if (/[a-zA-Z]/.test(char)) return "ltr";
+  }
+  return null;
+}
+var AutoDirection = Extension3.create({
+  name: "autoDirection",
+  addGlobalAttributes() {
+    return [
+      {
+        types: [
+          "paragraph",
+          "heading",
+          "bulletList",
+          "orderedList",
+          "taskList",
+          "blockquote",
+          "table",
+          "taskItem",
+          "listItem"
+        ],
+        attributes: {
+          dir: {
+            default: "rtl",
+            // default to rtl for this Arabic editor
+            parseHTML: (element) => element.getAttribute("dir"),
+            renderHTML: (attributes) => {
+              if (attributes.dir) {
+                return { dir: attributes.dir };
+              }
+              return { dir: "rtl" };
+            }
+          }
+        }
+      }
+    ];
+  },
+  addProseMirrorPlugins() {
+    return [
+      new Plugin3({
+        key: new PluginKey3("autoDirection"),
+        appendTransaction: (transactions, oldState, newState) => {
+          const docChanges = transactions.some((transaction) => transaction.docChanged);
+          if (!docChanges) return;
+          let tr = newState.tr;
+          let modified = false;
+          const supportedTypes = ["paragraph", "heading", "bulletList", "orderedList", "taskList", "blockquote", "taskItem", "listItem"];
+          newState.doc.descendants((node, pos) => {
+            if (node.isBlock && supportedTypes.includes(node.type.name)) {
+              const text = node.textContent;
+              let dir = getDirection(text);
+              if (!dir) {
+                dir = "rtl";
+              }
+              if (node.attrs.dir !== dir) {
+                tr.setNodeMarkup(pos, null, __spreadProps(__spreadValues({}, node.attrs), { dir }));
+                modified = true;
+              }
+            }
+            return true;
+          });
+          if (modified) {
+            return tr;
+          }
+        }
+      })
+    ];
+  }
+});
+
 // components/rich-text-rtl/editorConfig.ts
-var FontSize = Extension2.create({
+var TaskItemCursorFix = Extension4.create({
+  name: "taskItemCursorFix",
+  addProseMirrorPlugins() {
+    return [
+      new Plugin4({
+        key: new PluginKey4("taskItemCursorFix"),
+        props: {
+          handleDOMEvents: {
+            mousedown: (view, event) => {
+              const target = event.target;
+              if (target && target.tagName === "INPUT" && target.getAttribute("type") === "checkbox") {
+                const taskItem = target.closest('li[data-type="taskItem"]');
+                if (taskItem) {
+                  const pos = view.posAtDOM(taskItem, 0);
+                  if (pos >= 0) {
+                    const $pos = view.state.doc.resolve(pos);
+                    const nodePos = $pos.before();
+                    const node = view.state.doc.nodeAt(nodePos);
+                    if (node && node.type.name === "taskItem") {
+                      const endPos = nodePos + node.nodeSize - 1;
+                      const tr = view.state.tr;
+                      tr.setSelection(TextSelection2.create(tr.doc, endPos));
+                      view.dispatch(tr);
+                    }
+                  }
+                }
+              }
+              return false;
+            }
+          }
+        }
+      })
+    ];
+  }
+});
+var FontSize = Extension4.create({
   name: "fontSize",
   addOptions() {
     return {
@@ -1182,7 +1650,7 @@ var FontSize = Extension2.create({
     };
   }
 });
-var LineHeight = Extension2.create({
+var LineHeight = Extension4.create({
   name: "lineHeight",
   addOptions() {
     return {
@@ -1223,14 +1691,14 @@ var LineHeight = Extension2.create({
 });
 var editorExtensions = [
   StarterKit.configure({
+    heading: false,
     bulletList: { keepMarks: true, keepAttributes: false },
     orderedList: { keepMarks: true, keepAttributes: false }
   }),
   Placeholder.configure({ placeholder: "\u0627\u0643\u062A\u0628 \u0647\u0646\u0627..." }),
   TextAlign.configure({
     types: ["heading", "paragraph", "taskItem", "tableCell", "tableHeader"],
-    alignments: ["left", "center", "right", "justify"],
-    defaultAlignment: "right"
+    alignments: ["left", "center", "right", "justify"]
   }),
   CustomImage.configure({ allowBase64: true }),
   TablePlaceholder,
@@ -1258,9 +1726,11 @@ var editorExtensions = [
       }
     }
   }),
-  Heading.configure({ levels: [1, 2, 3, 4, 5, 6] }),
+  CustomHeading.configure({ levels: [1, 2, 3, 4, 5, 6] }),
+  HiddenAttribute,
   TaskList,
   TaskItem.configure({ nested: true }),
+  TaskItemCursorFix,
   CodeBlock.configure({ HTMLAttributes: { class: "code-block", dir: "ltr" } }),
   SlashCommands_default,
   TermMark,
@@ -1268,7 +1738,8 @@ var editorExtensions = [
   FontSize.configure({ types: ["textStyle"] }),
   LineHeight.configure({
     types: ["paragraph", "heading", "taskItem", "tableCell", "tableHeader"]
-  })
+  }),
+  AutoDirection
 ];
 
 // components/rich-text-rtl/ArabicRichTextEditor.tsx
@@ -1276,11 +1747,11 @@ import { useEffect as useEffect4 } from "react";
 import { EditorProvider } from "@tiptap/react";
 
 // components/rich-text-rtl/TermAutocomplete.ts
-import { Extension as Extension3 } from "@tiptap/core";
+import { Extension as Extension5 } from "@tiptap/core";
 import tippy3 from "tippy.js";
 import { ReactRenderer as ReactRenderer2 } from "@tiptap/react";
 import Suggestion2 from "@tiptap/suggestion";
-import { Plugin as Plugin2, PluginKey as PluginKey2 } from "@tiptap/pm/state";
+import { Plugin as Plugin5, PluginKey as PluginKey5 } from "@tiptap/pm/state";
 import { Fragment, Slice } from "@tiptap/pm/model";
 
 // components/rich-text-rtl/TermAutocompleteList.tsx
@@ -1569,7 +2040,7 @@ function enrichText(text, terms, schema, originalMarks = []) {
   }
   return nodes;
 }
-var TermAutocomplete = Extension3.create({
+var TermAutocomplete = Extension5.create({
   name: "termAutocomplete",
   addOptions() {
     return {
@@ -1580,7 +2051,7 @@ var TermAutocomplete = Extension3.create({
     const terms = this.options.terms || [];
     const plugins = [
       Suggestion2({
-        pluginKey: new PluginKey2("termAutocomplete"),
+        pluginKey: new PluginKey5("termAutocomplete"),
         editor: this.editor,
         char: "",
         // No trigger character, we use findSuggestionMatch for custom matching
@@ -1692,8 +2163,8 @@ var TermAutocomplete = Extension3.create({
     ];
     if (terms.length > 0) {
       plugins.push(
-        new Plugin2({
-          key: new PluginKey2("termPasteEnricher"),
+        new Plugin5({
+          key: new PluginKey5("termPasteEnricher"),
           props: {
             transformPasted: (slice) => {
               const schema = this.editor.schema;
@@ -1722,7 +2193,7 @@ var TermAutocomplete = Extension3.create({
         })
       );
     }
-    return plugins;
+    return plugins.map((p) => p);
   }
 });
 var TermAutocomplete_default = TermAutocomplete;
@@ -2156,23 +2627,30 @@ var menuItemsConfig = {
 };
 
 // components/rich-text-rtl/Menu/EditorControls.tsx
-import React12 from "react";
+import React12, { useState as useState6 } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 var EditorControls = ({
   editor,
   menuItems,
   isMobileMenuOpen,
   setIsSaved
 }) => {
+  const [isExpanded, setIsExpanded] = useState6(false);
   const getMenuItemConfig = (id) => menuItems.find((item) => item.id === id) || { id, enabled: false };
+  const enabledItems = Object.entries(menuItemsConfig).filter(([id]) => getMenuItemConfig(id).enabled);
+  const VISIBLE_COUNT = 6;
+  const visibleItems = isExpanded ? enabledItems : enabledItems.slice(0, VISIBLE_COUNT);
+  const hasMore = enabledItems.length > VISIBLE_COUNT;
   return /* @__PURE__ */ React12.createElement(
     "div",
     {
       className: cn(
-        "p-2 flex flex-wrap items-center gap-2 md:gap-3",
-        isMobileMenuOpen ? "block" : "hidden md:flex"
+        "p-1 flex items-center gap-1 md:gap-2 transition-all",
+        isExpanded ? "flex-wrap max-w-xs md:max-w-sm" : "flex-nowrap",
+        isMobileMenuOpen ? "flex" : "hidden md:flex"
       )
     },
-    Object.entries(menuItemsConfig).map(([id, config]) => {
+    visibleItems.map(([id, config]) => {
       var _a, _b, _c, _d;
       const itemConfig = getMenuItemConfig(id);
       if (!itemConfig.enabled) return null;
@@ -2190,27 +2668,41 @@ var EditorControls = ({
       ) : /* @__PURE__ */ React12.createElement(
         Button,
         {
-          variant: ((_c = config.isActive) == null ? void 0 : _c.call(config, editor)) ? "secondary" : "ghost",
+          variant: "ghost",
           size: "sm",
           onClick: action,
-          disabled: ((_d = config.isDisabled) == null ? void 0 : _d.call(config, editor)) || false,
-          className: "w-9 h-9 md:w-10 md:h-10",
+          disabled: ((_c = config.isDisabled) == null ? void 0 : _c.call(config, editor)) || false,
+          className: cn(
+            "w-8 h-8 md:w-9 md:h-9 p-0 transition-colors",
+            ((_d = config.isActive) == null ? void 0 : _d.call(config, editor)) ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-500/30" : "text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-800"
+          ),
           "aria-label": label
         },
         /* @__PURE__ */ React12.createElement(React12.Fragment, null, icon)
       )), /* @__PURE__ */ React12.createElement(TooltipContent, null, label));
-    })
+    }),
+    hasMore && /* @__PURE__ */ React12.createElement(Tooltip, null, /* @__PURE__ */ React12.createElement(TooltipTrigger, { asChild: true }, /* @__PURE__ */ React12.createElement(
+      Button,
+      {
+        variant: "ghost",
+        size: "sm",
+        onClick: () => setIsExpanded(!isExpanded),
+        className: "w-8 h-8 md:w-9 md:h-9 p-0 bg-secondary/50 hover:bg-secondary text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white",
+        "aria-label": "\u0639\u0631\u0636 \u0627\u0644\u0645\u0632\u064A\u062F"
+      },
+      isExpanded ? /* @__PURE__ */ React12.createElement(ChevronUp, { className: "w-4 h-4" }) : /* @__PURE__ */ React12.createElement(ChevronDown, { className: "w-4 h-4" })
+    )), /* @__PURE__ */ React12.createElement(TooltipContent, null, isExpanded ? "\u0637\u064A" : "\u0639\u0631\u0636 \u0627\u0644\u0645\u0632\u064A\u062F"))
   );
 };
 
 // components/rich-text-rtl/Menu/AccessibleToolbars.tsx
-import { Plus } from "lucide-react";
+import { Plus as Plus2 } from "lucide-react";
 
 // components/rich-text-rtl/Menu/TableBubbleMenu.tsx
 import React13 from "react";
 import { BubbleMenu, useCurrentEditor as useCurrentEditor2 } from "@tiptap/react";
 import {
-  Trash2,
+  Trash2 as Trash22,
   ArrowUpToLine,
   ArrowDownToLine,
   ArrowLeftToLine,
@@ -2235,7 +2727,7 @@ var TableBubbleMenu = () => {
     },
     {
       label: "\u062D\u0630\u0641 \u0635\u0641",
-      icon: /* @__PURE__ */ React13.createElement(Trash2, { className: "w-4 h-4 text-red-500" }),
+      icon: /* @__PURE__ */ React13.createElement(Trash22, { className: "w-4 h-4 text-red-500" }),
       action: () => editor.chain().focus().deleteRow().run()
     },
     {
@@ -2255,7 +2747,7 @@ var TableBubbleMenu = () => {
     },
     {
       label: "\u062D\u0630\u0641 \u0639\u0645\u0648\u062F",
-      icon: /* @__PURE__ */ React13.createElement(Trash2, { className: "w-4 h-4 text-red-500" }),
+      icon: /* @__PURE__ */ React13.createElement(Trash22, { className: "w-4 h-4 text-red-500" }),
       action: () => editor.chain().focus().deleteColumn().run()
     },
     {
@@ -2271,7 +2763,29 @@ var TableBubbleMenu = () => {
     BubbleMenu,
     {
       editor,
-      tippyOptions: { duration: 100, placement: "bottom" },
+      tippyOptions: {
+        duration: 100,
+        placement: "bottom",
+        appendTo: () => document.body,
+        maxWidth: "calc(100vw - 16px)",
+        popperOptions: {
+          modifiers: [
+            {
+              name: "preventOverflow",
+              options: {
+                boundary: "viewport",
+                padding: 8,
+                tether: false,
+                altAxis: true
+              }
+            },
+            {
+              name: "flip",
+              options: { boundary: "viewport", padding: 8 }
+            }
+          ]
+        }
+      },
       shouldShow: ({ editor: editor2 }) => editor2.isActive("table"),
       className: "flex bg-background border shadow-md rounded-md p-1 items-center z-50 gap-1"
     },
@@ -2303,8 +2817,32 @@ var AccessibleToolbars = ({ menuItems }) => {
     BubbleMenu2,
     {
       editor,
-      tippyOptions: { duration: 100 },
+      tippyOptions: {
+        duration: 100,
+        appendTo: () => document.body,
+        maxWidth: "calc(100vw - 16px)",
+        popperOptions: {
+          modifiers: [
+            {
+              name: "preventOverflow",
+              options: {
+                boundary: "viewport",
+                padding: 8,
+                tether: false,
+                // Allows tooltip to stay in viewport even if reference is huge
+                altAxis: true
+                // Prevents overflow on the alternate axis
+              }
+            },
+            {
+              name: "flip",
+              options: { boundary: "viewport", padding: 8 }
+            }
+          ]
+        }
+      },
       shouldShow: ({ editor: editor2, view, state, from, to }) => {
+        if (typeof window !== "undefined" && window.innerWidth < 768) return false;
         if (editor2.isActive("table")) return false;
         const { doc, selection } = state;
         const { empty } = selection;
@@ -2323,74 +2861,205 @@ var AccessibleToolbars = ({ menuItems }) => {
         }
       }
     )
-  ), /* @__PURE__ */ React14.createElement(FloatingMenu, { editor, tippyOptions: { duration: 100, placement: "left-start" }, className: "flex gap-1 z-50" }, /* @__PURE__ */ React14.createElement(Button, { variant: "ghost", size: "icon", onClick: () => editor.commands.insertContent("/"), className: "rounded-full w-6 h-6 bg-background border shadow-sm text-muted-foreground hover:text-foreground" }, /* @__PURE__ */ React14.createElement(Plus, { className: "w-3 h-3" }))));
+  ), /* @__PURE__ */ React14.createElement(
+    FloatingMenu,
+    {
+      editor,
+      tippyOptions: {
+        duration: 100,
+        placement: "left-start",
+        appendTo: () => document.body
+      },
+      className: "flex gap-1 z-50"
+    },
+    /* @__PURE__ */ React14.createElement(Button, { variant: "ghost", size: "icon", onClick: () => editor.commands.insertContent("/"), className: "rounded-full w-6 h-6 bg-background border shadow-sm text-muted-foreground hover:text-foreground" }, /* @__PURE__ */ React14.createElement(Plus2, { className: "w-3 h-3" }))
+  ));
+};
+
+// components/rich-text-rtl/Menu/MobileTopToolbar.tsx
+import React15 from "react";
+import { useCurrentEditor as useCurrentEditor4 } from "@tiptap/react";
+import { GripVertical } from "lucide-react";
+var MobileTopToolbar = ({ menuItems }) => {
+  const { editor } = useCurrentEditor4();
+  const [hasSelection, setHasSelection] = React15.useState(false);
+  const [position, setPosition] = React15.useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = React15.useState(false);
+  const [topOffset, setTopOffset] = React15.useState(8);
+  const dragStartRef = React15.useRef({ x: 0, y: 0 });
+  React15.useEffect(() => {
+    if (typeof window === "undefined" || !window.visualViewport) return;
+    const viewport = window.visualViewport;
+    const updatePosition = () => {
+      setTopOffset(viewport.offsetTop + 8);
+    };
+    viewport.addEventListener("resize", updatePosition);
+    viewport.addEventListener("scroll", updatePosition);
+    updatePosition();
+    return () => {
+      viewport.removeEventListener("resize", updatePosition);
+      viewport.removeEventListener("scroll", updatePosition);
+    };
+  }, []);
+  const handlePointerDown = (e) => {
+    setIsDragging(true);
+    dragStartRef.current = {
+      x: e.clientX - position.x,
+      y: e.clientY - position.y
+    };
+    e.target.setPointerCapture(e.pointerId);
+  };
+  const handlePointerMove = (e) => {
+    if (!isDragging) return;
+    setPosition({
+      x: e.clientX - dragStartRef.current.x,
+      y: e.clientY - dragStartRef.current.y
+    });
+  };
+  const handlePointerUp = (e) => {
+    setIsDragging(false);
+    e.target.releasePointerCapture(e.pointerId);
+  };
+  React15.useEffect(() => {
+    if (!editor) return;
+    const checkSelection = () => {
+      const { empty } = editor.state.selection;
+      const isTable = editor.isActive("table");
+      const newHasSelection = !empty && !isTable;
+      setHasSelection((prev) => {
+        if (!prev && newHasSelection) {
+          setPosition({ x: 0, y: 0 });
+        }
+        return newHasSelection;
+      });
+    };
+    checkSelection();
+    editor.on("selectionUpdate", checkSelection);
+    editor.on("transaction", checkSelection);
+    return () => {
+      editor.off("selectionUpdate", checkSelection);
+      editor.off("transaction", checkSelection);
+    };
+  }, [editor]);
+  if (!editor || !hasSelection) {
+    return null;
+  }
+  return /* @__PURE__ */ React15.createElement(
+    "div",
+    {
+      style: {
+        top: `${topOffset}px`,
+        transform: `translate(calc(-50% + ${position.x}px), ${position.y}px)`
+      },
+      className: "fixed left-1/2 z-50 w-max max-w-[95vw] bg-gray-100/95 dark:bg-gray-950/95 backdrop-blur-xl border border-gray-300 dark:border-gray-700 shadow-xl shadow-black/20 rounded-3xl p-1 flex md:hidden items-center justify-center overflow-x-auto animate-in fade-in duration-300 ease-out scale-90 sm:scale-100 origin-top touch-none"
+    },
+    /* @__PURE__ */ React15.createElement(
+      "div",
+      {
+        className: "px-1 py-2 cursor-grab active:cursor-grabbing text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex-shrink-0",
+        onPointerDown: handlePointerDown,
+        onPointerMove: handlePointerMove,
+        onPointerUp: handlePointerUp,
+        onPointerCancel: handlePointerUp
+      },
+      /* @__PURE__ */ React15.createElement(GripVertical, { className: "w-5 h-5" })
+    ),
+    /* @__PURE__ */ React15.createElement(TooltipProvider, null, /* @__PURE__ */ React15.createElement(
+      EditorControls,
+      {
+        editor,
+        menuItems,
+        isMobileMenuOpen: true,
+        setIsSaved: () => {
+        }
+      }
+    ))
+  );
 };
 
 // components/rich-text-rtl/ArabicRichTextEditor.tsx
 var defaultContent = `
-<h1 style="text-align: center;">\u0627\u062E\u062A\u0628\u0627\u0631 \u0645\u062D\u0631\u0631 \u0627\u0644\u0646\u0635\u0648\u0635 \u0627\u0644\u063A\u0646\u064A\u0629</h1>
-<p>\u0645\u0631\u062D\u0628\u064B\u0627! \u0647\u0630\u0627 \u0646\u0635 \u0627\u062E\u062A\u0628\u0627\u0631\u064A \u0644\u062A\u062C\u0631\u0628\u0629 <span data-term="" data-arabic="\u0645\u0639\u0637\u064A\u0627\u062A" data-english="data" data-description="\u0645\u0633\u062A\u0648\u062F\u0639 \u0642\u062F\u064A\u0645 \u0644\u0644\u0628\u064A\u0627\u0646\u0627\u062A \u0627\u0644\u0631\u0642\u0645\u064A\u0629.">\u0645\u0639\u0637\u064A\u0627\u062A (data)</span> \u0648\u062A\u062D\u062F\u064A\u062B \u0627\u0644\u0645\u0635\u0637\u0644\u062D\u0627\u062A \u0627\u0644\u0642\u062F\u064A\u0645\u0629 \u062A\u0644\u0642\u0627\u0626\u064A\u0627\u064B.</p>
+<h1 style="text-align: center;">\u0645\u0631\u062D\u0628\u0627\u064B \u0628\u0643 \u0641\u064A \u0645\u062D\u0631\u0631 \u0627\u0644\u0646\u0635\u0648\u0635 \u0627\u0644\u0627\u062D\u062A\u0631\u0627\u0641\u064A \u{1F680}</h1>
+<p style="text-align: center;">\u0647\u0630\u0627 \u0627\u0644\u0645\u062D\u0631\u0631 \u0635\u064F\u0645\u0645 \u062E\u0635\u064A\u0635\u0627\u064B \u0644\u064A\u0648\u0641\u0631 \u0644\u0643 \u062A\u062C\u0631\u0628\u0629 \u0643\u062A\u0627\u0628\u0629 \u063A\u0646\u064A\u0629 \u0648\u062F\u0627\u0639\u0645\u0629 \u0644\u0644\u063A\u0629 \u0627\u0644\u0639\u0631\u0628\u064A\u0629 (RTL) \u0628\u0634\u0643\u0644 \u0645\u062B\u0627\u0644\u064A\u060C \u0645\u0639 \u0627\u0644\u062D\u0641\u0627\u0638 \u0639\u0644\u0649 \u0627\u0644\u062A\u0648\u0627\u0641\u0642 \u0627\u0644\u062A\u0627\u0645 \u0645\u0639 \u0627\u0644\u0644\u063A\u0629 \u0627\u0644\u0625\u0646\u062C\u0644\u064A\u0632\u064A\u0629.</p>
+<hr>
 
-<h2>\u0642\u0648\u0627\u0626\u0645</h2>
+<h2>1. \u062A\u0646\u0633\u064A\u0642 \u0627\u0644\u0646\u0635\u0648\u0635 \u0627\u0644\u0623\u0633\u0627\u0633\u064A\u0629 \u270D\uFE0F</h2>
+<p>\u064A\u0645\u0643\u0646\u0643 \u062A\u0645\u064A\u064A\u0632 \u0646\u0635\u0648\u0635\u0643 \u0628\u0623\u0634\u0643\u0627\u0644 \u0645\u062A\u0639\u062F\u062F\u0629: \u064A\u0645\u0643\u0646\u0643 \u0643\u062A\u0627\u0628\u0629 <strong>\u0646\u0635 \u0639\u0631\u064A\u0636 (Bold)</strong>\u060C \u0623\u0648 <em>\u0646\u0635 \u0645\u0627\u0626\u0644 (Italic)</em>\u060C \u0623\u0648 <del>\u0646\u0635 \u0645\u0634\u0637\u0648\u0628 (Strike)</del>\u060C \u0623\u0648 \u062D\u062A\u0649 <u>\u0646\u0635 \u062A\u062D\u062A\u0647 \u062E\u0637 (Underline)</u>. \u0628\u0627\u0644\u0625\u0636\u0627\u0641\u0629 \u0625\u0644\u0649 \u0625\u0645\u0643\u0627\u0646\u064A\u0629 <mark data-color="#ffeb3b" style="background-color: #ffeb3b; color: inherit">\u062A\u0645\u064A\u064A\u0632 \u0627\u0644\u0646\u0635\u0648\u0635 (Highlight)</mark> \u0648\u062A\u063A\u064A\u064A\u0631 <span style="color: #e11d48">\u0644\u0648\u0646 \u0627\u0644\u062E\u0637</span> \u0628\u0623\u064A \u0644\u0648\u0646 \u062A\u062E\u062A\u0627\u0631\u0647!</p>
+
+<h2>2. \u0627\u0644\u0639\u0646\u0627\u0648\u064A\u0646 \u0627\u0644\u0630\u0643\u064A\u0629 \u0648\u0627\u0644\u0642\u0627\u0628\u0644\u0629 \u0644\u0644\u0637\u064A \u{1F4C2}</h2>
+<p>\u0643\u0644 \u0639\u0646\u0648\u0627\u0646 \u062A\u0643\u062A\u0628\u0647 \u064A\u062D\u062A\u0648\u064A \u0639\u0644\u0649 \u0645\u064A\u0632\u0629 "\u0627\u0644\u0637\u064A" (Collapsible). \u062C\u0631\u0628 \u0627\u0644\u0646\u0642\u0631 \u0639\u0644\u0649 \u0627\u0644\u0633\u0647\u0645 \u0627\u0644\u0635\u063A\u064A\u0631 \u0628\u062C\u0627\u0646\u0628 \u0623\u064A \u0639\u0646\u0648\u0627\u0646 \u0631\u0626\u064A\u0633\u064A \u0623\u0648 \u0641\u0631\u0639\u064A \u0644\u0625\u062E\u0641\u0627\u0621 \u0627\u0644\u0645\u062D\u062A\u0648\u0649 \u0627\u0644\u0630\u064A \u064A\u0644\u064A\u0647 \u0648\u062A\u0631\u062A\u064A\u0628 \u0645\u0633\u062A\u0646\u062F\u0643 \u0627\u0644\u0637\u0648\u064A\u0644 \u0628\u0643\u0644 \u0633\u0647\u0648\u0644\u0629.</p>
+<h3>\u0647\u0630\u0627 \u0639\u0646\u0648\u0627\u0646 \u0641\u0631\u0639\u064A (\u062C\u0631\u0628 \u0637\u064A\u0651\u0647)</h3>
+<p>\u0647\u0630\u0627 \u0627\u0644\u0646\u0635 \u0633\u064A\u062E\u062A\u0641\u064A \u0639\u0646\u062F\u0645\u0627 \u062A\u0642\u0648\u0645 \u0628\u0637\u064A \u0627\u0644\u0639\u0646\u0648\u0627\u0646 \u0627\u0644\u0641\u0631\u0639\u064A \u0623\u0639\u0644\u0627\u0647!</p>
+
+<h2>3. \u0627\u0644\u0642\u0648\u0627\u0626\u0645 \u0627\u0644\u0645\u062A\u0639\u062F\u062F\u0629 \u{1F4DD}</h2>
+<p>\u0646\u062F\u0639\u0645 \u062C\u0645\u064A\u0639 \u0623\u0646\u0648\u0627\u0639 \u0627\u0644\u0642\u0648\u0627\u0626\u0645 \u0644\u062A\u0646\u0638\u064A\u0645 \u0623\u0641\u0643\u0627\u0631\u0643:</p>
 <ul>
-  <li>\u0639\u0646\u0635\u0631 \u0623\u0648\u0644 \u0641\u064A \u0642\u0627\u0626\u0645\u0629 \u0646\u0642\u0637\u064A\u0629</li>
-  <li>\u0639\u0646\u0635\u0631 \u062B\u0627\u0646\u064D \u0645\u0639 <a href="https://example.com" target="_blank" rel="noopener noreferrer">\u0631\u0627\u0628\u0637</a> \u064A\u0645\u0643\u0646 \u0627\u0644\u0646\u0642\u0631 \u0639\u0644\u064A\u0647</li>
+  <li>\u0639\u0646\u0635\u0631 \u0641\u064A \u0642\u0627\u0626\u0645\u0629 \u0646\u0642\u0637\u064A\u0629 (Bullet List)</li>
+  <li>\u0639\u0646\u0635\u0631 \u0622\u062E\u0631 \u0645\u0639 <a href="https://example.com" target="_blank">\u0631\u0627\u0628\u0637 \u062A\u0634\u0639\u0628\u064A</a></li>
 </ul>
 <ol>
-  <li>\u0639\u0646\u0635\u0631 \u0645\u0631\u0642\u0645 \u0623\u0648\u0644</li>
-  <li>\u0639\u0646\u0635\u0631 \u0645\u0631\u0642\u0645 \u062B\u0627\u0646\u064D</li>
+  <li>\u0627\u0644\u062E\u0637\u0648\u0629 \u0627\u0644\u0623\u0648\u0644\u0649 \u0641\u064A \u0642\u0627\u0626\u0645\u0629 \u0645\u0631\u0642\u0645\u0629 (Ordered List)</li>
+  <li>\u0627\u0644\u062E\u0637\u0648\u0629 \u0627\u0644\u062B\u0627\u0646\u064A\u0629</li>
 </ol>
+<h3>\u0642\u0627\u0626\u0645\u0629 \u0627\u0644\u0645\u0647\u0627\u0645 (Task List)</h3>
+<ul data-type="taskList">
+  <li data-type="taskItem" data-checked="true">\u062A\u0635\u0645\u064A\u0645 \u0648\u0627\u062C\u0647\u0629 \u0627\u0644\u0645\u062D\u0631\u0631</li>
+  <li data-type="taskItem" data-checked="true">\u062F\u0639\u0645 \u0627\u062A\u062C\u0627\u0647 \u0627\u0644\u0646\u0635\u0648\u0635 RTL / LTR</li>
+  <li data-type="taskItem" data-checked="false">\u0625\u0636\u0627\u0641\u0629 \u0627\u0644\u0645\u0632\u064A\u062F \u0645\u0646 \u0627\u0644\u0645\u064A\u0632\u0627\u062A \u0627\u0644\u0645\u0633\u062A\u0642\u0628\u0644\u064A\u0629</li>
+</ul>
 
-<h3>\u0642\u0627\u0626\u0645\u0629 \u0645\u0647\u0627\u0645</h3>
-  <ul data-type="taskList">
-        <li data-type="taskItem" data-checked="true"> \u0645\u0647\u0645\u0629 1</li>
-        <li data-type="taskItem" data-checked="true"> \u0645\u0647\u0645\u0629 2</li>
-        <li data-type="taskItem" data-checked="true"> \u0645\u0647\u0645\u0629 3</li>
-  </ul>
-
-<h2>\u0643\u0648\u062F \u0628\u0631\u0645\u062C\u064A</h2>
-<p>\u0645\u062B\u0627\u0644 \u0639\u0644\u0649 \u0643\u0648\u062F \u0645\u0636\u0645\u0646: <code>console.log("\u0645\u0631\u062D\u0628\u064B\u0627");</code></p>
+<h2>4. \u0625\u062F\u0631\u0627\u062C \u0627\u0644\u0623\u0643\u0648\u0627\u062F \u0627\u0644\u0628\u0631\u0645\u062C\u064A\u0629 \u{1F4BB}</h2>
+<p>\u0645\u062B\u0627\u0644 \u0639\u0644\u0649 \u0643\u0648\u062F \u0645\u0636\u0645\u0646: <code>npm run dev</code>. \u0643\u0645\u0627 \u064A\u0645\u0643\u0646\u0643 \u0625\u0636\u0627\u0641\u0629 \u0643\u062A\u0644 \u0628\u0631\u0645\u062C\u064A\u0629 \u0643\u0627\u0645\u0644\u0629:</p>
 <pre><code class="language-javascript">
-function greet(name) {
-  return "\u0645\u0631\u062D\u0628\u064B\u0627 " + name;
+function sayHello(name) {
+  console.log("\u0645\u0631\u062D\u0628\u0627\u064B " + name + " \u0641\u064A \u0645\u062D\u0631\u0631\u0646\u0627!");
 }
-console.log(greet("\u0627\u0644\u0639\u0627\u0644\u0645"));
+sayHello("\u064A\u0627 \u0635\u062F\u064A\u0642\u064A");
 </code></pre>
 
-<h2>\u062C\u062F\u0648\u0644</h2>
+<h2>5. \u0627\u0644\u062C\u062F\u0627\u0648\u0644 \u0627\u0644\u0645\u0631\u0646\u0629 \u{1F4CA}</h2>
+<p>\u064A\u0645\u0643\u0646\u0643 \u0625\u0646\u0634\u0627\u0621 \u062C\u062F\u0627\u0648\u0644 \u0648\u062A\u062E\u0635\u064A\u0635\u0647\u0627 \u0628\u0627\u0644\u0643\u0627\u0645\u0644 (\u0625\u0636\u0627\u0641\u0629 \u0648\u062D\u0630\u0641 \u0635\u0641\u0648\u0641 \u0648\u0623\u0639\u0645\u062F\u0629 \u0639\u0628\u0631 \u0627\u0644\u0642\u0627\u0626\u0645\u0629 \u0627\u0644\u0639\u0627\u0626\u0645\u0629 \u0644\u0644\u062C\u062F\u0648\u0644):</p>
 <table>
   <thead>
     <tr>
-      <th>\u0627\u0644\u0639\u0646\u0648\u0627\u0646 1</th>
-      <th>\u0627\u0644\u0639\u0646\u0648\u0627\u0646 2</th>
+      <th>\u0627\u0644\u0645\u064A\u0632\u0629</th>
+      <th>\u0627\u0644\u0648\u0635\u0641</th>
+      <th>\u0627\u0644\u062F\u0639\u0645</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>\u062E\u0644\u064A\u0629 1</td>
-      <td>\u062E\u0644\u064A\u0629 2</td>
+      <td>\u0627\u0644\u0639\u0646\u0627\u0648\u064A\u0646 \u0627\u0644\u0630\u0643\u064A\u0629</td>
+      <td>\u0637\u064A \u0648\u0641\u062A\u062D \u0627\u0644\u0645\u062D\u062A\u0648\u0649 \u0623\u0633\u0641\u0644 \u0627\u0644\u0639\u0646\u0627\u0648\u064A\u0646</td>
+      <td>\u2705 \u0645\u062F\u0639\u0648\u0645</td>
     </tr>
     <tr>
-      <td>\u062E\u0644\u064A\u0629 3</td>
-      <td>\u062E\u0644\u064A\u0629 4</td>
+      <td>\u0627\u0644\u062C\u062F\u0627\u0648\u0644</td>
+      <td>\u062C\u062F\u0627\u0648\u0644 \u0645\u0631\u0646\u0629 \u0648\u0642\u0627\u0628\u0644\u0629 \u0644\u0644\u062A\u0639\u062F\u064A\u0644</td>
+      <td>\u2705 \u0645\u062F\u0639\u0648\u0645</td>
     </tr>
   </tbody>
 </table>
 
-<h2>\u0627\u0642\u062A\u0628\u0627\u0633</h2>
+<h2>6. \u0627\u0644\u0627\u0642\u062A\u0628\u0627\u0633\u0627\u062A \u275D</h2>
+<p>\u0623\u0628\u0631\u0632 \u0627\u0644\u0646\u0635\u0648\u0635 \u0627\u0644\u0647\u0627\u0645\u0629 \u0648\u0627\u0644\u0645\u0642\u0648\u0644\u0627\u062A \u0628\u0627\u0633\u062A\u062E\u062F\u0627\u0645 \u0627\u0644\u0627\u0642\u062A\u0628\u0627\u0633\u0627\u062A:</p>
 <blockquote>
-  "\u0627\u0644\u0639\u0644\u0645 \u0641\u064A \u0627\u0644\u0635\u063A\u0631 \u0643\u0627\u0644\u0646\u0642\u0634 \u0641\u064A \u0627\u0644\u062D\u062C\u0631"<br>\u2014 \u0645\u062B\u0644 \u0639\u0631\u0628\u064A
+  "\u0627\u0644\u0646\u062C\u0627\u062D \u0644\u064A\u0633 \u0627\u0644\u0646\u0647\u0627\u064A\u0629\u060C \u0648\u0627\u0644\u0641\u0634\u0644 \u0644\u064A\u0633 \u0642\u0627\u062A\u0644\u0627\u064B: \u0625\u0646\u0645\u0627 \u0627\u0644\u0634\u062C\u0627\u0639\u0629 \u0644\u0645\u0648\u0627\u0635\u0644\u0629 \u0627\u0644\u0637\u0631\u064A\u0642 \u0647\u064A \u0645\u0627 \u064A\u0647\u0645."<br>\u2014 \u0648\u0646\u0633\u062A\u0648\u0646 \u062A\u0634\u0631\u0634\u0644
 </blockquote>
 
-<h2>\u0635\u0648\u0631\u0629</h2>
-<p>\u0625\u0644\u064A\u0643 \u0635\u0648\u0631\u0629 \u0627\u062E\u062A\u0628\u0627\u0631\u064A\u0629:</p>
-<img src="https://via.placeholder.com/150" alt="\u0635\u0648\u0631\u0629 \u0627\u062E\u062A\u0628\u0627\u0631\u064A\u0629" loading="lazy">
+<h2>7. \u0627\u0644\u0635\u0648\u0631 \u0648\u0627\u0644\u0648\u0633\u0627\u0626\u0637 \u{1F5BC}\uFE0F</h2>
+<p>\u0623\u062F\u0631\u062C \u0627\u0644\u0635\u0648\u0631 \u0645\u0646 \u062C\u0647\u0627\u0632\u0643 \u0623\u0648 \u0639\u0628\u0631 \u0627\u0644\u0631\u0648\u0627\u0628\u0637 \u0627\u0644\u0645\u0628\u0627\u0634\u0631\u0629 \u0644\u062A\u0639\u0632\u064A\u0632 \u0645\u062D\u062A\u0648\u0627\u0643 \u0627\u0644\u0628\u0635\u0631\u064A:</p>
+<img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=800&auto=format&fit=crop" alt="\u0635\u0648\u0631\u0629 \u062A\u0648\u0636\u064A\u062D\u064A\u0629 \u0644\u0628\u064A\u0626\u0629 \u0639\u0645\u0644" loading="lazy">
 
-<p style="text-align: justify; direction: rtl;">\u0646\u0635 \u0645\u0648\u0632\u0639 \u0644\u0627\u062E\u062A\u0628\u0627\u0631 \u0627\u0644\u0645\u062D\u0627\u0630\u0627\u0629: Lorem ipsum dolor sit amet, consectetur adipiscing elit. \u0647\u0630\u0627 \u0646\u0635 \u0645\u062E\u062A\u0644\u0637 \u0644\u0644\u062A\u0623\u0643\u062F \u0645\u0646 \u062F\u0639\u0645 \u0627\u0644\u0644\u063A\u062A\u064A\u0646.</p>
+<h2>8. \u0642\u0627\u0645\u0648\u0633 \u0627\u0644\u0645\u0635\u0637\u0644\u062D\u0627\u062A \u0627\u0644\u062A\u0644\u0642\u0627\u0626\u064A \u{1F4DA}</h2>
+<p>\u064A\u062A\u0645\u064A\u0632 \u0627\u0644\u0645\u062D\u0631\u0631 \u0628\u0642\u062F\u0631\u062A\u0647 \u0639\u0644\u0649 \u0627\u0644\u062A\u0639\u0631\u0641 \u0639\u0644\u0649 \u0627\u0644\u0645\u0635\u0637\u0644\u062D\u0627\u062A \u0648\u0631\u0628\u0637\u0647\u0627 \u0628\u0642\u0627\u0645\u0648\u0633\u0643\u060C \u0645\u062B\u0644 \u0645\u0635\u0637\u0644\u062D <span data-term="" data-arabic="\u062E\u0648\u0627\u0631\u0632\u0645\u064A\u0629" data-english="Algorithm" data-description="\u0645\u062C\u0645\u0648\u0639\u0629 \u0645\u0646 \u0627\u0644\u062E\u0637\u0648\u0627\u062A \u0627\u0644\u0631\u064A\u0627\u0636\u064A\u0629 \u0648\u0627\u0644\u0645\u0646\u0637\u0642\u064A\u0629 \u0627\u0644\u0645\u062A\u0633\u0644\u0633\u0644\u0629 \u0644\u062D\u0644 \u0645\u0634\u0643\u0644\u0629 \u0645\u0627.">\u062E\u0648\u0627\u0631\u0632\u0645\u064A\u0629 (Algorithm)</span> \u0627\u0644\u0630\u064A \u0633\u064A\u0638\u0647\u0631 \u0628\u0644\u0648\u0646 \u0645\u062E\u062A\u0644\u0641 \u0648\u064A\u0645\u0643\u0646\u0643 \u062A\u0645\u0631\u064A\u0631 \u0627\u0644\u0645\u0627\u0648\u0633 \u0641\u0648\u0642\u0647 \u0644\u0631\u0624\u064A\u0629 \u062A\u0641\u0627\u0635\u064A\u0644\u0647.</p>
 
+<h2>9. \u0627\u0644\u0645\u062D\u0627\u0630\u0627\u0629 \u0648\u0627\u0644\u0627\u062A\u062C\u0627\u0647 \u0627\u0644\u062A\u0644\u0642\u0627\u0626\u064A \u{1F30D}</h2>
+<p style="text-align: right; direction: rtl;">\u0646\u0635 \u0628\u0645\u062D\u0627\u0630\u0627\u0629 \u0644\u0644\u064A\u0645\u064A\u0646 \u0648\u0627\u062A\u062C\u0627\u0647 \u0639\u0631\u0628\u064A \u0623\u0635\u064A\u0644.</p>
+<p style="text-align: center;">\u0646\u0635 \u0645\u062A\u0645\u0631\u0643\u0632 \u0641\u064A \u0627\u0644\u0645\u0646\u062A\u0635\u0641.</p>
+<p style="text-align: left; direction: ltr;">This is an English paragraph automatically aligned and directed Left-to-Right. The editor handles everything flawlessly!</p>
 <hr>
-
-<p>\u0646\u0647\u0627\u064A\u0629 \u0627\u0644\u0627\u062E\u062A\u0628\u0627\u0631. \u062C\u0631\u0628 \u0627\u0644\u062A\u0631\u0627\u062C\u0639 (<strong>Undo</strong>) \u0648\u0625\u0639\u0627\u062F\u0629 (<strong>Redo</strong>) \u0623\u064A\u0636\u064B\u0627!</p>
+<p>\u062C\u0631\u0628 \u0643\u062A\u0627\u0628\u0629 \u0646\u0635 \u062C\u062F\u064A\u062F\u060C \u0623\u0648 \u0627\u0633\u062A\u062E\u062F\u0645 \u0639\u0644\u0627\u0645\u0629 <code>/</code> \u0644\u0641\u062A\u062D \u0642\u0627\u0626\u0645\u0629 \u0627\u0644\u0623\u0648\u0627\u0645\u0631 \u0627\u0644\u0633\u0631\u064A\u0639\u0629!</p>
 `;
 var defaultMenuItems = [
   { id: "bold", enabled: true },
@@ -2457,7 +3126,7 @@ var ArabicRichTextEditor = ({
   return /* @__PURE__ */ React.createElement("div", { className }, /* @__PURE__ */ React.createElement(
     EditorProvider,
     {
-      slotBefore: null,
+      slotBefore: /* @__PURE__ */ React.createElement(MobileTopToolbar, { menuItems }),
       extensions: finalExtensions,
       content,
       editorProps,

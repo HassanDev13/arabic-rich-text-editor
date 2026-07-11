@@ -72,6 +72,7 @@ interface CommandItem {
     command: (props: CommandProps) => void;
     description?: string;
     icon?: React.ReactNode;
+    searchTerms?: string[];
 }
 interface SlashCommandsOptions {
     triggerChar?: string;
@@ -87,6 +88,7 @@ interface CommandItemType {
     }) => void;
     description?: string;
     icon?: React.ReactNode;
+    searchTerms?: string[];
 }
 interface SlashCommandListProps {
     items: CommandItemType[];
@@ -98,7 +100,7 @@ interface SlashCommandListProps {
 
 declare const ArabicRichTextEditor: React.FC<ArabicRichTextEditorProps>;
 
-declare const editorExtensions: (_tiptap_core.Node<any, any> | Extension<any, any> | _tiptap_core.Mark<any, any>)[];
+declare const editorExtensions: (_tiptap_core.Node<any, any> | _tiptap_core.Mark<any, any> | Extension<any, any>)[];
 
 declare const injectEditorStyles: () => void;
 
