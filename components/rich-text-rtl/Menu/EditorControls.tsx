@@ -80,11 +80,16 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
                 )
               ) : (
                 <Button
-                  variant={config.isActive?.(editor) ? "secondary" : "ghost"}
+                  variant="ghost"
                   size="sm"
                   onClick={action}
                   disabled={config.isDisabled?.(editor) || false}
-                  className="w-8 h-8 md:w-9 md:h-9 p-0"
+                  className={cn(
+                    "w-8 h-8 md:w-9 md:h-9 p-0 transition-colors",
+                    config.isActive?.(editor)
+                      ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-500/30"
+                      : "text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-800"
+                  )}
                   aria-label={label}
                 >
                   <>{icon}</>
@@ -103,7 +108,7 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
               variant="ghost"
               size="sm"
               onClick={() => setIsExpanded(!isExpanded)}
-              className="w-8 h-8 md:w-9 md:h-9 p-0 bg-secondary/50 hover:bg-secondary"
+              className="w-8 h-8 md:w-9 md:h-9 p-0 bg-secondary/50 hover:bg-secondary text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white"
               aria-label="عرض المزيد"
             >
               {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}

@@ -48,27 +48,17 @@ const App: React.FC = () => {
   }, [isDark]);
 
   return (
-    <div className="relative min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300 py-8">
+    <div className="relative min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300 md:py-8">
       {/* Dark mode toggle */}
       <button
         onClick={() => setIsDark(!isDark)}
-        className="fixed top-4 right-4 z-50 p-2.5 rounded-full bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-md hover:scale-105 transition-transform"
+        className="fixed top-2 md:top-4 right-2 md:right-4 z-50 p-2.5 rounded-full bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-md hover:scale-105 transition-transform"
         aria-label="Toggle Dark Mode"
       >
         {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
       </button>
 
-      <div className="w-full md:w-[80%] mx-auto">
-        <div className="flex flex-col items-center justify-center mb-10 mt-4">
-          <div className="w-24 h-24 sm:w-32 sm:h-32 mb-4 rounded-3xl overflow-hidden shadow-2xl ring-4 ring-white dark:ring-gray-800 transition-transform hover:scale-105 duration-300">
-            <img 
-              src="/logo.jpg" 
-              alt="Arabic Rich Text Editor Logo" 
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </div>
-
+      <div className="w-full h-full md:w-[80%] mx-auto">
         <ArabicRichTextEditor
           onSave={async () => {
             console.log("Saving...");
@@ -80,16 +70,16 @@ const App: React.FC = () => {
           ]}
           editorProps={{
             attributes: {
-              class: "tiptap prose dark:prose-invert max-w-none min-h-[800px] w-full bg-white dark:bg-gray-800 dark:text-gray-100 focus:outline-none shadow-sm rounded-b-md p-8",
+              class: "tiptap prose prose-sm md:prose-base dark:prose-invert max-w-none min-h-screen md:min-h-[800px] w-full bg-white dark:bg-gray-800 dark:text-gray-100 focus:outline-none shadow-sm rounded-none md:rounded-b-md p-4 pt-16 md:p-8",
               style: "",
             },
           }}
           defaultFont="Cairo"
           defaultFontSize="18px"
           defaultLineHeight="2"
-          className="flex flex-col bg-white dark:bg-gray-800 rounded-md shadow-lg overflow-hidden"
+          className="flex flex-col bg-white dark:bg-gray-800 rounded-none md:rounded-md shadow-none md:shadow-lg overflow-hidden min-h-screen md:min-h-0"
           injectStyles={true}
-          menuBarClassName="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700"
+          menuBarClassName="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 hidden md:flex"
           autocompleteTerms={testTerms}
         />
       </div>
