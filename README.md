@@ -1,6 +1,6 @@
 <div dir="rtl" align="center">
   <h1>Arabic Rich Text Editor</h1>
-  <p>مُحرّر نصوص في خدمة اللغة العربية</p>
+  <p>مُحرّر نصوص في خدمة اللغة العربية - الإصدار الحديث 2.0</p>
   
   <p>
     <a href="#العربية">الوثائق باللغة العربية</a> •
@@ -17,14 +17,17 @@
 <h2 id="العربية">العربية</h2>
 
 مُحرر نصوص عربي قوي، أنيق، وتفاعلي لمشاريع **React**، مبني على محرك [Tiptap](https://tiptap.dev). 
-تم تصميمه ليقدم **تجربة مشابهة لمحرر ووردبريس (Gutenberg)** مع دعم أصلي وكامل للكتابة من اليمين لليسار (RTL)، بالإضافة إلى واجهات تفاعلية ذكية، وقوائم أدوات سياقية، وخطوط عربية أصيلة (Amiri).
+تم تصميمه ليقدم **تجربة مشابهة لمحرر ووردبريس (Gutenberg) و Notion** مع دعم أصلي وكامل للكتابة من اليمين لليسار (RTL)، بالإضافة إلى واجهات تفاعلية ذكية، وقوائم أدوات سياقية تتكيف مع حجم الشاشة، وخطوط عربية أصيلة.
 
-### ✨ المميزات
-- **دعم مثالي للغة العربية (RTL):** تجربة كتابة سلسة مع عزل ذكي للنصوص المزدوجة (يحافظ على الأكواد والأرقام الإنجليزية من اليسار لليمين حتى داخل الفقرات العربية).
-- **تجربة مشابهة لووردبريس:** مربعات تفاعلية (Placeholders) عند إدراج الصور والجداول تتيح للمستخدم ضبط إعداداتها قبل إدراجها.
-- **قائمة الأوامر السريعة (`/`):** اكتب `/` في بداية أي سطر لفتح قائمة منسدلة أنيقة تتيح لك إدراج (العناوين، القوائم، الصور، الجداول، الاقتباسات.. إلخ).
-- **قوائم أدوات ذكية (Contextual):** تظهر أدوات التنسيق فقط عند الحاجة إليها (مثال: عند تحديد نص، أو عند الوقوف داخل جدول لإضافة/حذف أعمدة وصفوف).
-- **متوافق مع Tailwind:** مبني ومُنسق باستخدام Tailwind CSS لتسهيل عملية التخصيص والملاءمة مع تصميم موقعك.
+### ✨ المميزات الجديدة (تحديثات 2.0)
+- **قوائم أدوات ذكية متكيفة (Responsive Toolbars):**
+  - **في الموبايل:** شريط علوي عائم (Floating Pill) ذكي يمكن سحبه وإفلاته، يظهر في أعلى الشاشة لتوفير المساحة ويتجنب التداخل مع لوحة المفاتيح.
+  - **في الكمبيوتر:** قائمة منبثقة سياقية (Bubble Menu) تظهر مباشرة فوق النص المحدد لتسريع عملية التنسيق.
+- **التوجيه التلقائي الذكي (Auto-Direction):** يكتشف المحرر تلقائياً لغة الكتابة (عربي/إنجليزي) ويقوم بتغيير اتجاه النص (RTL/LTR) لكل فقرة أو عنصر بشكل فوري!
+- **العناوين القابلة للطي (Collapsible Headings):** أضف عناوين بأسهم تفاعلية لإخفاء وإظهار المحتوى أسفلها لتنظيم المقالات الطويلة، مع تجربة مؤشر (Cursor) سلسة ومثالية.
+- **قوائم مهام تفاعلية (Task Lists):** مربعات اختيار (Checkboxes) لا تسبب قفز المؤشر، لتجربة إدارة مهام لا تشوبها شائبة.
+- **نظام الإكمال التلقائي للمصطلحات (Term Autocomplete):** نظام ذكي للتعرف على المصطلحات القديمة أو المخصصة واستبدالها (مثل استبدال الكلمات الشائعة أو التنبيه عند استخدام مصطلح غير محدث).
+- **الوضع الليلي (Dark Mode):** واجهة متوافقة بالكامل مع الألوان الداكنة والفاتحة بسلاسة تامة.
 
 ### 🚀 دليل الاستخدام
 
@@ -51,7 +54,6 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    // مسارات مشروعك الحالية...
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     
@@ -93,11 +95,16 @@ export default function EditorPage() {
 
 #### 4. الاستخدام المتقدم (التخصيص)
 
-يوفر المحرر العديد من الخصائص (Props) التي تسمح لك بتخصيص سلوكه بشكل دقيق، وتوسيع إمكانيات محرك Tiptap الداخلي حسب احتياجات مشروعك.
+يوفر المحرر العديد من الخصائص (Props) التي تسمح لك بتخصيص سلوكه بشكل دقيق، مثل إضافة مصطلحات للإكمال التلقائي، أو التعديل على Tiptap.
 
 ```tsx
 import { ArabicRichTextEditor } from "arabic-rich-text-editor";
 import CharacterCount from '@tiptap/extension-character-count';
+
+const myTerms = [
+  { id: "1", label: "مستشفى", description: "استخدم 'مجمع طبي' بدلاً منها", outdated: true },
+  { id: "2", label: "الذكاء الاصطناعي", description: "تقنية العصر" }
+];
 
 export default function AdvancedEditor() {
   return (
@@ -109,23 +116,22 @@ export default function AdvancedEditor() {
       defaultFontSize="20px"
       defaultLineHeight="2.0"
       
-      // 2. إضافة إضافات (Extensions) مخصصة لـ Tiptap!
+      // 2. تمرير مصطلحات للإكمال التلقائي (Term Autocomplete)
+      autocompleteTerms={myTerms}
+      
+      // 3. إضافة إضافات (Extensions) مخصصة لـ Tiptap!
       extensions={[
         CharacterCount.configure({ limit: 10000 })
       ]}
       
-      // 3. تخصيص ProseMirror / editorProps (مثل التقاط الأحداث وتغيير الكلاسات)
+      // 4. تخصيص ProseMirror / editorProps (مثل التقاط الأحداث وتغيير الكلاسات)
       editorProps={{
         attributes: {
           class: "prose prose-lg focus:outline-none min-h-[500px]",
-        },
-        handlePaste: (view, event, slice) => {
-          console.log("تم لصق محتوى:", slice);
-          return false; // دع Tiptap يتعامل معه كالمعتاد
         }
       }}
       
-      // 4. الاستماع للتغييرات
+      // 5. الاستماع للتغييرات
       onChange={(html) => console.log("المحتوى الجديد:", html)}
     />
   );
@@ -138,15 +144,13 @@ export default function AdvancedEditor() {
 | :--- | :--- | :--- | :--- |
 | `content` | `string` | `<p>...</p>` | محتوى HTML المبدئي الذي سيتم تحميله في المحرر. |
 | `onChange` | `(html: string) => void` | `undefined` | دالة يتم استدعاؤها في كل مرة يتغير فيها المحتوى (تعيد نص HTML). |
+| `autocompleteTerms` | `TermItem[]` | `undefined` | مصفوفة من المصطلحات لتفعيل نظام الإكمال التلقائي والتنبيه للمصطلحات القديمة. |
 | `defaultFont` | `string` | `"Amiri"` | الخط الافتراضي المطبق على المحرر. |
 | `defaultFontSize` | `string` | `"18px"` | حجم الخط الافتراضي للفقرات. |
 | `defaultLineHeight` | `string` | `"1.5"` | ارتفاع السطر (Line-height) الافتراضي. |
 | `extensions` | `AnyExtension[]` | الإضافات الأساسية | مصفوفة لتمرير إضافات (Extensions) مخصصة لمحرك Tiptap أو التعديل على الحالية. |
 | `editorProps` | `EditorProps` | `{ attributes: {...} }` | خصائص ProseMirror القياسية (تسمح بالتحكم في النسخ/اللصق والأحداث المتقدمة). |
-| `injectStyles` | `boolean` | `true` | يقوم تلقائياً بحقن أكواد الـ CSS الأساسية للمحرر في الـ `<head>`. اجعله `false` إذا كنت تريد إضافة التنسيقات يدوياً. |
-
-### 🤝 المساهمة
-نرحب بمساهمات الجميع لتحسين تجربة الاستخدام وإضافة مميزات جديدة! إذا كان لديك أي فكرة أو واجهت مشكلة، لا تتردد في فتح (Issue) أو تقديم (Pull Request).
+| `injectStyles` | `boolean` | `true` | يقوم تلقائياً بحقن أكواد الـ CSS الأساسية للمحرر في الـ `<head>`. |
 
 </div>
 
@@ -155,14 +159,17 @@ export default function AdvancedEditor() {
 <h2 id="english">English</h2>
 
 A powerful, elegant, and highly interactive Arabic Rich Text Editor for React, built on [Tiptap](https://tiptap.dev). 
-Designed to give a **WordPress Gutenberg-like experience** with native Right-to-Left (RTL) support, interactive placeholders, contextual toolbars, and beautiful typography using the Amiri font.
+Designed to give a **WordPress Gutenberg & Notion-like experience** with native Right-to-Left (RTL) support, interactive placeholders, smart contextual toolbars that adapt to screen size, and beautiful typography.
 
-### ✨ Features
-- **Native RTL Support:** Flawless Arabic typing experience with built-in bidirectional text isolation (keeps English code and numbers LTR even inside Arabic text).
-- **Gutenberg-like Experience:** Interactive placeholder blocks for inserting Tables and Images natively within the editor.
-- **Slash Commands (`/`):** Type `/` to open a beautiful dropdown menu to insert blocks (Headings, Lists, Images, Tables, Quotes, etc.).
-- **Contextual Toolbars:** Smart bubble menus appear only when needed (e.g., text formatting menu when text is selected, table manipulation menu when inside a table).
-- **Tailwind Ready:** Styled using Tailwind CSS for easy theme matching and customization.
+### ✨ What's New in 2.0
+- **Smart Responsive Toolbars:** 
+  - **Mobile:** A draggable, floating pill toolbar appears at the top of the viewport, cleverly avoiding keyboard overlaps.
+  - **Desktop:** A contextual Bubble Menu hovers precisely over selected text for fast formatting.
+- **Auto-Direction Detection:** Automatically detects whether you are typing in Arabic or English and adjusts the text direction (RTL/LTR) per block in real-time!
+- **Collapsible Headings:** Headings now feature interactive arrows to fold/unfold underlying content, with a flawless cursor navigation fix.
+- **Enhanced Task Lists:** Interactive checkboxes that won't cause annoying editor jumps or viewport scrolls when clicked.
+- **Term Autocomplete System:** Mention/autocomplete system for terminology, allowing you to highlight outdated terms and suggest modern replacements.
+- **Dark Mode Ready:** Fully compatible with both dark and light UI themes seamlessly.
 
 ### 🚀 Getting Started
 
@@ -189,7 +196,6 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    // Your existing paths...
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     
@@ -234,6 +240,10 @@ The editor exposes several props that allow you to deeply customize its behavior
 import { ArabicRichTextEditor } from "arabic-rich-text-editor";
 import CharacterCount from '@tiptap/extension-character-count';
 
+const myTerms = [
+  { id: "1", label: "مستشفى", description: "Use 'مجمع طبي' instead", outdated: true },
+];
+
 export default function AdvancedEditor() {
   return (
     <ArabicRichTextEditor
@@ -243,23 +253,22 @@ export default function AdvancedEditor() {
       defaultFontSize="20px"
       defaultLineHeight="2.0"
       
-      // 2. Add your own Tiptap extensions!
+      // 2. Pass terminology for the autocomplete system
+      autocompleteTerms={myTerms}
+      
+      // 3. Add your own Tiptap extensions!
       extensions={[
         CharacterCount.configure({ limit: 10000 })
       ]}
       
-      // 3. Customize ProseMirror / editorProps (e.g., event handlers)
+      // 4. Customize ProseMirror / editorProps (e.g., event handlers)
       editorProps={{
         attributes: {
           class: "prose prose-lg focus:outline-none min-h-[500px]",
-        },
-        handlePaste: (view, event, slice) => {
-          console.log("Pasted content:", slice);
-          return false; // let Tiptap handle it normally
         }
       }}
       
-      // 4. Listen to changes
+      // 5. Listen to changes
       onChange={(html) => console.log("New HTML:", html)}
     />
   );
@@ -272,6 +281,7 @@ export default function AdvancedEditor() {
 | :--- | :--- | :--- | :--- |
 | `content` | `string` | `<p>...</p>` (demo) | The initial HTML content to load into the editor. |
 | `onChange` | `(html: string) => void` | `undefined` | Callback fired whenever the editor's content changes. Returns the HTML string. |
+| `autocompleteTerms` | `TermItem[]` | `undefined` | Array of terms to enable the autocomplete and outdated term suggestion system. |
 | `defaultFont` | `string` | `"Amiri"` | The default font applied to the editor body. |
 | `defaultFontSize` | `string` | `"18px"` | The default font size for standard paragraphs. |
 | `defaultLineHeight` | `string` | `"1.5"` | The default CSS line-height. |
