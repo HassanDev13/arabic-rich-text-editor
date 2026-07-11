@@ -2795,7 +2795,6 @@ var EditorControls = ({
                 size: "sm",
                 onClick: action,
                 onMouseDown: (e) => e.preventDefault(),
-                onPointerDown: (e) => e.preventDefault(),
                 disabled: ((_c = config.isDisabled) == null ? void 0 : _c.call(config, editor)) || false,
                 className: cn(
                   "w-8 h-8 md:w-9 md:h-9 p-0 transition-colors",
@@ -2817,7 +2816,6 @@ var EditorControls = ({
               size: "sm",
               onClick: () => setIsExpanded(!isExpanded),
               onMouseDown: (e) => e.preventDefault(),
-              onPointerDown: (e) => e.preventDefault(),
               className: "w-8 h-8 md:w-9 md:h-9 p-0 bg-secondary/50 hover:bg-secondary text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white",
               "aria-label": "\u0639\u0631\u0636 \u0627\u0644\u0645\u0632\u064A\u062F",
               children: isExpanded ? /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_lucide_react5.ChevronUp, { className: "w-4 h-4" }) : /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_lucide_react5.ChevronDown, { className: "w-4 h-4" })
@@ -2893,8 +2891,9 @@ var TableBubbleMenu = () => {
       editor,
       tippyOptions: {
         duration: 100,
+        interactive: true,
         placement: "bottom",
-        appendTo: () => document.body,
+        appendTo: () => document.getElementById("app") || document.body,
         maxWidth: "calc(100vw - 16px)",
         popperOptions: {
           modifiers: [
@@ -2930,7 +2929,6 @@ var TableBubbleMenu = () => {
               className: "h-8 w-8 p-0",
               onClick: control.action,
               onMouseDown: (e) => e.preventDefault(),
-              onPointerDown: (e) => e.preventDefault(),
               children: control.icon
             }
           ) }),
@@ -2956,7 +2954,8 @@ var AccessibleToolbars = ({ menuItems }) => {
         editor,
         tippyOptions: {
           duration: 100,
-          appendTo: () => document.body,
+          interactive: true,
+          appendTo: () => document.getElementById("app") || document.body,
           maxWidth: "calc(100vw - 16px)",
           popperOptions: {
             modifiers: [
@@ -3005,11 +3004,12 @@ var AccessibleToolbars = ({ menuItems }) => {
         editor,
         tippyOptions: {
           duration: 100,
+          interactive: true,
           placement: "left-start",
-          appendTo: () => document.body
+          appendTo: () => document.getElementById("app") || document.body
         },
         className: "flex gap-1 z-50",
-        children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Button, { type: "button", variant: "ghost", size: "icon", onClick: () => editor.commands.insertContent("/"), onMouseDown: (e) => e.preventDefault(), onPointerDown: (e) => e.preventDefault(), className: "rounded-full w-6 h-6 bg-background border shadow-sm text-muted-foreground hover:text-foreground", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_lucide_react7.Plus, { className: "w-3 h-3" }) })
+        children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Button, { type: "button", variant: "ghost", size: "icon", onClick: () => editor.commands.insertContent("/"), onMouseDown: (e) => e.preventDefault(), className: "rounded-full w-6 h-6 bg-background border shadow-sm text-muted-foreground hover:text-foreground", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_lucide_react7.Plus, { className: "w-3 h-3" }) })
       }
     )
   ] });

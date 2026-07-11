@@ -67,8 +67,9 @@ export const TableBubbleMenu = () => {
       editor={editor} 
       tippyOptions={{ 
         duration: 100, 
+        interactive: true,
         placement: "bottom",
-        appendTo: () => document.body,
+        appendTo: () => document.getElementById('app') || document.body,
         maxWidth: 'calc(100vw - 16px)',
         popperOptions: {
           modifiers: [
@@ -106,7 +107,6 @@ export const TableBubbleMenu = () => {
                 className="h-8 w-8 p-0"
                 onClick={control.action}
                 onMouseDown={(e) => e.preventDefault()}
-                onPointerDown={(e) => e.preventDefault()}
               >
                 {control.icon}
               </Button>

@@ -27,7 +27,8 @@ export const AccessibleToolbars: React.FC<AccessibleToolbarsProps> = ({ menuItem
         editor={editor} 
         tippyOptions={{ 
           duration: 100,
-          appendTo: () => document.body,
+          interactive: true,
+          appendTo: () => document.getElementById('app') || document.body,
           maxWidth: 'calc(100vw - 16px)',
           popperOptions: {
             modifiers: [
@@ -70,12 +71,13 @@ export const AccessibleToolbars: React.FC<AccessibleToolbarsProps> = ({ menuItem
         editor={editor} 
         tippyOptions={{ 
           duration: 100, 
+          interactive: true,
           placement: "left-start",
-          appendTo: () => document.body
+          appendTo: () => document.getElementById('app') || document.body
         }} 
         className="flex gap-1 z-50"
       >
-        <Button type="button" variant="ghost" size="icon" onClick={() => editor.commands.insertContent('/')} onMouseDown={(e) => e.preventDefault()} onPointerDown={(e) => e.preventDefault()} className="rounded-full w-6 h-6 bg-background border shadow-sm text-muted-foreground hover:text-foreground">
+        <Button type="button" variant="ghost" size="icon" onClick={() => editor.commands.insertContent('/')} onMouseDown={(e) => e.preventDefault()} className="rounded-full w-6 h-6 bg-background border shadow-sm text-muted-foreground hover:text-foreground">
           <Plus className="w-3 h-3" />
         </Button>
       </FloatingMenu>

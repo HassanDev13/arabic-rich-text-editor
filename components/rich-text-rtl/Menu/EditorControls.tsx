@@ -85,7 +85,6 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
                   size="sm"
                   onClick={action}
                   onMouseDown={(e) => e.preventDefault()}
-                  onPointerDown={(e) => e.preventDefault()}
                   disabled={config.isDisabled?.(editor) || false}
                   className={cn(
                     "w-8 h-8 md:w-9 md:h-9 p-0 transition-colors",
@@ -113,7 +112,6 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
               size="sm"
               onClick={() => setIsExpanded(!isExpanded)}
               onMouseDown={(e) => e.preventDefault()}
-              onPointerDown={(e) => e.preventDefault()}
               className="w-8 h-8 md:w-9 md:h-9 p-0 bg-secondary/50 hover:bg-secondary text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white"
               aria-label="عرض المزيد"
             >
