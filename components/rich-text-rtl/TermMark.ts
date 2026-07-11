@@ -56,7 +56,7 @@ export const TermMark = Mark.create({
   addProseMirrorPlugins() {
     return [
       new Plugin({
-        key: new PluginKey("termTooltip"),
+        key: new PluginKey("termTooltip") as any,
         props: {
           handleDOMEvents: {
             mouseover(view, event) {
@@ -141,7 +141,7 @@ export const TermMark = Mark.create({
             },
           },
         },
-      }),
+      }) as any,
     ];
   },
 });

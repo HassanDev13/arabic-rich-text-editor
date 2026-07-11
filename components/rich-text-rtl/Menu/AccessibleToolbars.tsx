@@ -25,7 +25,28 @@ export const AccessibleToolbars: React.FC<AccessibleToolbarsProps> = ({ menuItem
       <TableBubbleMenu />
       <BubbleMenu 
         editor={editor} 
-        tippyOptions={{ duration: 100 }} 
+        tippyOptions={{ 
+          duration: 100,
+          appendTo: () => document.body,
+          maxWidth: 'calc(100vw - 16px)',
+          popperOptions: {
+            modifiers: [
+              {
+                name: 'preventOverflow',
+                options: { 
+                  boundary: 'viewport', 
+                  padding: 8,
+                  tether: false, // Allows tooltip to stay in viewport even if reference is huge
+                  altAxis: true  // Prevents overflow on the alternate axis
+                }
+              },
+              {
+                name: 'flip',
+                options: { boundary: 'viewport', padding: 8 }
+              }
+            ]
+          }
+        }} 
         shouldShow={({ editor, view, state, from, to }) => {
           if (editor.isActive('table')) return false;
           // Default Tiptap BubbleMenu logic (requires selection and not empty)
@@ -44,7 +65,15 @@ export const AccessibleToolbars: React.FC<AccessibleToolbarsProps> = ({ menuItem
         />
       </BubbleMenu>
       
-      <FloatingMenu editor={editor} tippyOptions={{ duration: 100, placement: "left-start" }} className="flex gap-1 z-50">
+      <FloatingMenu 
+        editor={editor} 
+        tippyOptions={{ 
+          duration: 100, 
+          placement: "left-start",
+          appendTo: () => document.body
+        }} 
+        className="flex gap-1 z-50"
+      >
         <Button variant="ghost" size="icon" onClick={() => editor.commands.insertContent('/')} className="rounded-full w-6 h-6 bg-background border shadow-sm text-muted-foreground hover:text-foreground">
           <Plus className="w-3 h-3" />
         </Button>

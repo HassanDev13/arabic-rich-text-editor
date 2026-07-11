@@ -17,6 +17,7 @@ const SlashCommands = Extension.create<SlashCommandsOptions>({
         {
           title: "عنوان 1",
           description: "إضافة عنوان رئيسي",
+          searchTerms: ["h1", "heading 1", "title"],
           command: ({ editor, range }) =>
             editor
               .chain()
@@ -28,6 +29,7 @@ const SlashCommands = Extension.create<SlashCommandsOptions>({
         {
           title: "عنوان 2",
           description: "إضافة عنوان فرعي",
+          searchTerms: ["h2", "heading 2", "subtitle"],
           command: ({ editor, range }) =>
             editor
               .chain()
@@ -39,6 +41,7 @@ const SlashCommands = Extension.create<SlashCommandsOptions>({
         {
           title: "عنوان 3",
           description: "إضافة عنوان فرعي صغير",
+          searchTerms: ["h3", "heading 3", "subheading"],
           command: ({ editor, range }) =>
             editor
               .chain()
@@ -50,6 +53,7 @@ const SlashCommands = Extension.create<SlashCommandsOptions>({
         {
           title: "فقرة",
           description: "إضافة نص عادي",
+          searchTerms: ["p", "paragraph", "text"],
           command: ({ editor, range }) =>
             editor
               .chain()
@@ -61,24 +65,28 @@ const SlashCommands = Extension.create<SlashCommandsOptions>({
         {
           title: "قائمة نقطية",
           description: "إنشاء قائمة بنقاط",
+          searchTerms: ["ul", "bullet", "list", "unordered"],
           command: ({ editor, range }) =>
             editor.chain().focus().deleteRange(range).toggleBulletList().run(),
         },
         {
           title: "قائمة مرقمة",
           description: "إنشاء قائمة مرقمة",
+          searchTerms: ["ol", "ordered", "list", "number"],
           command: ({ editor, range }) =>
             editor.chain().focus().deleteRange(range).toggleOrderedList().run(),
         },
         {
           title: "قائمة مهام",
           description: "إنشاء قائمة مهام تفاعلية",
+          searchTerms: ["task", "todo", "checklist", "check"],
           command: ({ editor, range }) =>
             editor.chain().focus().deleteRange(range).toggleTaskList().run(),
         },
         {
           title: "جدول",
           description: "إدراج جدول لمشاركة بيانات",
+          searchTerms: ["table", "grid"],
           command: ({ editor, range }) =>
             editor
               .chain()
@@ -90,24 +98,28 @@ const SlashCommands = Extension.create<SlashCommandsOptions>({
         {
           title: "كود برمجي",
           description: "إدراج كتلة كود",
+          searchTerms: ["code", "block", "pre"],
           command: ({ editor, range }) =>
             editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
         },
         {
           title: "اقتباس",
           description: "إضافة اقتباس",
+          searchTerms: ["quote", "blockquote"],
           command: ({ editor, range }) =>
             editor.chain().focus().deleteRange(range).toggleBlockquote().run(),
         },
         {
           title: "خط أفقي",
           description: "إدراج فاصل أفقي",
+          searchTerms: ["hr", "horizontal", "rule", "line", "divider"],
           command: ({ editor, range }) =>
             editor.chain().focus().deleteRange(range).setHorizontalRule().run(),
         },
         {
           title: "صورة",
           description: "أضف صورة أو ارفعها من جهازك",
+          searchTerms: ["image", "picture", "img", "photo"],
           command: ({ editor, range }) => {
             editor
               .chain()
@@ -120,6 +132,7 @@ const SlashCommands = Extension.create<SlashCommandsOptions>({
         {
           title: "رابط",
           description: "إضافة رابط تشعبي",
+          searchTerms: ["link", "url", "a", "href"],
           command: ({ editor, range }) => {
             const url = window.prompt("أدخل الرابط");
             if (url)
@@ -181,9 +194,11 @@ const SlashCommands = Extension.create<SlashCommandsOptions>({
         },
         items: ({ query }: { query: string }) => {
           return (this.options.commands || [])
-            .filter((item) =>
-              item.title.toLowerCase().includes(query.toLowerCase())
-            )
+            .filter((item) => {
+              const q = query.toLowerCase();
+              return item.title.toLowerCase().includes(q) || 
+                     (item.searchTerms && item.searchTerms.some((term: string) => term.toLowerCase().includes(q)));
+            })
             .slice(0, 10); // Limit to 10 suggestions
         },
         render: () => {
@@ -233,7 +248,7 @@ const SlashCommands = Extension.create<SlashCommandsOptions>({
           };
         },
         ...this.options.suggestionOptions,
-      }),
+      }) as any,
     ];
   },
 });

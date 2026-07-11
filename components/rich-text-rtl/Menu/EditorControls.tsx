@@ -8,7 +8,8 @@ import {
 import { cn } from "@/lib/utils";
 import { MenuItemId, MenuItemConfig } from "../types";
 import { menuItemsConfig } from "./menu-config";
-import React from "react";
+import React, { useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 interface EditorControlsProps {
   editor: Editor;
@@ -23,6 +24,8 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
   isMobileMenuOpen,
   setIsSaved,
 }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   const getMenuItemConfig = (id: MenuItemId): MenuItemConfig =>
     menuItems.find((item) => item.id === id) || { id, enabled: false };
 
@@ -30,21 +33,27 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
     isActive?: (editor: Editor) => boolean;
     isDisabled?: (editor: Editor) => boolean;
   }
-  
 
   interface CustomIconProps {
     value?: string;
     editor?: Editor;
     setIsSaved?: (value: boolean) => void;
   }
+
+  const enabledItems = Object.entries(menuItemsConfig).filter(([id]) => getMenuItemConfig(id as MenuItemId).enabled);
+  const VISIBLE_COUNT = 6;
+  const visibleItems = isExpanded ? enabledItems : enabledItems.slice(0, VISIBLE_COUNT);
+  const hasMore = enabledItems.length > VISIBLE_COUNT;
+
   return (
     <div
       className={cn(
-        "p-2 flex flex-wrap items-center gap-2 md:gap-3",
-        isMobileMenuOpen ? "block" : "hidden md:flex"
+        "p-1 flex items-center gap-1 md:gap-2 transition-all",
+        isExpanded ? "flex-wrap max-w-xs md:max-w-sm" : "flex-nowrap",
+        isMobileMenuOpen ? "flex" : "hidden md:flex"
       )}
     >
-      {Object.entries(menuItemsConfig).map(([id, config]) => {
+      {visibleItems.map(([id, config]) => {
         const itemConfig = getMenuItemConfig(id as MenuItemId);
         if (!itemConfig.enabled) return null;
 
@@ -56,36 +65,53 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
 
         return (
           <Tooltip key={id}>
-          <TooltipTrigger asChild>
-            {isColorInput ? (
-              React.cloneElement(
-                icon as React.ReactElement<CustomIconProps>,
-                {
-                  value:
-                    id === "textColor"
-                      ? editor.getAttributes("textStyle")?.color || "#000000"
-                      : editor.getAttributes("highlight")?.color || "#00000000",
-                  editor,
-                  setIsSaved,
-                }
-              )
-            ) : (
-              <Button
-                variant={config.isActive?.(editor) ? "secondary" : "ghost"}
-                size="sm"
-                onClick={action}
-                disabled={config.isDisabled?.(editor) || false}
-                className="w-9 h-9 md:w-10 md:h-10"
-                aria-label={label}
-              >
-                <>{icon}</>
-              </Button>
-            )}
-          </TooltipTrigger>
-          <TooltipContent>{label}</TooltipContent>
-        </Tooltip>
+            <TooltipTrigger asChild>
+              {isColorInput ? (
+                React.cloneElement(
+                  icon as React.ReactElement<CustomIconProps>,
+                  {
+                    value:
+                      id === "textColor"
+                        ? editor.getAttributes("textStyle")?.color || "#000000"
+                        : editor.getAttributes("highlight")?.color || "#00000000",
+                    editor,
+                    setIsSaved,
+                  }
+                )
+              ) : (
+                <Button
+                  variant={config.isActive?.(editor) ? "secondary" : "ghost"}
+                  size="sm"
+                  onClick={action}
+                  disabled={config.isDisabled?.(editor) || false}
+                  className="w-8 h-8 md:w-9 md:h-9 p-0"
+                  aria-label={label}
+                >
+                  <>{icon}</>
+                </Button>
+              )}
+            </TooltipTrigger>
+            <TooltipContent>{label}</TooltipContent>
+          </Tooltip>
         );
       })}
+
+      {hasMore && (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="w-8 h-8 md:w-9 md:h-9 p-0 bg-secondary/50 hover:bg-secondary"
+              aria-label="عرض المزيد"
+            >
+              {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>{isExpanded ? "طي" : "عرض المزيد"}</TooltipContent>
+        </Tooltip>
+      )}
     </div>
   );
 };

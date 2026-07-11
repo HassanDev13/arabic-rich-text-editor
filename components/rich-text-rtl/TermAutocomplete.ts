@@ -148,9 +148,9 @@ const TermAutocomplete = Extension.create({
     const terms = this.options.terms || [];
 
     // Base Suggestion Plugin
-    const plugins: Plugin[] = [
+    const plugins: any[] = [
       Suggestion({
-        pluginKey: new PluginKey("termAutocomplete"),
+        pluginKey: new PluginKey("termAutocomplete") as any,
         editor: this.editor,
         char: "", // No trigger character, we use findSuggestionMatch for custom matching
 
@@ -308,7 +308,7 @@ const TermAutocomplete = Extension.create({
     if (terms.length > 0) {
       plugins.push(
         new Plugin({
-          key: new PluginKey("termPasteEnricher"),
+          key: new PluginKey("termPasteEnricher") as any,
           props: {
             transformPasted: (slice) => {
               const schema = this.editor.schema;
@@ -322,7 +322,7 @@ const TermAutocomplete = Extension.create({
                     if (hasTermMark) {
                       newNodes.push(node);
                     } else {
-                      newNodes.push(...enrichText(node.text || "", terms, schema, node.marks));
+                      newNodes.push(...enrichText(node.text || "", terms, schema as any, node.marks));
                     }
                   } else {
                     newNodes.push(node.copy(enrichFragment(node.content)));
@@ -341,7 +341,7 @@ const TermAutocomplete = Extension.create({
       );
     }
 
-    return plugins;
+    return plugins.map(p => p as any);
   },
 });
 

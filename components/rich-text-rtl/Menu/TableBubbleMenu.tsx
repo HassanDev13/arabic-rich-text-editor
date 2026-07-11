@@ -65,7 +65,29 @@ export const TableBubbleMenu = () => {
   return (
     <BubbleMenu 
       editor={editor} 
-      tippyOptions={{ duration: 100, placement: "bottom" }}
+      tippyOptions={{ 
+        duration: 100, 
+        placement: "bottom",
+        appendTo: () => document.body,
+        maxWidth: 'calc(100vw - 16px)',
+        popperOptions: {
+          modifiers: [
+            {
+              name: 'preventOverflow',
+              options: { 
+                boundary: 'viewport', 
+                padding: 8,
+                tether: false,
+                altAxis: true
+              }
+            },
+            {
+              name: 'flip',
+              options: { boundary: 'viewport', padding: 8 }
+            }
+          ]
+        }
+      }}
       shouldShow={({ editor }) => editor.isActive('table')}
       className="flex bg-background border shadow-md rounded-md p-1 items-center z-50 gap-1"
     >

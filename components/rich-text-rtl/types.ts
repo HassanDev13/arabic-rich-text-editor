@@ -94,6 +94,7 @@ export interface CommandItem {
   command: (props: CommandProps) => void;
   description?: string;
   icon?: React.ReactNode;
+  searchTerms?: string[];
 }
 
 export interface SlashCommandsOptions {
@@ -108,6 +109,7 @@ export interface CommandItemType {
   command: (props: { editor: any; range: Range }) => void;
   description?: string;
   icon?: React.ReactNode;
+  searchTerms?: string[];
 }
 
 export interface SlashCommandListProps {

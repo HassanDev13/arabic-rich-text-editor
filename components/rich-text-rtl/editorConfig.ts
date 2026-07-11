@@ -12,7 +12,8 @@ import TextStyle from "@tiptap/extension-text-style";
 import Highlight from "@tiptap/extension-highlight";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
-import Heading from "@tiptap/extension-heading";
+import { CustomHeading } from "./CustomHeading";
+import { HiddenAttribute } from "./HiddenAttribute";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import CodeBlock from "@tiptap/extension-code-block";
@@ -21,6 +22,7 @@ import { Extension } from "@tiptap/core";
 import SlashCommands from "./SlashCommands";
 import TermAutocomplete from "./TermAutocomplete";
 import { TermMark } from "./TermMark";
+import { AutoDirection } from "./AutoDirection";
 
 
 
@@ -112,6 +114,7 @@ const LineHeight = Extension.create({
 
 export const editorExtensions = [
   StarterKit.configure({
+    heading: false,
     bulletList: { keepMarks: true, keepAttributes: false },
     orderedList: { keepMarks: true, keepAttributes: false },
   }),
@@ -119,7 +122,6 @@ export const editorExtensions = [
   TextAlign.configure({
     types: ["heading", "paragraph", "taskItem", "tableCell", "tableHeader"],
     alignments: ["left", "center", "right", "justify"],
-    defaultAlignment: "right",
   }),
   CustomImage.configure({ allowBase64: true }),
   TablePlaceholder,
@@ -147,7 +149,9 @@ export const editorExtensions = [
       }
     },
   }),
-  Heading.configure({ levels: [1, 2, 3, 4, 5, 6] as const }),
+  CustomHeading.configure({ levels: [1, 2, 3, 4, 5, 6] as const }),
+  HiddenAttribute,
+
   TaskList,
   TaskItem.configure({ nested: true }),
   CodeBlock.configure({ HTMLAttributes: { class: "code-block", dir: "ltr" } }),
@@ -158,4 +162,5 @@ export const editorExtensions = [
   LineHeight.configure({
     types: ["paragraph", "heading", "taskItem", "tableCell", "tableHeader"],
   }),
+  AutoDirection,
 ];

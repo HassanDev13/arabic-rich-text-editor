@@ -11,69 +11,87 @@ import { OutdatedTermsBanner } from "./Menu/OutdatedTermsBanner";
 
 
 const defaultContent = `
-<h1 style="text-align: center;">اختبار محرر النصوص الغنية</h1>
-<p>مرحبًا! هذا نص اختباري لتجربة <span data-term="" data-arabic="معطيات" data-english="data" data-description="مستودع قديم للبيانات الرقمية.">معطيات (data)</span> وتحديث المصطلحات القديمة تلقائياً.</p>
+<h1 style="text-align: center;">مرحباً بك في محرر النصوص الاحترافي 🚀</h1>
+<p style="text-align: center;">هذا المحرر صُمم خصيصاً ليوفر لك تجربة كتابة غنية وداعمة للغة العربية (RTL) بشكل مثالي، مع الحفاظ على التوافق التام مع اللغة الإنجليزية.</p>
+<hr>
 
-<h2>قوائم</h2>
+<h2>1. تنسيق النصوص الأساسية ✍️</h2>
+<p>يمكنك تمييز نصوصك بأشكال متعددة: يمكنك كتابة <strong>نص عريض (Bold)</strong>، أو <em>نص مائل (Italic)</em>، أو <del>نص مشطوب (Strike)</del>، أو حتى <u>نص تحته خط (Underline)</u>. بالإضافة إلى إمكانية <mark data-color="#ffeb3b" style="background-color: #ffeb3b; color: inherit">تمييز النصوص (Highlight)</mark> وتغيير <span style="color: #e11d48">لون الخط</span> بأي لون تختاره!</p>
+
+<h2>2. العناوين الذكية والقابلة للطي 📂</h2>
+<p>كل عنوان تكتبه يحتوي على ميزة "الطي" (Collapsible). جرب النقر على السهم الصغير بجانب أي عنوان رئيسي أو فرعي لإخفاء المحتوى الذي يليه وترتيب مستندك الطويل بكل سهولة.</p>
+<h3>هذا عنوان فرعي (جرب طيّه)</h3>
+<p>هذا النص سيختفي عندما تقوم بطي العنوان الفرعي أعلاه!</p>
+
+<h2>3. القوائم المتعددة 📝</h2>
+<p>ندعم جميع أنواع القوائم لتنظيم أفكارك:</p>
 <ul>
-  <li>عنصر أول في قائمة نقطية</li>
-  <li>عنصر ثانٍ مع <a href="https://example.com" target="_blank" rel="noopener noreferrer">رابط</a> يمكن النقر عليه</li>
+  <li>عنصر في قائمة نقطية (Bullet List)</li>
+  <li>عنصر آخر مع <a href="https://example.com" target="_blank">رابط تشعبي</a></li>
 </ul>
 <ol>
-  <li>عنصر مرقم أول</li>
-  <li>عنصر مرقم ثانٍ</li>
+  <li>الخطوة الأولى في قائمة مرقمة (Ordered List)</li>
+  <li>الخطوة الثانية</li>
 </ol>
+<h3>قائمة المهام (Task List)</h3>
+<ul data-type="taskList">
+  <li data-type="taskItem" data-checked="true">تصميم واجهة المحرر</li>
+  <li data-type="taskItem" data-checked="true">دعم اتجاه النصوص RTL / LTR</li>
+  <li data-type="taskItem" data-checked="false">إضافة المزيد من الميزات المستقبلية</li>
+</ul>
 
-<h3>قائمة مهام</h3>
-  <ul data-type="taskList">
-        <li data-type="taskItem" data-checked="true"> مهمة 1</li>
-        <li data-type="taskItem" data-checked="true"> مهمة 2</li>
-        <li data-type="taskItem" data-checked="true"> مهمة 3</li>
-  </ul>
-
-<h2>كود برمجي</h2>
-<p>مثال على كود مضمن: <code>console.log("مرحبًا");</code></p>
+<h2>4. إدراج الأكواد البرمجية 💻</h2>
+<p>مثال على كود مضمن: <code>npm run dev</code>. كما يمكنك إضافة كتل برمجية كاملة:</p>
 <pre><code class="language-javascript">
-function greet(name) {
-  return "مرحبًا " + name;
+function sayHello(name) {
+  console.log("مرحباً " + name + " في محررنا!");
 }
-console.log(greet("العالم"));
+sayHello("يا صديقي");
 </code></pre>
 
-<h2>جدول</h2>
+<h2>5. الجداول المرنة 📊</h2>
+<p>يمكنك إنشاء جداول وتخصيصها بالكامل (إضافة وحذف صفوف وأعمدة عبر القائمة العائمة للجدول):</p>
 <table>
   <thead>
     <tr>
-      <th>العنوان 1</th>
-      <th>العنوان 2</th>
+      <th>الميزة</th>
+      <th>الوصف</th>
+      <th>الدعم</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>خلية 1</td>
-      <td>خلية 2</td>
+      <td>العناوين الذكية</td>
+      <td>طي وفتح المحتوى أسفل العناوين</td>
+      <td>✅ مدعوم</td>
     </tr>
     <tr>
-      <td>خلية 3</td>
-      <td>خلية 4</td>
+      <td>الجداول</td>
+      <td>جداول مرنة وقابلة للتعديل</td>
+      <td>✅ مدعوم</td>
     </tr>
   </tbody>
 </table>
 
-<h2>اقتباس</h2>
+<h2>6. الاقتباسات ❝</h2>
+<p>أبرز النصوص الهامة والمقولات باستخدام الاقتباسات:</p>
 <blockquote>
-  "العلم في الصغر كالنقش في الحجر"<br>— مثل عربي
+  "النجاح ليس النهاية، والفشل ليس قاتلاً: إنما الشجاعة لمواصلة الطريق هي ما يهم."<br>— ونستون تشرشل
 </blockquote>
 
-<h2>صورة</h2>
-<p>إليك صورة اختبارية:</p>
-<img src="https://via.placeholder.com/150" alt="صورة اختبارية" loading="lazy">
+<h2>7. الصور والوسائط 🖼️</h2>
+<p>أدرج الصور من جهازك أو عبر الروابط المباشرة لتعزيز محتواك البصري:</p>
+<img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=800&auto=format&fit=crop" alt="صورة توضيحية لبيئة عمل" loading="lazy">
 
-<p style="text-align: justify; direction: rtl;">نص موزع لاختبار المحاذاة: Lorem ipsum dolor sit amet, consectetur adipiscing elit. هذا نص مختلط للتأكد من دعم اللغتين.</p>
+<h2>8. قاموس المصطلحات التلقائي 📚</h2>
+<p>يتميز المحرر بقدرته على التعرف على المصطلحات وربطها بقاموسك، مثل مصطلح <span data-term="" data-arabic="خوارزمية" data-english="Algorithm" data-description="مجموعة من الخطوات الرياضية والمنطقية المتسلسلة لحل مشكلة ما.">خوارزمية (Algorithm)</span> الذي سيظهر بلون مختلف ويمكنك تمرير الماوس فوقه لرؤية تفاصيله.</p>
 
+<h2>9. المحاذاة والاتجاه التلقائي 🌍</h2>
+<p style="text-align: right; direction: rtl;">نص بمحاذاة لليمين واتجاه عربي أصيل.</p>
+<p style="text-align: center;">نص متمركز في المنتصف.</p>
+<p style="text-align: left; direction: ltr;">This is an English paragraph automatically aligned and directed Left-to-Right. The editor handles everything flawlessly!</p>
 <hr>
-
-<p>نهاية الاختبار. جرب التراجع (<strong>Undo</strong>) وإعادة (<strong>Redo</strong>) أيضًا!</p>
+<p>جرب كتابة نص جديد، أو استخدم علامة <code>/</code> لفتح قائمة الأوامر السريعة!</p>
 `;
 
 // Default menu items if none are provided
