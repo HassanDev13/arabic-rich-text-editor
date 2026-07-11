@@ -5,6 +5,7 @@ import { useCurrentEditor } from "@tiptap/react";
 import { EditorControls } from "./EditorControls";
 import { MenuItemConfig } from "../types";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { GripVertical } from "lucide-react";
 
 interface MobileTopToolbarProps {
   menuItems: MenuItemConfig[];
@@ -13,28 +14,33 @@ interface MobileTopToolbarProps {
 export const MobileTopToolbar: React.FC<MobileTopToolbarProps> = ({ menuItems }) => {
   const { editor } = useCurrentEditor();
   const [hasSelection, setHasSelection] = React.useState(false);
-  const [keyboardOffset, setKeyboardOffset] = React.useState(24);
 
-  React.useEffect(() => {
-    if (typeof window === 'undefined' || !window.visualViewport) return;
+  // Dragging state
+  const [position, setPosition] = React.useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = React.useState(false);
+  const dragStartRef = React.useRef({ x: 0, y: 0 });
 
-    const viewport = window.visualViewport;
-    
-    const updateKeyboard = () => {
-      // If the visual viewport shrinks, it means the keyboard is open.
-      const offset = window.innerHeight - viewport.height;
-      setKeyboardOffset(offset > 0 ? offset + 10 : 24);
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    setIsDragging(true);
+    dragStartRef.current = {
+      x: e.clientX - position.x,
+      y: e.clientY - position.y,
     };
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+  };
 
-    viewport.addEventListener('resize', updateKeyboard);
-    viewport.addEventListener('scroll', updateKeyboard);
-    updateKeyboard();
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDragging) return;
+    setPosition({
+      x: e.clientX - dragStartRef.current.x,
+      y: e.clientY - dragStartRef.current.y,
+    });
+  };
 
-    return () => {
-      viewport.removeEventListener('resize', updateKeyboard);
-      viewport.removeEventListener('scroll', updateKeyboard);
-    };
-  }, []);
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    setIsDragging(false);
+    (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+  };
 
   React.useEffect(() => {
     if (!editor) return;
@@ -42,7 +48,15 @@ export const MobileTopToolbar: React.FC<MobileTopToolbarProps> = ({ menuItems })
     const checkSelection = () => {
       const { empty } = editor.state.selection;
       const isTable = editor.isActive('table');
-      setHasSelection(!empty && !isTable);
+      const newHasSelection = !empty && !isTable;
+      
+      setHasSelection((prev) => {
+        // Reset position to default top-center when it reappears
+        if (!prev && newHasSelection) {
+          setPosition({ x: 0, y: 0 });
+        }
+        return newHasSelection;
+      });
     };
 
     checkSelection();
@@ -61,7 +75,19 @@ export const MobileTopToolbar: React.FC<MobileTopToolbarProps> = ({ menuItems })
   }
 
   return (
-    <div className="fixed top-2 left-1/2 -translate-x-1/2 z-50 w-max max-w-[95vw] bg-gray-100/95 dark:bg-gray-950/95 backdrop-blur-xl border border-gray-300 dark:border-gray-700 shadow-xl shadow-black/20 rounded-3xl p-1 flex md:hidden items-center justify-center overflow-x-auto animate-in slide-in-from-top-4 fade-in duration-300 ease-out scale-90 sm:scale-100 origin-top">
+    <div 
+      style={{ transform: `translate(calc(-50% + ${position.x}px), ${position.y}px)` }}
+      className="fixed top-2 left-1/2 z-50 w-max max-w-[95vw] bg-gray-100/95 dark:bg-gray-950/95 backdrop-blur-xl border border-gray-300 dark:border-gray-700 shadow-xl shadow-black/20 rounded-3xl p-1 flex md:hidden items-center justify-center overflow-x-auto animate-in fade-in duration-300 ease-out scale-90 sm:scale-100 origin-top touch-none"
+    >
+      <div 
+        className="px-1 py-2 cursor-grab active:cursor-grabbing text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex-shrink-0"
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+      >
+        <GripVertical className="w-5 h-5" />
+      </div>
       <TooltipProvider>
         <EditorControls
           editor={editor}
