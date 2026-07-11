@@ -13,6 +13,28 @@ interface MobileTopToolbarProps {
 export const MobileTopToolbar: React.FC<MobileTopToolbarProps> = ({ menuItems }) => {
   const { editor } = useCurrentEditor();
   const [hasSelection, setHasSelection] = React.useState(false);
+  const [keyboardOffset, setKeyboardOffset] = React.useState(24);
+
+  React.useEffect(() => {
+    if (typeof window === 'undefined' || !window.visualViewport) return;
+
+    const viewport = window.visualViewport;
+    
+    const updateKeyboard = () => {
+      // If the visual viewport shrinks, it means the keyboard is open.
+      const offset = window.innerHeight - viewport.height;
+      setKeyboardOffset(offset > 0 ? offset + 10 : 24);
+    };
+
+    viewport.addEventListener('resize', updateKeyboard);
+    viewport.addEventListener('scroll', updateKeyboard);
+    updateKeyboard();
+
+    return () => {
+      viewport.removeEventListener('resize', updateKeyboard);
+      viewport.removeEventListener('scroll', updateKeyboard);
+    };
+  }, []);
 
   React.useEffect(() => {
     if (!editor) return;
@@ -23,10 +45,8 @@ export const MobileTopToolbar: React.FC<MobileTopToolbarProps> = ({ menuItems })
       setHasSelection(!empty && !isTable);
     };
 
-    // Check initial state
     checkSelection();
 
-    // Listen to selection changes
     editor.on('selectionUpdate', checkSelection);
     editor.on('transaction', checkSelection);
 
@@ -41,7 +61,10 @@ export const MobileTopToolbar: React.FC<MobileTopToolbarProps> = ({ menuItems })
   }
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-max max-w-[95vw] bg-gray-50/95 dark:bg-gray-800/95 backdrop-blur-md border border-gray-300 dark:border-gray-600 shadow-2xl shadow-black/20 rounded-2xl p-0.5 flex md:hidden items-center justify-center overflow-x-auto animate-in slide-in-from-bottom-8 fade-in zoom-in-95 duration-300 ease-out">
+    <div 
+      style={{ bottom: \`\${keyboardOffset}px\` }}
+      className="fixed left-1/2 -translate-x-1/2 z-50 w-max max-w-[95vw] bg-gray-50/95 dark:bg-gray-800/95 backdrop-blur-md border border-gray-300 dark:border-gray-600 shadow-2xl shadow-black/20 rounded-2xl p-0.5 flex md:hidden items-center justify-center overflow-x-auto animate-in slide-in-from-bottom-8 fade-in zoom-in-95 duration-300 ease-out"
+    >
       <TooltipProvider>
         <EditorControls
           editor={editor}
