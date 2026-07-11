@@ -2775,6 +2775,7 @@ var EditorControls = ({
                 variant: "ghost",
                 size: "sm",
                 onClick: action,
+                onMouseDown: (e) => e.preventDefault(),
                 disabled: ((_c = config.isDisabled) == null ? void 0 : _c.call(config, editor)) || false,
                 className: cn(
                   "w-8 h-8 md:w-9 md:h-9 p-0 transition-colors",
@@ -2794,6 +2795,7 @@ var EditorControls = ({
               variant: "ghost",
               size: "sm",
               onClick: () => setIsExpanded(!isExpanded),
+              onMouseDown: (e) => e.preventDefault(),
               className: "w-8 h-8 md:w-9 md:h-9 p-0 bg-secondary/50 hover:bg-secondary text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white",
               "aria-label": "\u0639\u0631\u0636 \u0627\u0644\u0645\u0632\u064A\u062F",
               children: isExpanded ? /* @__PURE__ */ jsx12(ChevronUp, { className: "w-4 h-4" }) : /* @__PURE__ */ jsx12(ChevronDown, { className: "w-4 h-4" })
@@ -2911,6 +2913,7 @@ var TableBubbleMenu = () => {
               size: "sm",
               className: "h-8 w-8 p-0",
               onClick: control.action,
+              onMouseDown: (e) => e.preventDefault(),
               children: control.icon
             }
           ) }),
@@ -2989,7 +2992,7 @@ var AccessibleToolbars = ({ menuItems }) => {
           appendTo: () => document.body
         },
         className: "flex gap-1 z-50",
-        children: /* @__PURE__ */ jsx14(Button, { variant: "ghost", size: "icon", onClick: () => editor.commands.insertContent("/"), className: "rounded-full w-6 h-6 bg-background border shadow-sm text-muted-foreground hover:text-foreground", children: /* @__PURE__ */ jsx14(Plus2, { className: "w-3 h-3" }) })
+        children: /* @__PURE__ */ jsx14(Button, { variant: "ghost", size: "icon", onClick: () => editor.commands.insertContent("/"), onMouseDown: (e) => e.preventDefault(), className: "rounded-full w-6 h-6 bg-background border shadow-sm text-muted-foreground hover:text-foreground", children: /* @__PURE__ */ jsx14(Plus2, { className: "w-3 h-3" }) })
       }
     )
   ] });
