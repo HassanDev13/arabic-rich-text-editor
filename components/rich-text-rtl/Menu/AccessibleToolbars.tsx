@@ -75,7 +75,7 @@ export const AccessibleToolbars: React.FC<AccessibleToolbarsProps> = ({ menuItem
         }} 
         className="flex gap-1 z-50"
       >
-        <Button variant="ghost" size="icon" onClick={() => editor.commands.insertContent('/')} onMouseDown={(e) => e.preventDefault()} className="rounded-full w-6 h-6 bg-background border shadow-sm text-muted-foreground hover:text-foreground">
+        <Button variant="ghost" size="icon" onClick={() => editor.commands.insertContent('/')} onMouseDown={(e) => e.preventDefault()} onPointerDown={(e) => e.preventDefault()} className="rounded-full w-6 h-6 bg-background border shadow-sm text-muted-foreground hover:text-foreground">
           <Plus className="w-3 h-3" />
         </Button>
       </FloatingMenu>
