@@ -55,7 +55,7 @@ export const AccessibleToolbars: React.FC<AccessibleToolbarsProps> = ({ menuItem
           const isEmptyTextBlock = !doc.textBetween(from, to).length;
           return !empty && !isEmptyTextBlock;
         }}
-        className="flex bg-background border shadow-md rounded-md p-1 items-center z-50"
+        className="hidden md:flex bg-background border shadow-md rounded-md p-1 items-center z-50"
       >
         <EditorControls
           editor={editor}

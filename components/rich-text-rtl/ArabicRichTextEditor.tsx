@@ -2,12 +2,13 @@
 
 import { injectEditorStyles } from "./editorStyles";
 import { editorExtensions } from "./editorConfig";
-import { ArabicRichTextEditorProps, MenuItemConfig } from "./types";
+import { ArabicRichTextEditorProps, MenuItemConfig, AutocompleteTerm } from "./types";
 import { useEffect } from "react";
 import { EditorProvider } from "@tiptap/react";
 import TermAutocomplete from "./TermAutocomplete";
 import { OutdatedTermsBanner } from "./Menu/OutdatedTermsBanner";
-
+import { AccessibleToolbars } from "./Menu/AccessibleToolbars";
+import { MobileTopToolbar } from "./Menu/MobileTopToolbar";
 
 
 const defaultContent = `
@@ -125,8 +126,6 @@ const defaultMenuItems: MenuItemConfig[] = [
   { id: "clearNodes", enabled: true },
 ];
 
-import { AccessibleToolbars } from "./Menu/AccessibleToolbars";
-
 const defaultEditorProps: any = {
   attributes: {
     class: "tiptap prose focus:outline-none min-h-[400px]",
@@ -170,7 +169,7 @@ const ArabicRichTextEditor: React.FC<ArabicRichTextEditorProps> = ({
   return (
     <div className={className}>
       <EditorProvider
-        slotBefore={null}
+        slotBefore={<MobileTopToolbar menuItems={menuItems} />}
         extensions={finalExtensions}
         content={content}
         editorProps={editorProps}
