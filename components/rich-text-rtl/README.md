@@ -43,11 +43,16 @@ yarn add arabic-rich-text-editor
 pnpm add arabic-rich-text-editor
 ```
 
-#### 2. إعدادات Tailwind CSS (خطوة إجبارية)
+#### 2. متطلبات Tailwind CSS (مهم جداً ليعمل المحرر بشكل صحيح!)
 
-بما أن المحرر يستخدم كلاسات Tailwind للتنسيق، **يجب** عليك إخبار مترجم Tailwind في مشروعك بضرورة قراءة ملفات الحزمة.
+بما أن المحرر مبني باستخدام **Tailwind CSS** و **Shadcn UI**، فإنه يحتاج إلى 3 خطوات بسيطة ليعمل التصميم في مشروعك "كما هو":
 
-افتح ملف `tailwind.config.ts` (أو `tailwind.config.js`) الخاص بمشروعك، وأضف مسار الحزمة داخل مصفوفة `content`:
+**أولاً:** قم بتثبيت إضافة `typography` الخاصة بـ Tailwind (المسؤولة عن تنسيق النصوص بداخل المحرر):
+```bash
+npm install -D @tailwindcss/typography
+```
+
+**ثانياً:** افتح ملف `tailwind.config.ts` (أو `js`)، وقم بإضافة مسار الحزمة وإضافة الـ Plugin:
 
 ```ts
 import type { Config } from "tailwindcss";
@@ -56,16 +61,48 @@ const config: Config = {
   content: [
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    
-    // أضف هذا السطر لقراءة تنسيقات المحرر!
+    // 1. أضف هذا السطر لقراءة تنسيقات المحرر:
     "./node_modules/arabic-rich-text-editor/dist/**/*.{js,mjs}" 
   ],
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    // 2. أضف هذه الإضافة:
+    require('@tailwindcss/typography'),
+  ],
 };
 export default config;
+```
+
+**ثالثاً:** تأكد من وجود متغيرات ألوان **Shadcn UI** الأساسية في ملف الـ CSS العام لمشروعك (مثلاً `globals.css` أو `index.css`). إذا لم تكن تستخدم Shadcn، انسخ هذه المتغيرات وضعها في ملفك:
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+  }
+}
 ```
 
 #### 3. الاستخدام الأساسي
@@ -185,11 +222,16 @@ yarn add arabic-rich-text-editor
 pnpm add arabic-rich-text-editor
 ```
 
-#### 2. Tailwind CSS Configuration (Required)
+#### 2. Tailwind CSS & UI Requirements (CRITICAL for Styling!)
 
-Since the editor uses Tailwind CSS classes for styling, you **must** tell your project's Tailwind compiler to scan the package files.
+Since the editor is built using **Tailwind CSS** and **Shadcn UI**, it requires 3 simple steps to look exactly like the demo in your project:
 
-Open your `tailwind.config.ts` (or `tailwind.config.js`) and add the package path to the `content` array:
+**First:** Install the Tailwind Typography plugin (responsible for formatting text inside the editor):
+```bash
+npm install -D @tailwindcss/typography
+```
+
+**Second:** Open your `tailwind.config.ts` (or `js`), add the package path, and require the plugin:
 
 ```ts
 import type { Config } from "tailwindcss";
@@ -198,16 +240,48 @@ const config: Config = {
   content: [
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    
-    // Add this line to load the editor's styles!
+    // 1. Add this line to load the editor's styles!
     "./node_modules/arabic-rich-text-editor/dist/**/*.{js,mjs}" 
   ],
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    // 2. Add the typography plugin:
+    require('@tailwindcss/typography'),
+  ],
 };
 export default config;
+```
+
+**Third:** Ensure you have the core **Shadcn UI CSS variables** in your global CSS file (e.g., `globals.css` or `index.css`). If your project doesn't use Shadcn, simply copy/paste these variables:
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+  }
+}
 ```
 
 ### 3. Basic Usage
