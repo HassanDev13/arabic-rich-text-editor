@@ -2,7 +2,8 @@
 
 import { injectEditorStyles } from "./editorStyles";
 import { editorExtensions } from "./editorConfig";
-import { ArabicRichTextEditorProps, MenuItemConfig, AutocompleteTerm } from "./types";
+import { ArabicRichTextEditorProps, MenuItemConfig } from "./types";
+import { TermItem } from "./termDictionary";
 import { useEffect } from "react";
 import { EditorProvider } from "@tiptap/react";
 import TermAutocomplete from "./TermAutocomplete";
