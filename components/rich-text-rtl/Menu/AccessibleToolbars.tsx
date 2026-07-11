@@ -48,6 +48,7 @@ export const AccessibleToolbars: React.FC<AccessibleToolbarsProps> = ({ menuItem
           }
         }} 
         shouldShow={({ editor, view, state, from, to }) => {
+          if (typeof window !== 'undefined' && window.innerWidth < 768) return false;
           if (editor.isActive('table')) return false;
           // Default Tiptap BubbleMenu logic (requires selection and not empty)
           const { doc, selection } = state;
@@ -55,7 +56,7 @@ export const AccessibleToolbars: React.FC<AccessibleToolbarsProps> = ({ menuItem
           const isEmptyTextBlock = !doc.textBetween(from, to).length;
           return !empty && !isEmptyTextBlock;
         }}
-        className="hidden md:flex bg-background border shadow-md rounded-md p-1 items-center z-50"
+        className="flex bg-background border shadow-md rounded-md p-1 items-center z-50"
       >
         <EditorControls
           editor={editor}
