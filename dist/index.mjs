@@ -490,12 +490,12 @@ import Image from "@tiptap/extension-image";
 import { ReactNodeViewRenderer } from "@tiptap/react";
 
 // components/rich-text-rtl/ImageBlock.tsx
-import React3, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { NodeViewWrapper } from "@tiptap/react";
 import { Image as ImageIcon, Upload, Link as LinkIcon, Trash2 } from "lucide-react";
 
 // components/ui/button.tsx
-import * as React2 from "react";
+import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva } from "class-variance-authority";
 
@@ -507,6 +507,7 @@ function cn(...inputs) {
 }
 
 // components/ui/button.tsx
+import { jsx } from "react/jsx-runtime";
 var buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
@@ -532,11 +533,11 @@ var buttonVariants = cva(
     }
   }
 );
-var Button = React2.forwardRef(
+var Button = React.forwardRef(
   (_a, ref) => {
     var _b = _a, { className, variant, size, asChild = false } = _b, props = __objRest(_b, ["className", "variant", "size", "asChild"]);
     const Comp = asChild ? Slot : "button";
-    return /* @__PURE__ */ React2.createElement(
+    return /* @__PURE__ */ jsx(
       Comp,
       __spreadValues({
         className: cn(buttonVariants({ variant, size, className })),
@@ -548,6 +549,7 @@ var Button = React2.forwardRef(
 Button.displayName = "Button";
 
 // components/rich-text-rtl/ImageBlock.tsx
+import { jsx as jsx2, jsxs } from "react/jsx-runtime";
 var ImageBlock = ({ node, updateAttributes, selected, deleteNode, editor, getPos }) => {
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef(null);
@@ -581,39 +583,57 @@ var ImageBlock = ({ node, updateAttributes, selected, deleteNode, editor, getPos
     }
   };
   if (node.attrs.src) {
-    return /* @__PURE__ */ React3.createElement(NodeViewWrapper, { as: "figure", className: "relative group my-8" }, /* @__PURE__ */ React3.createElement("div", { className: `relative rounded-md overflow-hidden ${selected ? "ring-2 ring-primary ring-offset-2" : ""}` }, /* @__PURE__ */ React3.createElement("img", { src: node.attrs.src, alt: node.attrs.alt || "\u0635\u0648\u0631\u0629", className: "w-full h-auto rounded-md object-contain max-h-[500px] mx-auto bg-muted" }), /* @__PURE__ */ React3.createElement("div", { className: "absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity" }, /* @__PURE__ */ React3.createElement(Button, { variant: "destructive", size: "icon", className: "h-8 w-8 shadow-md", onClick: () => deleteNode() }, /* @__PURE__ */ React3.createElement(Trash2, { className: "h-4 w-4" })))));
+    return /* @__PURE__ */ jsx2(NodeViewWrapper, { as: "figure", className: "relative group my-8", children: /* @__PURE__ */ jsxs("div", { className: `relative rounded-md overflow-hidden ${selected ? "ring-2 ring-primary ring-offset-2" : ""}`, children: [
+      /* @__PURE__ */ jsx2("img", { src: node.attrs.src, alt: node.attrs.alt || "\u0635\u0648\u0631\u0629", className: "w-full h-auto rounded-md object-contain max-h-[500px] mx-auto bg-muted" }),
+      /* @__PURE__ */ jsx2("div", { className: "absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity", children: /* @__PURE__ */ jsx2(Button, { variant: "destructive", size: "icon", className: "h-8 w-8 shadow-md", onClick: () => deleteNode(), children: /* @__PURE__ */ jsx2(Trash2, { className: "h-4 w-4" }) }) })
+    ] }) });
   }
-  return /* @__PURE__ */ React3.createElement(NodeViewWrapper, { as: "div", className: "my-6" }, /* @__PURE__ */ React3.createElement("div", { className: `border-2 border-dashed rounded-lg p-8 bg-muted/50 text-center transition-colors ${selected ? "border-primary bg-primary/5" : "border-muted-foreground/20"}` }, /* @__PURE__ */ React3.createElement("div", { className: "flex flex-col items-center justify-center gap-4" }, /* @__PURE__ */ React3.createElement("div", { className: "flex items-center gap-2 text-muted-foreground font-medium" }, /* @__PURE__ */ React3.createElement(ImageIcon, { className: "w-6 h-6" }), /* @__PURE__ */ React3.createElement("span", null, "\u0635\u0648\u0631\u0629")), /* @__PURE__ */ React3.createElement("p", { className: "text-sm text-muted-foreground" }, "\u0627\u062E\u062A\u0631 \u0635\u0648\u0631\u0629 \u0645\u0646 \u062C\u0647\u0627\u0632\u0643 \u0623\u0648 \u0623\u062F\u0631\u062C\u0647\u0627 \u0645\u0646 \u0631\u0627\u0628\u0637."), /* @__PURE__ */ React3.createElement("div", { className: "flex flex-wrap items-center justify-center gap-3 mt-2" }, /* @__PURE__ */ React3.createElement(
-    Button,
-    {
-      variant: "default",
-      onClick: () => {
-        var _a;
-        return (_a = fileInputRef.current) == null ? void 0 : _a.click();
-      },
-      disabled: isUploading
-    },
-    /* @__PURE__ */ React3.createElement(Upload, { className: "w-4 h-4 ml-2" }),
-    isUploading ? "\u062C\u0627\u0631\u064A \u0627\u0644\u0631\u0641\u0639..." : "\u0631\u0641\u0639 \u0635\u0648\u0631\u0629"
-  ), /* @__PURE__ */ React3.createElement(
-    "input",
-    {
-      type: "file",
-      ref: fileInputRef,
-      onChange: handleUpload,
-      accept: "image/*",
-      className: "hidden"
-    }
-  ), /* @__PURE__ */ React3.createElement(
-    Button,
-    {
-      variant: "outline",
-      onClick: promptForUrl,
-      className: "bg-background"
-    },
-    /* @__PURE__ */ React3.createElement(LinkIcon, { className: "w-4 h-4 ml-2" }),
-    "\u0623\u062F\u0631\u062C \u0645\u0646 \u0631\u0627\u0628\u0637 (URL)"
-  )))));
+  return /* @__PURE__ */ jsx2(NodeViewWrapper, { as: "div", className: "my-6", children: /* @__PURE__ */ jsx2("div", { className: `border-2 border-dashed rounded-lg p-8 bg-muted/50 text-center transition-colors ${selected ? "border-primary bg-primary/5" : "border-muted-foreground/20"}`, children: /* @__PURE__ */ jsxs("div", { className: "flex flex-col items-center justify-center gap-4", children: [
+    /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 text-muted-foreground font-medium", children: [
+      /* @__PURE__ */ jsx2(ImageIcon, { className: "w-6 h-6" }),
+      /* @__PURE__ */ jsx2("span", { children: "\u0635\u0648\u0631\u0629" })
+    ] }),
+    /* @__PURE__ */ jsx2("p", { className: "text-sm text-muted-foreground", children: "\u0627\u062E\u062A\u0631 \u0635\u0648\u0631\u0629 \u0645\u0646 \u062C\u0647\u0627\u0632\u0643 \u0623\u0648 \u0623\u062F\u0631\u062C\u0647\u0627 \u0645\u0646 \u0631\u0627\u0628\u0637." }),
+    /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap items-center justify-center gap-3 mt-2", children: [
+      /* @__PURE__ */ jsxs(
+        Button,
+        {
+          variant: "default",
+          onClick: () => {
+            var _a;
+            return (_a = fileInputRef.current) == null ? void 0 : _a.click();
+          },
+          disabled: isUploading,
+          children: [
+            /* @__PURE__ */ jsx2(Upload, { className: "w-4 h-4 ml-2" }),
+            isUploading ? "\u062C\u0627\u0631\u064A \u0627\u0644\u0631\u0641\u0639..." : "\u0631\u0641\u0639 \u0635\u0648\u0631\u0629"
+          ]
+        }
+      ),
+      /* @__PURE__ */ jsx2(
+        "input",
+        {
+          type: "file",
+          ref: fileInputRef,
+          onChange: handleUpload,
+          accept: "image/*",
+          className: "hidden"
+        }
+      ),
+      /* @__PURE__ */ jsxs(
+        Button,
+        {
+          variant: "outline",
+          onClick: promptForUrl,
+          className: "bg-background",
+          children: [
+            /* @__PURE__ */ jsx2(LinkIcon, { className: "w-4 h-4 ml-2" }),
+            "\u0623\u062F\u0631\u062C \u0645\u0646 \u0631\u0627\u0628\u0637 (URL)"
+          ]
+        }
+      )
+    ] })
+  ] }) }) });
 };
 
 // components/rich-text-rtl/CustomImage.ts
@@ -638,9 +658,10 @@ import { Node, mergeAttributes } from "@tiptap/core";
 import { ReactNodeViewRenderer as ReactNodeViewRenderer2 } from "@tiptap/react";
 
 // components/rich-text-rtl/TablePlaceholderBlock.tsx
-import React4, { useState as useState2 } from "react";
+import { useState as useState2 } from "react";
 import { NodeViewWrapper as NodeViewWrapper2 } from "@tiptap/react";
 import { Table as TableIcon } from "lucide-react";
+import { jsx as jsx3, jsxs as jsxs2 } from "react/jsx-runtime";
 var TablePlaceholderBlock = ({ editor, getPos, deleteNode, selected }) => {
   const [rows, setRows] = useState2(2);
   const [cols, setCols] = useState2(2);
@@ -652,27 +673,46 @@ var TablePlaceholderBlock = ({ editor, getPos, deleteNode, selected }) => {
       editor.chain().focus().insertTable({ rows, cols, withHeaderRow: true }).run();
     }, 10);
   };
-  return /* @__PURE__ */ React4.createElement(NodeViewWrapper2, { as: "div", className: "my-6" }, /* @__PURE__ */ React4.createElement("div", { className: `border-2 border-dashed rounded-lg p-8 bg-gray-50/50 text-center transition-colors ${selected ? "border-primary bg-primary/5" : "border-gray-200"}` }, /* @__PURE__ */ React4.createElement("div", { className: "flex flex-col items-center justify-center gap-4" }, /* @__PURE__ */ React4.createElement("div", { className: "flex items-center gap-2 text-gray-500 font-medium" }, /* @__PURE__ */ React4.createElement(TableIcon, { className: "w-6 h-6" }), /* @__PURE__ */ React4.createElement("span", null, "\u062C\u062F\u0648\u0644")), /* @__PURE__ */ React4.createElement("p", { className: "text-sm text-gray-500" }, "\u0625\u062F\u0631\u0627\u062C \u062C\u062F\u0648\u0644 \u0644\u0645\u0634\u0627\u0631\u0643\u0629 \u0628\u064A\u0627\u0646\u0627\u062A."), /* @__PURE__ */ React4.createElement("form", { onSubmit: createTable, className: "flex flex-col items-center gap-4 mt-2" }, /* @__PURE__ */ React4.createElement("div", { className: "flex gap-4" }, /* @__PURE__ */ React4.createElement("div", { className: "flex flex-col items-start gap-1" }, /* @__PURE__ */ React4.createElement("label", { className: "text-sm text-gray-600", htmlFor: "cols-input" }, "\u0639\u062F\u062F \u0627\u0644\u0623\u0639\u0645\u062F\u0629"), /* @__PURE__ */ React4.createElement(
-    "input",
-    {
-      id: "cols-input",
-      type: "number",
-      min: "1",
-      value: cols,
-      onChange: (e) => setCols(parseInt(e.target.value) || 1),
-      className: "border border-gray-300 rounded-md px-3 py-2 w-32 text-center focus:outline-none focus:ring-2 focus:ring-primary"
-    }
-  )), /* @__PURE__ */ React4.createElement("div", { className: "flex flex-col items-start gap-1" }, /* @__PURE__ */ React4.createElement("label", { className: "text-sm text-gray-600", htmlFor: "rows-input" }, "\u0639\u062F\u062F \u0627\u0644\u0635\u0641\u0648\u0641"), /* @__PURE__ */ React4.createElement(
-    "input",
-    {
-      id: "rows-input",
-      type: "number",
-      min: "1",
-      value: rows,
-      onChange: (e) => setRows(parseInt(e.target.value) || 1),
-      className: "border border-gray-300 rounded-md px-3 py-2 w-32 text-center focus:outline-none focus:ring-2 focus:ring-primary"
-    }
-  ))), /* @__PURE__ */ React4.createElement(Button, { type: "submit", variant: "default", className: "w-full max-w-[270px]" }, "\u0625\u0646\u0634\u0627\u0621 \u062C\u062F\u0648\u0644")))));
+  return /* @__PURE__ */ jsx3(NodeViewWrapper2, { as: "div", className: "my-6", children: /* @__PURE__ */ jsx3("div", { className: `border-2 border-dashed rounded-lg p-8 bg-gray-50/50 text-center transition-colors ${selected ? "border-primary bg-primary/5" : "border-gray-200"}`, children: /* @__PURE__ */ jsxs2("div", { className: "flex flex-col items-center justify-center gap-4", children: [
+    /* @__PURE__ */ jsxs2("div", { className: "flex items-center gap-2 text-gray-500 font-medium", children: [
+      /* @__PURE__ */ jsx3(TableIcon, { className: "w-6 h-6" }),
+      /* @__PURE__ */ jsx3("span", { children: "\u062C\u062F\u0648\u0644" })
+    ] }),
+    /* @__PURE__ */ jsx3("p", { className: "text-sm text-gray-500", children: "\u0625\u062F\u0631\u0627\u062C \u062C\u062F\u0648\u0644 \u0644\u0645\u0634\u0627\u0631\u0643\u0629 \u0628\u064A\u0627\u0646\u0627\u062A." }),
+    /* @__PURE__ */ jsxs2("form", { onSubmit: createTable, className: "flex flex-col items-center gap-4 mt-2", children: [
+      /* @__PURE__ */ jsxs2("div", { className: "flex gap-4", children: [
+        /* @__PURE__ */ jsxs2("div", { className: "flex flex-col items-start gap-1", children: [
+          /* @__PURE__ */ jsx3("label", { className: "text-sm text-gray-600", htmlFor: "cols-input", children: "\u0639\u062F\u062F \u0627\u0644\u0623\u0639\u0645\u062F\u0629" }),
+          /* @__PURE__ */ jsx3(
+            "input",
+            {
+              id: "cols-input",
+              type: "number",
+              min: "1",
+              value: cols,
+              onChange: (e) => setCols(parseInt(e.target.value) || 1),
+              className: "border border-gray-300 rounded-md px-3 py-2 w-32 text-center focus:outline-none focus:ring-2 focus:ring-primary"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxs2("div", { className: "flex flex-col items-start gap-1", children: [
+          /* @__PURE__ */ jsx3("label", { className: "text-sm text-gray-600", htmlFor: "rows-input", children: "\u0639\u062F\u062F \u0627\u0644\u0635\u0641\u0648\u0641" }),
+          /* @__PURE__ */ jsx3(
+            "input",
+            {
+              id: "rows-input",
+              type: "number",
+              min: "1",
+              value: rows,
+              onChange: (e) => setRows(parseInt(e.target.value) || 1),
+              className: "border border-gray-300 rounded-md px-3 py-2 w-32 text-center focus:outline-none focus:ring-2 focus:ring-primary"
+            }
+          )
+        ] })
+      ] }),
+      /* @__PURE__ */ jsx3(Button, { type: "submit", variant: "default", className: "w-full max-w-[270px]", children: "\u0625\u0646\u0634\u0627\u0621 \u062C\u062F\u0648\u0644" })
+    ] })
+  ] }) }) });
 };
 
 // components/rich-text-rtl/TablePlaceholderExtension.ts
@@ -885,20 +925,21 @@ import tippy from "tippy.js";
 import { ReactRenderer } from "@tiptap/react";
 
 // components/rich-text-rtl/SlashCommandList.tsx
-import React7, { forwardRef as forwardRef4, useEffect, useImperativeHandle, useRef as useRef2, useState as useState3 } from "react";
+import { forwardRef as forwardRef4, useEffect, useImperativeHandle, useRef as useRef2, useState as useState3 } from "react";
 
 // components/ui/command.tsx
-import * as React6 from "react";
+import * as React5 from "react";
 import { Command as CommandPrimitive } from "cmdk";
 
 // components/ui/dialog.tsx
-import * as React5 from "react";
+import * as React4 from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Cross2Icon } from "@radix-ui/react-icons";
+import { jsx as jsx4, jsxs as jsxs3 } from "react/jsx-runtime";
 var DialogPortal = DialogPrimitive.Portal;
-var DialogOverlay = React5.forwardRef((_a, ref) => {
+var DialogOverlay = React4.forwardRef((_a, ref) => {
   var _b = _a, { className } = _b, props = __objRest(_b, ["className"]);
-  return /* @__PURE__ */ React5.createElement(
+  return /* @__PURE__ */ jsx4(
     DialogPrimitive.Overlay,
     __spreadValues({
       ref,
@@ -910,20 +951,29 @@ var DialogOverlay = React5.forwardRef((_a, ref) => {
   );
 });
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
-var DialogContent = React5.forwardRef((_a, ref) => {
+var DialogContent = React4.forwardRef((_a, ref) => {
   var _b = _a, { className, children } = _b, props = __objRest(_b, ["className", "children"]);
-  return /* @__PURE__ */ React5.createElement(DialogPortal, null, /* @__PURE__ */ React5.createElement(DialogOverlay, null), /* @__PURE__ */ React5.createElement(
-    DialogPrimitive.Content,
-    __spreadValues({
-      ref,
-      className: cn(
-        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
-        className
-      )
-    }, props),
-    children,
-    /* @__PURE__ */ React5.createElement(DialogPrimitive.Close, { className: "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground" }, /* @__PURE__ */ React5.createElement(Cross2Icon, { className: "h-4 w-4" }), /* @__PURE__ */ React5.createElement("span", { className: "sr-only" }, "Close"))
-  ));
+  return /* @__PURE__ */ jsxs3(DialogPortal, { children: [
+    /* @__PURE__ */ jsx4(DialogOverlay, {}),
+    /* @__PURE__ */ jsxs3(
+      DialogPrimitive.Content,
+      __spreadProps(__spreadValues({
+        ref,
+        className: cn(
+          "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
+          className
+        )
+      }, props), {
+        children: [
+          children,
+          /* @__PURE__ */ jsxs3(DialogPrimitive.Close, { className: "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground", children: [
+            /* @__PURE__ */ jsx4(Cross2Icon, { className: "h-4 w-4" }),
+            /* @__PURE__ */ jsx4("span", { className: "sr-only", children: "Close" })
+          ] })
+        ]
+      })
+    )
+  ] });
 });
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 var DialogHeader = (_a) => {
@@ -932,7 +982,7 @@ var DialogHeader = (_a) => {
   } = _b, props = __objRest(_b, [
     "className"
   ]);
-  return /* @__PURE__ */ React5.createElement(
+  return /* @__PURE__ */ jsx4(
     "div",
     __spreadValues({
       className: cn(
@@ -949,7 +999,7 @@ var DialogFooter = (_a) => {
   } = _b, props = __objRest(_b, [
     "className"
   ]);
-  return /* @__PURE__ */ React5.createElement(
+  return /* @__PURE__ */ jsx4(
     "div",
     __spreadValues({
       className: cn(
@@ -960,9 +1010,9 @@ var DialogFooter = (_a) => {
   );
 };
 DialogFooter.displayName = "DialogFooter";
-var DialogTitle = React5.forwardRef((_a, ref) => {
+var DialogTitle = React4.forwardRef((_a, ref) => {
   var _b = _a, { className } = _b, props = __objRest(_b, ["className"]);
-  return /* @__PURE__ */ React5.createElement(
+  return /* @__PURE__ */ jsx4(
     DialogPrimitive.Title,
     __spreadValues({
       ref,
@@ -974,9 +1024,9 @@ var DialogTitle = React5.forwardRef((_a, ref) => {
   );
 });
 DialogTitle.displayName = DialogPrimitive.Title.displayName;
-var DialogDescription = React5.forwardRef((_a, ref) => {
+var DialogDescription = React4.forwardRef((_a, ref) => {
   var _b = _a, { className } = _b, props = __objRest(_b, ["className"]);
-  return /* @__PURE__ */ React5.createElement(
+  return /* @__PURE__ */ jsx4(
     DialogPrimitive.Description,
     __spreadValues({
       ref,
@@ -988,9 +1038,10 @@ DialogDescription.displayName = DialogPrimitive.Description.displayName;
 
 // components/ui/command.tsx
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-var Command = React6.forwardRef((_a, ref) => {
+import { jsx as jsx5, jsxs as jsxs4 } from "react/jsx-runtime";
+var Command = React5.forwardRef((_a, ref) => {
   var _b = _a, { className } = _b, props = __objRest(_b, ["className"]);
-  return /* @__PURE__ */ React6.createElement(
+  return /* @__PURE__ */ jsx5(
     CommandPrimitive,
     __spreadValues({
       ref,
@@ -1002,23 +1053,26 @@ var Command = React6.forwardRef((_a, ref) => {
   );
 });
 Command.displayName = CommandPrimitive.displayName;
-var CommandInput = React6.forwardRef((_a, ref) => {
+var CommandInput = React5.forwardRef((_a, ref) => {
   var _b = _a, { className } = _b, props = __objRest(_b, ["className"]);
-  return /* @__PURE__ */ React6.createElement("div", { className: "flex items-center border-b px-3", "cmdk-input-wrapper": "" }, /* @__PURE__ */ React6.createElement(MagnifyingGlassIcon, { className: "mr-2 h-4 w-4 shrink-0 opacity-50" }), /* @__PURE__ */ React6.createElement(
-    CommandPrimitive.Input,
-    __spreadValues({
-      ref,
-      className: cn(
-        "flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
-        className
-      )
-    }, props)
-  ));
+  return /* @__PURE__ */ jsxs4("div", { className: "flex items-center border-b px-3", "cmdk-input-wrapper": "", children: [
+    /* @__PURE__ */ jsx5(MagnifyingGlassIcon, { className: "mr-2 h-4 w-4 shrink-0 opacity-50" }),
+    /* @__PURE__ */ jsx5(
+      CommandPrimitive.Input,
+      __spreadValues({
+        ref,
+        className: cn(
+          "flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
+          className
+        )
+      }, props)
+    )
+  ] });
 });
 CommandInput.displayName = CommandPrimitive.Input.displayName;
-var CommandList = React6.forwardRef((_a, ref) => {
+var CommandList = React5.forwardRef((_a, ref) => {
   var _b = _a, { className } = _b, props = __objRest(_b, ["className"]);
-  return /* @__PURE__ */ React6.createElement(
+  return /* @__PURE__ */ jsx5(
     CommandPrimitive.List,
     __spreadValues({
       ref,
@@ -1027,7 +1081,7 @@ var CommandList = React6.forwardRef((_a, ref) => {
   );
 });
 CommandList.displayName = CommandPrimitive.List.displayName;
-var CommandEmpty = React6.forwardRef((props, ref) => /* @__PURE__ */ React6.createElement(
+var CommandEmpty = React5.forwardRef((props, ref) => /* @__PURE__ */ jsx5(
   CommandPrimitive.Empty,
   __spreadValues({
     ref,
@@ -1035,9 +1089,9 @@ var CommandEmpty = React6.forwardRef((props, ref) => /* @__PURE__ */ React6.crea
   }, props)
 ));
 CommandEmpty.displayName = CommandPrimitive.Empty.displayName;
-var CommandGroup = React6.forwardRef((_a, ref) => {
+var CommandGroup = React5.forwardRef((_a, ref) => {
   var _b = _a, { className } = _b, props = __objRest(_b, ["className"]);
-  return /* @__PURE__ */ React6.createElement(
+  return /* @__PURE__ */ jsx5(
     CommandPrimitive.Group,
     __spreadValues({
       ref,
@@ -1049,9 +1103,9 @@ var CommandGroup = React6.forwardRef((_a, ref) => {
   );
 });
 CommandGroup.displayName = CommandPrimitive.Group.displayName;
-var CommandSeparator = React6.forwardRef((_a, ref) => {
+var CommandSeparator = React5.forwardRef((_a, ref) => {
   var _b = _a, { className } = _b, props = __objRest(_b, ["className"]);
-  return /* @__PURE__ */ React6.createElement(
+  return /* @__PURE__ */ jsx5(
     CommandPrimitive.Separator,
     __spreadValues({
       ref,
@@ -1060,9 +1114,9 @@ var CommandSeparator = React6.forwardRef((_a, ref) => {
   );
 });
 CommandSeparator.displayName = CommandPrimitive.Separator.displayName;
-var CommandItem = React6.forwardRef((_a, ref) => {
+var CommandItem = React5.forwardRef((_a, ref) => {
   var _b = _a, { className } = _b, props = __objRest(_b, ["className"]);
-  return /* @__PURE__ */ React6.createElement(
+  return /* @__PURE__ */ jsx5(
     CommandPrimitive.Item,
     __spreadValues({
       ref,
@@ -1080,7 +1134,7 @@ var CommandShortcut = (_a) => {
   } = _b, props = __objRest(_b, [
     "className"
   ]);
-  return /* @__PURE__ */ React6.createElement(
+  return /* @__PURE__ */ jsx5(
     "span",
     __spreadValues({
       className: cn(
@@ -1093,6 +1147,7 @@ var CommandShortcut = (_a) => {
 CommandShortcut.displayName = "CommandShortcut";
 
 // components/rich-text-rtl/SlashCommandList.tsx
+import { jsx as jsx6, jsxs as jsxs5 } from "react/jsx-runtime";
 var SlashCommandList = forwardRef4(
   ({
     items,
@@ -1148,29 +1203,37 @@ var SlashCommandList = forwardRef4(
         return false;
       }
     }));
-    return /* @__PURE__ */ React7.createElement(
+    return /* @__PURE__ */ jsx6(
       Command,
       {
         className: cn(
           "w-64  bg-white border border-gray-200",
           className
-        )
-      },
-      /* @__PURE__ */ React7.createElement(CommandList, { ref: listRef, className: "max-h-60 overflow-y-auto" }, /* @__PURE__ */ React7.createElement(CommandEmpty, { className: "p-2 text-sm text-gray-500" }, emptyMessage), /* @__PURE__ */ React7.createElement(CommandGroup, null, items.map((item, index) => /* @__PURE__ */ React7.createElement(
-        CommandItem,
-        {
-          key: index,
-          value: item.title,
-          onSelect: () => selectItem(index),
-          "data-index": index,
-          className: cn(
-            "flex items-center gap-2 p-2 text-sm text-foreground cursor-pointer hover:bg-gray-100",
-            index === selectedIndex && "bg-gray-100 text-foreground"
-          )
-        },
-        item.icon && /* @__PURE__ */ React7.createElement("span", null, item.icon),
-        /* @__PURE__ */ React7.createElement("div", null, /* @__PURE__ */ React7.createElement("div", null, item.title), item.description && /* @__PURE__ */ React7.createElement("div", { className: "text-xs text-gray-500" }, item.description))
-      ))))
+        ),
+        children: /* @__PURE__ */ jsxs5(CommandList, { ref: listRef, className: "max-h-60 overflow-y-auto", children: [
+          /* @__PURE__ */ jsx6(CommandEmpty, { className: "p-2 text-sm text-gray-500", children: emptyMessage }),
+          /* @__PURE__ */ jsx6(CommandGroup, { children: items.map((item, index) => /* @__PURE__ */ jsxs5(
+            CommandItem,
+            {
+              value: item.title,
+              onSelect: () => selectItem(index),
+              "data-index": index,
+              className: cn(
+                "flex items-center gap-2 p-2 text-sm text-foreground cursor-pointer hover:bg-gray-100",
+                index === selectedIndex && "bg-gray-100 text-foreground"
+              ),
+              children: [
+                item.icon && /* @__PURE__ */ jsx6("span", { children: item.icon }),
+                /* @__PURE__ */ jsxs5("div", { children: [
+                  /* @__PURE__ */ jsx6("div", { children: item.title }),
+                  item.description && /* @__PURE__ */ jsx6("div", { className: "text-xs text-gray-500", children: item.description })
+                ] })
+              ]
+            },
+            index
+          )) })
+        ] })
+      }
     );
   }
 );
@@ -1755,7 +1818,8 @@ import { Plugin as Plugin5, PluginKey as PluginKey5 } from "@tiptap/pm/state";
 import { Fragment, Slice } from "@tiptap/pm/model";
 
 // components/rich-text-rtl/TermAutocompleteList.tsx
-import React8, { forwardRef as forwardRef5, useEffect as useEffect2, useImperativeHandle as useImperativeHandle2, useRef as useRef3, useState as useState4 } from "react";
+import { forwardRef as forwardRef5, useEffect as useEffect2, useImperativeHandle as useImperativeHandle2, useRef as useRef3, useState as useState4 } from "react";
+import { jsx as jsx7, jsxs as jsxs6 } from "react/jsx-runtime";
 var TermAutocompleteList = forwardRef5(
   ({ items, command, className }, ref) => {
     const [selectedIndex, setSelectedIndex] = useState4(0);
@@ -1808,35 +1872,47 @@ var TermAutocompleteList = forwardRef5(
     if (items.length === 0) {
       return null;
     }
-    return /* @__PURE__ */ React8.createElement(
+    return /* @__PURE__ */ jsx7(
       Command,
       {
         className: cn(
           "w-64 bg-white border border-gray-200 shadow-md rounded-md z-50 text-right direction-rtl",
           className
         ),
-        dir: "rtl"
-      },
-      /* @__PURE__ */ React8.createElement(CommandList, { ref: listRef, className: "max-h-60 overflow-y-auto p-1" }, /* @__PURE__ */ React8.createElement("div", { className: "px-2 py-1.5 text-[11px] font-semibold text-gray-400 border-b border-gray-100 mb-1" }, "\u0627\u0642\u062A\u0631\u0627\u062D\u0627\u062A \u0627\u0644\u0645\u0635\u0637\u0644\u062D\u0627\u062A (\u0627\u0636\u063A\u0637 Enter)"), /* @__PURE__ */ React8.createElement(CommandGroup, null, items.map((item, index) => {
-        var _a;
-        const isSelected = index === selectedIndex;
-        const isTopUsed = index === 0 && ((_a = item.usageCount) != null ? _a : 0) > 10;
-        return /* @__PURE__ */ React8.createElement(
-          CommandItem,
-          {
-            key: `${item.arabic}-${item.english}`,
-            value: `${item.arabic} ${item.english}`,
-            onSelect: () => selectItem(index),
-            "data-index": index,
-            className: cn(
-              "flex items-center justify-between p-2 text-sm text-foreground cursor-pointer rounded hover:bg-gray-100",
-              isSelected && "bg-gray-100 text-foreground"
-            )
-          },
-          /* @__PURE__ */ React8.createElement("div", { className: "flex items-center gap-1.5 min-w-0" }, /* @__PURE__ */ React8.createElement("span", { className: "font-medium text-gray-900" }, item.arabic), /* @__PURE__ */ React8.createElement("span", { className: "text-xs text-gray-400 font-mono" }, "(", item.english, ")")),
-          isTopUsed && /* @__PURE__ */ React8.createElement("span", { className: "text-[10px] bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded font-medium flex-shrink-0 mr-2" }, "\u0634\u0627\u0626\u0639")
-        );
-      })))
+        dir: "rtl",
+        children: /* @__PURE__ */ jsxs6(CommandList, { ref: listRef, className: "max-h-60 overflow-y-auto p-1", children: [
+          /* @__PURE__ */ jsx7("div", { className: "px-2 py-1.5 text-[11px] font-semibold text-gray-400 border-b border-gray-100 mb-1", children: "\u0627\u0642\u062A\u0631\u0627\u062D\u0627\u062A \u0627\u0644\u0645\u0635\u0637\u0644\u062D\u0627\u062A (\u0627\u0636\u063A\u0637 Enter)" }),
+          /* @__PURE__ */ jsx7(CommandGroup, { children: items.map((item, index) => {
+            var _a;
+            const isSelected = index === selectedIndex;
+            const isTopUsed = index === 0 && ((_a = item.usageCount) != null ? _a : 0) > 10;
+            return /* @__PURE__ */ jsxs6(
+              CommandItem,
+              {
+                value: `${item.arabic} ${item.english}`,
+                onSelect: () => selectItem(index),
+                "data-index": index,
+                className: cn(
+                  "flex items-center justify-between p-2 text-sm text-foreground cursor-pointer rounded hover:bg-gray-100",
+                  isSelected && "bg-gray-100 text-foreground"
+                ),
+                children: [
+                  /* @__PURE__ */ jsxs6("div", { className: "flex items-center gap-1.5 min-w-0", children: [
+                    /* @__PURE__ */ jsx7("span", { className: "font-medium text-gray-900", children: item.arabic }),
+                    /* @__PURE__ */ jsxs6("span", { className: "text-xs text-gray-400 font-mono", children: [
+                      "(",
+                      item.english,
+                      ")"
+                    ] })
+                  ] }),
+                  isTopUsed && /* @__PURE__ */ jsx7("span", { className: "text-[10px] bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded font-medium flex-shrink-0 mr-2", children: "\u0634\u0627\u0626\u0639" })
+                ]
+              },
+              `${item.arabic}-${item.english}`
+            );
+          }) })
+        ] })
+      }
     );
   }
 );
@@ -2199,9 +2275,10 @@ var TermAutocomplete = Extension5.create({
 var TermAutocomplete_default = TermAutocomplete;
 
 // components/rich-text-rtl/Menu/OutdatedTermsBanner.tsx
-import React9, { useEffect as useEffect3, useState as useState5 } from "react";
+import { useEffect as useEffect3, useState as useState5 } from "react";
 import { useCurrentEditor } from "@tiptap/react";
 import { Sparkles, RefreshCw, X } from "lucide-react";
+import { jsx as jsx8, jsxs as jsxs7 } from "react/jsx-runtime";
 var OutdatedTermsBanner = ({ autocompleteTerms }) => {
   const { editor } = useCurrentEditor();
   const [outdatedCount, setOutdatedCount] = useState5(0);
@@ -2230,56 +2307,79 @@ var OutdatedTermsBanner = ({ autocompleteTerms }) => {
       setOutdatedCount(0);
     }
   };
-  return /* @__PURE__ */ React9.createElement(
+  return /* @__PURE__ */ jsxs7(
     "div",
     {
       dir: "rtl",
-      className: "fixed bottom-6 right-6 left-6 md:left-auto md:w-[420px] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 shadow-xl shadow-gray-200/50 dark:shadow-none z-50 flex flex-col gap-3 text-right direction-rtl animate-in fade-in slide-in-from-bottom-5 duration-300"
-    },
-    /* @__PURE__ */ React9.createElement("div", { className: "flex items-start justify-between gap-3" }, /* @__PURE__ */ React9.createElement("div", { className: "flex gap-2" }, /* @__PURE__ */ React9.createElement(Sparkles, { className: "w-5 h-5 text-gray-500 dark:text-gray-400 shrink-0 mt-0.5" }), /* @__PURE__ */ React9.createElement("div", null, /* @__PURE__ */ React9.createElement("h4", { className: "font-semibold text-sm text-gray-900 dark:text-gray-100" }, "\u062A\u062D\u062F\u064A\u062B \u0627\u0644\u0645\u0635\u0637\u0644\u062D\u0627\u062A \u0627\u0644\u0645\u0639\u0631\u0651\u0628\u0629"), /* @__PURE__ */ React9.createElement("p", { className: "text-xs text-gray-600 dark:text-gray-400 mt-1 leading-relaxed" }, "\u062A\u0645 \u0627\u0644\u0639\u062B\u0648\u0631 \u0639\u0644\u0649 ", /* @__PURE__ */ React9.createElement("strong", null, outdatedCount, " \u0645\u0635\u0637\u0644\u062D\u0627\u062A"), " \u0641\u064A \u0647\u0630\u0627 \u0627\u0644\u0645\u0642\u0627\u0644 \u062A\u0645\u062A\u0644\u0643 \u062A\u0639\u0631\u064A\u0628\u0627\u062A \u0623\u062D\u062F\u062B \u0641\u064A \u0642\u0627\u0639\u062F\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A \u0627\u0644\u062C\u062F\u064A\u062F\u0629."))), /* @__PURE__ */ React9.createElement(
-      "button",
-      {
-        onClick: () => setIgnored(true),
-        className: "text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors p-1"
-      },
-      /* @__PURE__ */ React9.createElement(X, { className: "w-4 h-4" })
-    )),
-    /* @__PURE__ */ React9.createElement("div", { className: "flex items-center gap-2 justify-end mt-1" }, /* @__PURE__ */ React9.createElement(
-      Button,
-      {
-        onClick: () => setIgnored(true),
-        variant: "ghost",
-        size: "sm",
-        className: "text-[11px] text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800"
-      },
-      "\u062A\u062C\u0627\u0647\u0644 \u0627\u0644\u062A\u0646\u0628\u064A\u0647"
-    ), /* @__PURE__ */ React9.createElement(
-      Button,
-      {
-        onClick: handleUpdate,
-        size: "sm",
-        variant: "outline",
-        className: "text-[11px] bg-white border border-gray-200 hover:bg-gray-50 text-gray-800 font-medium gap-1.5 shadow-sm dark:bg-gray-900 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800"
-      },
-      /* @__PURE__ */ React9.createElement(RefreshCw, { className: "w-3 h-3 text-gray-500" }),
-      "\u062A\u062D\u062F\u064A\u062B \u0627\u0644\u0643\u0644 \u0627\u0644\u0622\u0646"
-    ))
+      className: "fixed bottom-6 right-6 left-6 md:left-auto md:w-[420px] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 shadow-xl shadow-gray-200/50 dark:shadow-none z-50 flex flex-col gap-3 text-right direction-rtl animate-in fade-in slide-in-from-bottom-5 duration-300",
+      children: [
+        /* @__PURE__ */ jsxs7("div", { className: "flex items-start justify-between gap-3", children: [
+          /* @__PURE__ */ jsxs7("div", { className: "flex gap-2", children: [
+            /* @__PURE__ */ jsx8(Sparkles, { className: "w-5 h-5 text-gray-500 dark:text-gray-400 shrink-0 mt-0.5" }),
+            /* @__PURE__ */ jsxs7("div", { children: [
+              /* @__PURE__ */ jsx8("h4", { className: "font-semibold text-sm text-gray-900 dark:text-gray-100", children: "\u062A\u062D\u062F\u064A\u062B \u0627\u0644\u0645\u0635\u0637\u0644\u062D\u0627\u062A \u0627\u0644\u0645\u0639\u0631\u0651\u0628\u0629" }),
+              /* @__PURE__ */ jsxs7("p", { className: "text-xs text-gray-600 dark:text-gray-400 mt-1 leading-relaxed", children: [
+                "\u062A\u0645 \u0627\u0644\u0639\u062B\u0648\u0631 \u0639\u0644\u0649 ",
+                /* @__PURE__ */ jsxs7("strong", { children: [
+                  outdatedCount,
+                  " \u0645\u0635\u0637\u0644\u062D\u0627\u062A"
+                ] }),
+                " \u0641\u064A \u0647\u0630\u0627 \u0627\u0644\u0645\u0642\u0627\u0644 \u062A\u0645\u062A\u0644\u0643 \u062A\u0639\u0631\u064A\u0628\u0627\u062A \u0623\u062D\u062F\u062B \u0641\u064A \u0642\u0627\u0639\u062F\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A \u0627\u0644\u062C\u062F\u064A\u062F\u0629."
+              ] })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsx8(
+            "button",
+            {
+              onClick: () => setIgnored(true),
+              className: "text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors p-1",
+              children: /* @__PURE__ */ jsx8(X, { className: "w-4 h-4" })
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxs7("div", { className: "flex items-center gap-2 justify-end mt-1", children: [
+          /* @__PURE__ */ jsx8(
+            Button,
+            {
+              onClick: () => setIgnored(true),
+              variant: "ghost",
+              size: "sm",
+              className: "text-[11px] text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800",
+              children: "\u062A\u062C\u0627\u0647\u0644 \u0627\u0644\u062A\u0646\u0628\u064A\u0647"
+            }
+          ),
+          /* @__PURE__ */ jsxs7(
+            Button,
+            {
+              onClick: handleUpdate,
+              size: "sm",
+              variant: "outline",
+              className: "text-[11px] bg-white border border-gray-200 hover:bg-gray-50 text-gray-800 font-medium gap-1.5 shadow-sm dark:bg-gray-900 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800",
+              children: [
+                /* @__PURE__ */ jsx8(RefreshCw, { className: "w-3 h-3 text-gray-500" }),
+                "\u062A\u062D\u062F\u064A\u062B \u0627\u0644\u0643\u0644 \u0627\u0644\u0622\u0646"
+              ]
+            }
+          )
+        ] })
+      ]
+    }
   );
 };
 
 // components/rich-text-rtl/Menu/AccessibleToolbars.tsx
-import React14 from "react";
 import { BubbleMenu as BubbleMenu2, FloatingMenu, useCurrentEditor as useCurrentEditor3 } from "@tiptap/react";
 
 // components/ui/tooltip.tsx
-import * as React10 from "react";
+import * as React9 from "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
+import { jsx as jsx9 } from "react/jsx-runtime";
 var TooltipProvider = TooltipPrimitive.Provider;
 var Tooltip = TooltipPrimitive.Root;
 var TooltipTrigger = TooltipPrimitive.Trigger;
-var TooltipContent = React10.forwardRef((_a, ref) => {
+var TooltipContent = React9.forwardRef((_a, ref) => {
   var _b = _a, { className, sideOffset = 4 } = _b, props = __objRest(_b, ["className", "sideOffset"]);
-  return /* @__PURE__ */ React10.createElement(TooltipPrimitive.Portal, null, /* @__PURE__ */ React10.createElement(
+  return /* @__PURE__ */ jsx9(TooltipPrimitive.Portal, { children: /* @__PURE__ */ jsx9(
     TooltipPrimitive.Content,
     __spreadValues({
       ref,
@@ -2289,7 +2389,7 @@ var TooltipContent = React10.forwardRef((_a, ref) => {
         className
       )
     }, props)
-  ));
+  ) });
 });
 TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 
@@ -2319,11 +2419,12 @@ import {
 } from "lucide-react";
 
 // components/ui/input.tsx
-import * as React11 from "react";
-var Input = React11.forwardRef(
+import * as React10 from "react";
+import { jsx as jsx10 } from "react/jsx-runtime";
+var Input = React10.forwardRef(
   (_a, ref) => {
     var _b = _a, { className, type } = _b, props = __objRest(_b, ["className", "type"]);
-    return /* @__PURE__ */ React11.createElement(
+    return /* @__PURE__ */ jsx10(
       "input",
       __spreadValues({
         type,
@@ -2339,6 +2440,7 @@ var Input = React11.forwardRef(
 Input.displayName = "Input";
 
 // components/rich-text-rtl/Menu/menu-config.tsx
+import { jsx as jsx11 } from "react/jsx-runtime";
 var ColorPickerIcon = ({
   value,
   editor,
@@ -2347,7 +2449,7 @@ var ColorPickerIcon = ({
   label,
   defaultValue
 }) => {
-  return /* @__PURE__ */ React.createElement(
+  return /* @__PURE__ */ jsx11(
     Input,
     {
       type: "color",
@@ -2368,7 +2470,7 @@ var ColorPickerIcon = ({
 };
 var menuItemsConfig = {
   bold: {
-    icon: /* @__PURE__ */ React.createElement(Bold, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ jsx11(Bold, { className: "w-4 h-4" }),
     label: "\u0639\u0631\u064A\u0636",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleBold().run();
@@ -2379,7 +2481,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleBold().run()
   },
   italic: {
-    icon: /* @__PURE__ */ React.createElement(Italic, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ jsx11(Italic, { className: "w-4 h-4" }),
     label: "\u0645\u0627\u0626\u0644",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleItalic().run();
@@ -2389,7 +2491,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleItalic().run()
   },
   underline: {
-    icon: /* @__PURE__ */ React.createElement(Underline2, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ jsx11(Underline2, { className: "w-4 h-4" }),
     label: "\u062A\u0633\u0637\u064A\u0631",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleUnderline().run();
@@ -2399,7 +2501,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleUnderline().run()
   },
   strike: {
-    icon: /* @__PURE__ */ React.createElement(Strikethrough, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ jsx11(Strikethrough, { className: "w-4 h-4" }),
     label: "\u064A\u062A\u0648\u0633\u0637 \u0627\u0644\u062E\u0637",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleStrike().run();
@@ -2409,7 +2511,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleStrike().run()
   },
   highlight: {
-    icon: /* @__PURE__ */ React.createElement(Highlighter, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ jsx11(Highlighter, { className: "w-4 h-4" }),
     label: "\u062A\u0645\u064A\u064A\u0632",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleHighlight().run();
@@ -2449,7 +2551,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleHeading({ level: 3 }).run()
   },
   paragraph: {
-    icon: /* @__PURE__ */ React.createElement(Type, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ jsx11(Type, { className: "w-4 h-4" }),
     label: "\u0641\u0642\u0631\u0629",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().setParagraph().run();
@@ -2458,7 +2560,7 @@ var menuItemsConfig = {
     isActive: (editor) => editor.isActive("paragraph")
   },
   alignLeft: {
-    icon: /* @__PURE__ */ React.createElement(AlignLeft, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ jsx11(AlignLeft, { className: "w-4 h-4" }),
     label: "\u0645\u062D\u0627\u0630\u0627\u0629 \u0625\u0644\u0649 \u0627\u0644\u064A\u0633\u0627\u0631",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().setTextAlign("left").run();
@@ -2468,7 +2570,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().setTextAlign("left")
   },
   alignCenter: {
-    icon: /* @__PURE__ */ React.createElement(AlignCenter, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ jsx11(AlignCenter, { className: "w-4 h-4" }),
     label: "\u0645\u062D\u0627\u0630\u0627\u0629 \u0625\u0644\u0649 \u0627\u0644\u0648\u0633\u0637",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().setTextAlign("center").run();
@@ -2478,7 +2580,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().setTextAlign("center")
   },
   alignRight: {
-    icon: /* @__PURE__ */ React.createElement(AlignRight, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ jsx11(AlignRight, { className: "w-4 h-4" }),
     label: "\u0645\u062D\u0627\u0630\u0627\u0629 \u0625\u0644\u0649 \u0627\u0644\u064A\u0645\u064A\u0646",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().setTextAlign("right").run();
@@ -2488,7 +2590,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().setTextAlign("right")
   },
   alignJustify: {
-    icon: /* @__PURE__ */ React.createElement(AlignJustify, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ jsx11(AlignJustify, { className: "w-4 h-4" }),
     label: "\u062A\u0648\u0632\u064A\u0639 \u0627\u0644\u0646\u0635",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().setTextAlign("justify").run();
@@ -2498,7 +2600,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().setTextAlign("justify")
   },
   bulletList: {
-    icon: /* @__PURE__ */ React.createElement(List, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ jsx11(List, { className: "w-4 h-4" }),
     label: "\u0642\u0627\u0626\u0645\u0629 \u0646\u0642\u0637\u064A\u0629",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleBulletList().run();
@@ -2508,7 +2610,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleBulletList().run()
   },
   orderedList: {
-    icon: /* @__PURE__ */ React.createElement(ListOrdered, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ jsx11(ListOrdered, { className: "w-4 h-4" }),
     label: "\u0642\u0627\u0626\u0645\u0629 \u0645\u0631\u0642\u0645\u0629",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleOrderedList().run();
@@ -2518,7 +2620,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleOrderedList().run()
   },
   taskList: {
-    icon: /* @__PURE__ */ React.createElement(CheckSquare, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ jsx11(CheckSquare, { className: "w-4 h-4" }),
     label: "\u0642\u0627\u0626\u0645\u0629 \u0645\u0647\u0627\u0645",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleTaskList().run();
@@ -2528,7 +2630,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleTaskList().run()
   },
   codeBlock: {
-    icon: /* @__PURE__ */ React.createElement(Code, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ jsx11(Code, { className: "w-4 h-4" }),
     label: "\u0643\u0648\u062F \u0628\u0631\u0645\u062C\u064A",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleCodeBlock().run();
@@ -2538,7 +2640,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleCodeBlock().run()
   },
   horizontalRule: {
-    icon: /* @__PURE__ */ React.createElement("hr", { className: "w-4 h-0.5 bg-gray-500" }),
+    icon: /* @__PURE__ */ jsx11("hr", { className: "w-4 h-0.5 bg-gray-500" }),
     label: "\u062E\u0637 \u0623\u0641\u0642\u064A",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().setHorizontalRule().run();
@@ -2546,7 +2648,7 @@ var menuItemsConfig = {
     }
   },
   image: {
-    icon: /* @__PURE__ */ React.createElement(ImageIcon2, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ jsx11(ImageIcon2, { className: "w-4 h-4" }),
     label: "\u0625\u062F\u0631\u0627\u062C \u0635\u0648\u0631\u0629",
     action: (editor, setIsSaved) => () => {
       const url = window.prompt("\u0623\u062F\u062E\u0644 \u0631\u0627\u0628\u0637 \u0627\u0644\u0635\u0648\u0631\u0629");
@@ -2557,7 +2659,7 @@ var menuItemsConfig = {
     }
   },
   table: {
-    icon: /* @__PURE__ */ React.createElement(TableIcon2, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ jsx11(TableIcon2, { className: "w-4 h-4" }),
     label: "\u0625\u062F\u0631\u0627\u062C \u062C\u062F\u0648\u0644",
     action: (editor) => () => {
       editor.chain().focus().insertContent({ type: "tablePlaceholder" }).run();
@@ -2565,7 +2667,7 @@ var menuItemsConfig = {
     isDisabled: () => false
   },
   link: {
-    icon: /* @__PURE__ */ React.createElement(LinkIcon2, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ jsx11(LinkIcon2, { className: "w-4 h-4" }),
     label: "\u0625\u062F\u0631\u0627\u062C \u0631\u0627\u0628\u0637",
     action: (editor, setIsSaved) => () => {
       const url = window.prompt("\u0623\u062F\u062E\u0644 \u0627\u0644\u0631\u0627\u0628\u0637");
@@ -2577,19 +2679,19 @@ var menuItemsConfig = {
     isActive: (editor) => editor.isActive("link")
   },
   textColor: {
-    icon: /* @__PURE__ */ React.createElement(ColorPickerIcon, { type: "text", label: "\u0627\u062E\u062A\u0631 \u0644\u0648\u0646 \u0627\u0644\u0646\u0635", defaultValue: "#000000" }),
+    icon: /* @__PURE__ */ jsx11(ColorPickerIcon, { type: "text", label: "\u0627\u062E\u062A\u0631 \u0644\u0648\u0646 \u0627\u0644\u0646\u0635", defaultValue: "#000000" }),
     label: "\u0644\u0648\u0646 \u0627\u0644\u0646\u0635",
     action: (editor, setIsSaved) => () => {
     }
   },
   highlightColor: {
-    icon: /* @__PURE__ */ React.createElement(ColorPickerIcon, { type: "highlight", label: "\u0627\u062E\u062A\u0631 \u0644\u0648\u0646 \u0627\u0644\u062A\u0645\u064A\u064A\u0632", defaultValue: "#00000000" }),
+    icon: /* @__PURE__ */ jsx11(ColorPickerIcon, { type: "highlight", label: "\u0627\u062E\u062A\u0631 \u0644\u0648\u0646 \u0627\u0644\u062A\u0645\u064A\u064A\u0632", defaultValue: "#00000000" }),
     label: "\u0644\u0648\u0646 \u0627\u0644\u062A\u0645\u064A\u064A\u0632",
     action: (editor, setIsSaved) => () => {
     }
   },
   undo: {
-    icon: /* @__PURE__ */ React.createElement(Undo, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ jsx11(Undo, { className: "w-4 h-4" }),
     label: "\u062A\u0631\u0627\u062C\u0639",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().undo().run();
@@ -2598,7 +2700,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().undo().run()
   },
   redo: {
-    icon: /* @__PURE__ */ React.createElement(Redo, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ jsx11(Redo, { className: "w-4 h-4" }),
     label: "\u0625\u0639\u0627\u062F\u0629",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().redo().run();
@@ -2607,7 +2709,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().redo().run()
   },
   clearFormat: {
-    icon: /* @__PURE__ */ React.createElement(Eraser, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ jsx11(Eraser, { className: "w-4 h-4" }),
     // Using Eraser icon for "clear format"
     label: "\u0645\u0633\u062D \u0627\u0644\u062A\u0646\u0633\u064A\u0642",
     action: (editor, setIsSaved) => () => {
@@ -2616,7 +2718,7 @@ var menuItemsConfig = {
     }
   },
   clearNodes: {
-    icon: /* @__PURE__ */ React.createElement(X2, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ jsx11(X2, { className: "w-4 h-4" }),
     // Using X icon for "clear nodes"
     label: "\u0645\u0633\u062D \u0627\u0644\u0639\u0646\u0627\u0635\u0631",
     action: (editor, setIsSaved) => () => {
@@ -2627,8 +2729,9 @@ var menuItemsConfig = {
 };
 
 // components/rich-text-rtl/Menu/EditorControls.tsx
-import React12, { useState as useState6 } from "react";
+import React11, { useState as useState6 } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { Fragment as Fragment2, jsx as jsx12, jsxs as jsxs8 } from "react/jsx-runtime";
 var EditorControls = ({
   editor,
   menuItems,
@@ -2641,57 +2744,65 @@ var EditorControls = ({
   const VISIBLE_COUNT = 6;
   const visibleItems = isExpanded ? enabledItems : enabledItems.slice(0, VISIBLE_COUNT);
   const hasMore = enabledItems.length > VISIBLE_COUNT;
-  return /* @__PURE__ */ React12.createElement(
+  return /* @__PURE__ */ jsxs8(
     "div",
     {
       className: cn(
         "p-1 flex items-center gap-1 md:gap-2 transition-all",
         isExpanded ? "flex-wrap max-w-xs md:max-w-sm" : "flex-nowrap",
         isMobileMenuOpen ? "flex" : "hidden md:flex"
-      )
-    },
-    visibleItems.map(([id, config]) => {
-      var _a, _b, _c, _d;
-      const itemConfig = getMenuItemConfig(id);
-      if (!itemConfig.enabled) return null;
-      const action = itemConfig.onClick || config.action(editor, setIsSaved);
-      const icon = itemConfig.customIcon || config.icon;
-      const label = itemConfig.customLabel || config.label;
-      const isColorInput = ["textColor", "highlightColor"].includes(id);
-      return /* @__PURE__ */ React12.createElement(Tooltip, { key: id }, /* @__PURE__ */ React12.createElement(TooltipTrigger, { asChild: true }, isColorInput ? React12.cloneElement(
-        icon,
-        {
-          value: id === "textColor" ? ((_a = editor.getAttributes("textStyle")) == null ? void 0 : _a.color) || "#000000" : ((_b = editor.getAttributes("highlight")) == null ? void 0 : _b.color) || "#00000000",
-          editor,
-          setIsSaved
-        }
-      ) : /* @__PURE__ */ React12.createElement(
-        Button,
-        {
-          variant: "ghost",
-          size: "sm",
-          onClick: action,
-          disabled: ((_c = config.isDisabled) == null ? void 0 : _c.call(config, editor)) || false,
-          className: cn(
-            "w-8 h-8 md:w-9 md:h-9 p-0 transition-colors",
-            ((_d = config.isActive) == null ? void 0 : _d.call(config, editor)) ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-500/30" : "text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-800"
-          ),
-          "aria-label": label
-        },
-        /* @__PURE__ */ React12.createElement(React12.Fragment, null, icon)
-      )), /* @__PURE__ */ React12.createElement(TooltipContent, null, label));
-    }),
-    hasMore && /* @__PURE__ */ React12.createElement(Tooltip, null, /* @__PURE__ */ React12.createElement(TooltipTrigger, { asChild: true }, /* @__PURE__ */ React12.createElement(
-      Button,
-      {
-        variant: "ghost",
-        size: "sm",
-        onClick: () => setIsExpanded(!isExpanded),
-        className: "w-8 h-8 md:w-9 md:h-9 p-0 bg-secondary/50 hover:bg-secondary text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white",
-        "aria-label": "\u0639\u0631\u0636 \u0627\u0644\u0645\u0632\u064A\u062F"
-      },
-      isExpanded ? /* @__PURE__ */ React12.createElement(ChevronUp, { className: "w-4 h-4" }) : /* @__PURE__ */ React12.createElement(ChevronDown, { className: "w-4 h-4" })
-    )), /* @__PURE__ */ React12.createElement(TooltipContent, null, isExpanded ? "\u0637\u064A" : "\u0639\u0631\u0636 \u0627\u0644\u0645\u0632\u064A\u062F"))
+      ),
+      children: [
+        visibleItems.map(([id, config]) => {
+          var _a, _b, _c, _d;
+          const itemConfig = getMenuItemConfig(id);
+          if (!itemConfig.enabled) return null;
+          const action = itemConfig.onClick || config.action(editor, setIsSaved);
+          const icon = itemConfig.customIcon || config.icon;
+          const label = itemConfig.customLabel || config.label;
+          const isColorInput = ["textColor", "highlightColor"].includes(id);
+          return /* @__PURE__ */ jsxs8(Tooltip, { children: [
+            /* @__PURE__ */ jsx12(TooltipTrigger, { asChild: true, children: isColorInput ? React11.cloneElement(
+              icon,
+              {
+                value: id === "textColor" ? ((_a = editor.getAttributes("textStyle")) == null ? void 0 : _a.color) || "#000000" : ((_b = editor.getAttributes("highlight")) == null ? void 0 : _b.color) || "#00000000",
+                editor,
+                setIsSaved
+              }
+            ) : /* @__PURE__ */ jsx12(
+              Button,
+              {
+                variant: "ghost",
+                size: "sm",
+                onClick: action,
+                disabled: ((_c = config.isDisabled) == null ? void 0 : _c.call(config, editor)) || false,
+                className: cn(
+                  "w-8 h-8 md:w-9 md:h-9 p-0 transition-colors",
+                  ((_d = config.isActive) == null ? void 0 : _d.call(config, editor)) ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-500/30" : "text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-800"
+                ),
+                "aria-label": label,
+                children: /* @__PURE__ */ jsx12(Fragment2, { children: icon })
+              }
+            ) }),
+            /* @__PURE__ */ jsx12(TooltipContent, { children: label })
+          ] }, id);
+        }),
+        hasMore && /* @__PURE__ */ jsxs8(Tooltip, { children: [
+          /* @__PURE__ */ jsx12(TooltipTrigger, { asChild: true, children: /* @__PURE__ */ jsx12(
+            Button,
+            {
+              variant: "ghost",
+              size: "sm",
+              onClick: () => setIsExpanded(!isExpanded),
+              className: "w-8 h-8 md:w-9 md:h-9 p-0 bg-secondary/50 hover:bg-secondary text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white",
+              "aria-label": "\u0639\u0631\u0636 \u0627\u0644\u0645\u0632\u064A\u062F",
+              children: isExpanded ? /* @__PURE__ */ jsx12(ChevronUp, { className: "w-4 h-4" }) : /* @__PURE__ */ jsx12(ChevronDown, { className: "w-4 h-4" })
+            }
+          ) }),
+          /* @__PURE__ */ jsx12(TooltipContent, { children: isExpanded ? "\u0637\u064A" : "\u0639\u0631\u0636 \u0627\u0644\u0645\u0632\u064A\u062F" })
+        ] })
+      ]
+    }
   );
 };
 
@@ -2699,7 +2810,6 @@ var EditorControls = ({
 import { Plus as Plus2 } from "lucide-react";
 
 // components/rich-text-rtl/Menu/TableBubbleMenu.tsx
-import React13 from "react";
 import { BubbleMenu, useCurrentEditor as useCurrentEditor2 } from "@tiptap/react";
 import {
   Trash2 as Trash22,
@@ -2709,6 +2819,7 @@ import {
   ArrowRightToLine,
   Trash
 } from "lucide-react";
+import { jsx as jsx13, jsxs as jsxs9 } from "react/jsx-runtime";
 var TableBubbleMenu = () => {
   const { editor } = useCurrentEditor2();
   if (!editor) {
@@ -2717,17 +2828,17 @@ var TableBubbleMenu = () => {
   const tableControls = [
     {
       label: "\u0625\u0636\u0627\u0641\u0629 \u0635\u0641 \u0644\u0644\u0623\u0639\u0644\u0649",
-      icon: /* @__PURE__ */ React13.createElement(ArrowUpToLine, { className: "w-4 h-4" }),
+      icon: /* @__PURE__ */ jsx13(ArrowUpToLine, { className: "w-4 h-4" }),
       action: () => editor.chain().focus().addRowBefore().run()
     },
     {
       label: "\u0625\u0636\u0627\u0641\u0629 \u0635\u0641 \u0644\u0644\u0623\u0633\u0641\u0644",
-      icon: /* @__PURE__ */ React13.createElement(ArrowDownToLine, { className: "w-4 h-4" }),
+      icon: /* @__PURE__ */ jsx13(ArrowDownToLine, { className: "w-4 h-4" }),
       action: () => editor.chain().focus().addRowAfter().run()
     },
     {
       label: "\u062D\u0630\u0641 \u0635\u0641",
-      icon: /* @__PURE__ */ React13.createElement(Trash22, { className: "w-4 h-4 text-red-500" }),
+      icon: /* @__PURE__ */ jsx13(Trash22, { className: "w-4 h-4 text-red-500" }),
       action: () => editor.chain().focus().deleteRow().run()
     },
     {
@@ -2735,19 +2846,19 @@ var TableBubbleMenu = () => {
     },
     {
       label: "\u0625\u0636\u0627\u0641\u0629 \u0639\u0645\u0648\u062F \u0644\u0644\u064A\u0645\u064A\u0646",
-      icon: /* @__PURE__ */ React13.createElement(ArrowRightToLine, { className: "w-4 h-4" }),
+      icon: /* @__PURE__ */ jsx13(ArrowRightToLine, { className: "w-4 h-4" }),
       action: () => editor.chain().focus().addColumnBefore().run()
       // In RTL, before is right
     },
     {
       label: "\u0625\u0636\u0627\u0641\u0629 \u0639\u0645\u0648\u062F \u0644\u0644\u064A\u0633\u0627\u0631",
-      icon: /* @__PURE__ */ React13.createElement(ArrowLeftToLine, { className: "w-4 h-4" }),
+      icon: /* @__PURE__ */ jsx13(ArrowLeftToLine, { className: "w-4 h-4" }),
       action: () => editor.chain().focus().addColumnAfter().run()
       // In RTL, after is left
     },
     {
       label: "\u062D\u0630\u0641 \u0639\u0645\u0648\u062F",
-      icon: /* @__PURE__ */ React13.createElement(Trash22, { className: "w-4 h-4 text-red-500" }),
+      icon: /* @__PURE__ */ jsx13(Trash22, { className: "w-4 h-4 text-red-500" }),
       action: () => editor.chain().focus().deleteColumn().run()
     },
     {
@@ -2755,11 +2866,11 @@ var TableBubbleMenu = () => {
     },
     {
       label: "\u062D\u0630\u0641 \u0627\u0644\u062C\u062F\u0648\u0644",
-      icon: /* @__PURE__ */ React13.createElement(Trash, { className: "w-4 h-4 text-red-600" }),
+      icon: /* @__PURE__ */ jsx13(Trash, { className: "w-4 h-4 text-red-600" }),
       action: () => editor.chain().focus().deleteTable().run()
     }
   ];
-  return /* @__PURE__ */ React13.createElement(
+  return /* @__PURE__ */ jsx13(
     BubbleMenu,
     {
       editor,
@@ -2787,107 +2898,116 @@ var TableBubbleMenu = () => {
         }
       },
       shouldShow: ({ editor: editor2 }) => editor2.isActive("table"),
-      className: "flex bg-background border shadow-md rounded-md p-1 items-center z-50 gap-1"
-    },
-    tableControls.map((control, index) => {
-      if (control.divider) {
-        return /* @__PURE__ */ React13.createElement("div", { key: `div-${index}`, className: "w-px h-5 bg-gray-200 mx-1" });
-      }
-      return /* @__PURE__ */ React13.createElement(Tooltip, { key: index }, /* @__PURE__ */ React13.createElement(TooltipTrigger, { asChild: true }, /* @__PURE__ */ React13.createElement(
-        Button,
-        {
-          variant: "ghost",
-          size: "sm",
-          className: "h-8 w-8 p-0",
-          onClick: control.action
-        },
-        control.icon
-      )), /* @__PURE__ */ React13.createElement(TooltipContent, null, /* @__PURE__ */ React13.createElement("p", null, control.label)));
-    })
+      className: "flex bg-background border shadow-md rounded-md p-1 items-center z-50 gap-1",
+      children: tableControls.map((control, index) => {
+        if (control.divider) {
+          return /* @__PURE__ */ jsx13("div", { className: "w-px h-5 bg-gray-200 mx-1" }, `div-${index}`);
+        }
+        return /* @__PURE__ */ jsxs9(Tooltip, { children: [
+          /* @__PURE__ */ jsx13(TooltipTrigger, { asChild: true, children: /* @__PURE__ */ jsx13(
+            Button,
+            {
+              variant: "ghost",
+              size: "sm",
+              className: "h-8 w-8 p-0",
+              onClick: control.action,
+              children: control.icon
+            }
+          ) }),
+          /* @__PURE__ */ jsx13(TooltipContent, { children: /* @__PURE__ */ jsx13("p", { children: control.label }) })
+        ] }, index);
+      })
+    }
   );
 };
 
 // components/rich-text-rtl/Menu/AccessibleToolbars.tsx
+import { jsx as jsx14, jsxs as jsxs10 } from "react/jsx-runtime";
 var AccessibleToolbars = ({ menuItems }) => {
   const { editor } = useCurrentEditor3();
   if (!editor) {
     return null;
   }
-  return /* @__PURE__ */ React14.createElement(TooltipProvider, null, /* @__PURE__ */ React14.createElement(TableBubbleMenu, null), /* @__PURE__ */ React14.createElement(
-    BubbleMenu2,
-    {
-      editor,
-      tippyOptions: {
-        duration: 100,
-        appendTo: () => document.body,
-        maxWidth: "calc(100vw - 16px)",
-        popperOptions: {
-          modifiers: [
-            {
-              name: "preventOverflow",
-              options: {
-                boundary: "viewport",
-                padding: 8,
-                tether: false,
-                // Allows tooltip to stay in viewport even if reference is huge
-                altAxis: true
-                // Prevents overflow on the alternate axis
-              }
-            },
-            {
-              name: "flip",
-              options: { boundary: "viewport", padding: 8 }
-            }
-          ]
-        }
-      },
-      shouldShow: ({ editor: editor2, view, state, from, to }) => {
-        if (typeof window !== "undefined" && window.innerWidth < 768) return false;
-        if (editor2.isActive("table")) return false;
-        const { doc, selection } = state;
-        const { empty } = selection;
-        const isEmptyTextBlock = !doc.textBetween(from, to).length;
-        return !empty && !isEmptyTextBlock;
-      },
-      className: "flex bg-background border shadow-md rounded-md p-1 items-center z-50"
-    },
-    /* @__PURE__ */ React14.createElement(
-      EditorControls,
+  return /* @__PURE__ */ jsxs10(TooltipProvider, { children: [
+    /* @__PURE__ */ jsx14(TableBubbleMenu, {}),
+    /* @__PURE__ */ jsx14(
+      BubbleMenu2,
       {
         editor,
-        menuItems,
-        isMobileMenuOpen: true,
-        setIsSaved: () => {
-        }
+        tippyOptions: {
+          duration: 100,
+          appendTo: () => document.body,
+          maxWidth: "calc(100vw - 16px)",
+          popperOptions: {
+            modifiers: [
+              {
+                name: "preventOverflow",
+                options: {
+                  boundary: "viewport",
+                  padding: 8,
+                  tether: false,
+                  // Allows tooltip to stay in viewport even if reference is huge
+                  altAxis: true
+                  // Prevents overflow on the alternate axis
+                }
+              },
+              {
+                name: "flip",
+                options: { boundary: "viewport", padding: 8 }
+              }
+            ]
+          }
+        },
+        shouldShow: ({ editor: editor2, view, state, from, to }) => {
+          if (typeof window !== "undefined" && window.innerWidth < 768) return false;
+          if (editor2.isActive("table")) return false;
+          const { doc, selection } = state;
+          const { empty } = selection;
+          const isEmptyTextBlock = !doc.textBetween(from, to).length;
+          return !empty && !isEmptyTextBlock;
+        },
+        className: "flex bg-background border shadow-md rounded-md p-1 items-center z-50",
+        children: /* @__PURE__ */ jsx14(
+          EditorControls,
+          {
+            editor,
+            menuItems,
+            isMobileMenuOpen: true,
+            setIsSaved: () => {
+            }
+          }
+        )
+      }
+    ),
+    /* @__PURE__ */ jsx14(
+      FloatingMenu,
+      {
+        editor,
+        tippyOptions: {
+          duration: 100,
+          placement: "left-start",
+          appendTo: () => document.body
+        },
+        className: "flex gap-1 z-50",
+        children: /* @__PURE__ */ jsx14(Button, { variant: "ghost", size: "icon", onClick: () => editor.commands.insertContent("/"), className: "rounded-full w-6 h-6 bg-background border shadow-sm text-muted-foreground hover:text-foreground", children: /* @__PURE__ */ jsx14(Plus2, { className: "w-3 h-3" }) })
       }
     )
-  ), /* @__PURE__ */ React14.createElement(
-    FloatingMenu,
-    {
-      editor,
-      tippyOptions: {
-        duration: 100,
-        placement: "left-start",
-        appendTo: () => document.body
-      },
-      className: "flex gap-1 z-50"
-    },
-    /* @__PURE__ */ React14.createElement(Button, { variant: "ghost", size: "icon", onClick: () => editor.commands.insertContent("/"), className: "rounded-full w-6 h-6 bg-background border shadow-sm text-muted-foreground hover:text-foreground" }, /* @__PURE__ */ React14.createElement(Plus2, { className: "w-3 h-3" }))
-  ));
+  ] });
 };
 
 // components/rich-text-rtl/Menu/MobileTopToolbar.tsx
-import React15 from "react";
+import React12 from "react";
 import { useCurrentEditor as useCurrentEditor4 } from "@tiptap/react";
 import { GripVertical } from "lucide-react";
+import { jsx as jsx15, jsxs as jsxs11 } from "react/jsx-runtime";
 var MobileTopToolbar = ({ menuItems }) => {
   const { editor } = useCurrentEditor4();
-  const [hasSelection, setHasSelection] = React15.useState(false);
-  const [position, setPosition] = React15.useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = React15.useState(false);
-  const [topOffset, setTopOffset] = React15.useState(8);
-  const dragStartRef = React15.useRef({ x: 0, y: 0 });
-  React15.useEffect(() => {
+  const [hasSelection, setHasSelection] = React12.useState(false);
+  const [position, setPosition] = React12.useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = React12.useState(false);
+  const [topOffset, setTopOffset] = React12.useState(8);
+  const dragStartRef = React12.useRef({ x: 0, y: 0 });
+  React12.useEffect(() => {
     if (typeof window === "undefined" || !window.visualViewport) return;
     const viewport = window.visualViewport;
     const updatePosition = () => {
@@ -2920,7 +3040,7 @@ var MobileTopToolbar = ({ menuItems }) => {
     setIsDragging(false);
     e.target.releasePointerCapture(e.pointerId);
   };
-  React15.useEffect(() => {
+  React12.useEffect(() => {
     if (!editor) return;
     const checkSelection = () => {
       const { empty } = editor.state.selection;
@@ -2944,40 +3064,43 @@ var MobileTopToolbar = ({ menuItems }) => {
   if (!editor || !hasSelection) {
     return null;
   }
-  return /* @__PURE__ */ React15.createElement(
+  return /* @__PURE__ */ jsxs11(
     "div",
     {
       style: {
         top: `${topOffset}px`,
         transform: `translate(calc(-50% + ${position.x}px), ${position.y}px)`
       },
-      className: "fixed left-1/2 z-50 w-max max-w-[95vw] bg-gray-100/95 dark:bg-gray-950/95 backdrop-blur-xl border border-gray-300 dark:border-gray-700 shadow-xl shadow-black/20 rounded-3xl p-1 flex md:hidden items-center justify-center overflow-x-auto animate-in fade-in duration-300 ease-out scale-90 sm:scale-100 origin-top touch-none"
-    },
-    /* @__PURE__ */ React15.createElement(
-      "div",
-      {
-        className: "px-1 py-2 cursor-grab active:cursor-grabbing text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex-shrink-0",
-        onPointerDown: handlePointerDown,
-        onPointerMove: handlePointerMove,
-        onPointerUp: handlePointerUp,
-        onPointerCancel: handlePointerUp
-      },
-      /* @__PURE__ */ React15.createElement(GripVertical, { className: "w-5 h-5" })
-    ),
-    /* @__PURE__ */ React15.createElement(TooltipProvider, null, /* @__PURE__ */ React15.createElement(
-      EditorControls,
-      {
-        editor,
-        menuItems,
-        isMobileMenuOpen: true,
-        setIsSaved: () => {
-        }
-      }
-    ))
+      className: "fixed left-1/2 z-50 w-max max-w-[95vw] bg-gray-100/95 dark:bg-gray-950/95 backdrop-blur-xl border border-gray-300 dark:border-gray-700 shadow-xl shadow-black/20 rounded-3xl p-1 flex md:hidden items-center justify-center overflow-x-auto animate-in fade-in duration-300 ease-out scale-90 sm:scale-100 origin-top touch-none",
+      children: [
+        /* @__PURE__ */ jsx15(
+          "div",
+          {
+            className: "px-1 py-2 cursor-grab active:cursor-grabbing text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex-shrink-0",
+            onPointerDown: handlePointerDown,
+            onPointerMove: handlePointerMove,
+            onPointerUp: handlePointerUp,
+            onPointerCancel: handlePointerUp,
+            children: /* @__PURE__ */ jsx15(GripVertical, { className: "w-5 h-5" })
+          }
+        ),
+        /* @__PURE__ */ jsx15(TooltipProvider, { children: /* @__PURE__ */ jsx15(
+          EditorControls,
+          {
+            editor,
+            menuItems,
+            isMobileMenuOpen: true,
+            setIsSaved: () => {
+            }
+          }
+        ) })
+      ]
+    }
   );
 };
 
 // components/rich-text-rtl/ArabicRichTextEditor.tsx
+import { jsx as jsx16, jsxs as jsxs12 } from "react/jsx-runtime";
 var defaultContent = `
 <h1 style="text-align: center;">\u0645\u0631\u062D\u0628\u0627\u064B \u0628\u0643 \u0641\u064A \u0645\u062D\u0631\u0631 \u0627\u0644\u0646\u0635\u0648\u0635 \u0627\u0644\u0627\u062D\u062A\u0631\u0627\u0641\u064A \u{1F680}</h1>
 <p style="text-align: center;">\u0647\u0630\u0627 \u0627\u0644\u0645\u062D\u0631\u0631 \u0635\u064F\u0645\u0645 \u062E\u0635\u064A\u0635\u0627\u064B \u0644\u064A\u0648\u0641\u0631 \u0644\u0643 \u062A\u062C\u0631\u0628\u0629 \u0643\u062A\u0627\u0628\u0629 \u063A\u0646\u064A\u0629 \u0648\u062F\u0627\u0639\u0645\u0629 \u0644\u0644\u063A\u0629 \u0627\u0644\u0639\u0631\u0628\u064A\u0629 (RTL) \u0628\u0634\u0643\u0644 \u0645\u062B\u0627\u0644\u064A\u060C \u0645\u0639 \u0627\u0644\u062D\u0641\u0627\u0638 \u0639\u0644\u0649 \u0627\u0644\u062A\u0648\u0627\u0641\u0642 \u0627\u0644\u062A\u0627\u0645 \u0645\u0639 \u0627\u0644\u0644\u063A\u0629 \u0627\u0644\u0625\u0646\u062C\u0644\u064A\u0632\u064A\u0629.</p>
@@ -3123,18 +3246,20 @@ var ArabicRichTextEditor = ({
       onChange(editor.getHTML());
     }
   };
-  return /* @__PURE__ */ React.createElement("div", { className }, /* @__PURE__ */ React.createElement(
+  return /* @__PURE__ */ jsx16("div", { className, children: /* @__PURE__ */ jsxs12(
     EditorProvider,
     {
-      slotBefore: /* @__PURE__ */ React.createElement(MobileTopToolbar, { menuItems }),
+      slotBefore: /* @__PURE__ */ jsx16(MobileTopToolbar, { menuItems }),
       extensions: finalExtensions,
       content,
       editorProps,
-      onUpdate: handleUpdate
-    },
-    /* @__PURE__ */ React.createElement(AccessibleToolbars, { menuItems }),
-    /* @__PURE__ */ React.createElement(OutdatedTermsBanner, { autocompleteTerms })
-  ));
+      onUpdate: handleUpdate,
+      children: [
+        /* @__PURE__ */ jsx16(AccessibleToolbars, { menuItems }),
+        /* @__PURE__ */ jsx16(OutdatedTermsBanner, { autocompleteTerms })
+      ]
+    }
+  ) });
 };
 var ArabicRichTextEditor_default = ArabicRichTextEditor;
 export {

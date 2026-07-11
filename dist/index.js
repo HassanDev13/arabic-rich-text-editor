@@ -531,12 +531,12 @@ var import_extension_image = __toESM(require("@tiptap/extension-image"));
 var import_react3 = require("@tiptap/react");
 
 // components/rich-text-rtl/ImageBlock.tsx
-var import_react = __toESM(require("react"));
+var import_react = require("react");
 var import_react2 = require("@tiptap/react");
 var import_lucide_react = require("lucide-react");
 
 // components/ui/button.tsx
-var React2 = __toESM(require("react"));
+var React = __toESM(require("react"));
 var import_react_slot = require("@radix-ui/react-slot");
 var import_class_variance_authority = require("class-variance-authority");
 
@@ -548,6 +548,7 @@ function cn(...inputs) {
 }
 
 // components/ui/button.tsx
+var import_jsx_runtime = require("react/jsx-runtime");
 var buttonVariants = (0, import_class_variance_authority.cva)(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
@@ -573,11 +574,11 @@ var buttonVariants = (0, import_class_variance_authority.cva)(
     }
   }
 );
-var Button = React2.forwardRef(
+var Button = React.forwardRef(
   (_a, ref) => {
     var _b = _a, { className, variant, size, asChild = false } = _b, props = __objRest(_b, ["className", "variant", "size", "asChild"]);
     const Comp = asChild ? import_react_slot.Slot : "button";
-    return /* @__PURE__ */ React2.createElement(
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
       Comp,
       __spreadValues({
         className: cn(buttonVariants({ variant, size, className })),
@@ -589,6 +590,7 @@ var Button = React2.forwardRef(
 Button.displayName = "Button";
 
 // components/rich-text-rtl/ImageBlock.tsx
+var import_jsx_runtime2 = require("react/jsx-runtime");
 var ImageBlock = ({ node, updateAttributes, selected, deleteNode, editor, getPos }) => {
   const [isUploading, setIsUploading] = (0, import_react.useState)(false);
   const fileInputRef = (0, import_react.useRef)(null);
@@ -622,39 +624,57 @@ var ImageBlock = ({ node, updateAttributes, selected, deleteNode, editor, getPos
     }
   };
   if (node.attrs.src) {
-    return /* @__PURE__ */ import_react.default.createElement(import_react2.NodeViewWrapper, { as: "figure", className: "relative group my-8" }, /* @__PURE__ */ import_react.default.createElement("div", { className: `relative rounded-md overflow-hidden ${selected ? "ring-2 ring-primary ring-offset-2" : ""}` }, /* @__PURE__ */ import_react.default.createElement("img", { src: node.attrs.src, alt: node.attrs.alt || "\u0635\u0648\u0631\u0629", className: "w-full h-auto rounded-md object-contain max-h-[500px] mx-auto bg-muted" }), /* @__PURE__ */ import_react.default.createElement("div", { className: "absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity" }, /* @__PURE__ */ import_react.default.createElement(Button, { variant: "destructive", size: "icon", className: "h-8 w-8 shadow-md", onClick: () => deleteNode() }, /* @__PURE__ */ import_react.default.createElement(import_lucide_react.Trash2, { className: "h-4 w-4" })))));
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react2.NodeViewWrapper, { as: "figure", className: "relative group my-8", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: `relative rounded-md overflow-hidden ${selected ? "ring-2 ring-primary ring-offset-2" : ""}`, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("img", { src: node.attrs.src, alt: node.attrs.alt || "\u0635\u0648\u0631\u0629", className: "w-full h-auto rounded-md object-contain max-h-[500px] mx-auto bg-muted" }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Button, { variant: "destructive", size: "icon", className: "h-8 w-8 shadow-md", onClick: () => deleteNode(), children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_lucide_react.Trash2, { className: "h-4 w-4" }) }) })
+    ] }) });
   }
-  return /* @__PURE__ */ import_react.default.createElement(import_react2.NodeViewWrapper, { as: "div", className: "my-6" }, /* @__PURE__ */ import_react.default.createElement("div", { className: `border-2 border-dashed rounded-lg p-8 bg-muted/50 text-center transition-colors ${selected ? "border-primary bg-primary/5" : "border-muted-foreground/20"}` }, /* @__PURE__ */ import_react.default.createElement("div", { className: "flex flex-col items-center justify-center gap-4" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "flex items-center gap-2 text-muted-foreground font-medium" }, /* @__PURE__ */ import_react.default.createElement(import_lucide_react.Image, { className: "w-6 h-6" }), /* @__PURE__ */ import_react.default.createElement("span", null, "\u0635\u0648\u0631\u0629")), /* @__PURE__ */ import_react.default.createElement("p", { className: "text-sm text-muted-foreground" }, "\u0627\u062E\u062A\u0631 \u0635\u0648\u0631\u0629 \u0645\u0646 \u062C\u0647\u0627\u0632\u0643 \u0623\u0648 \u0623\u062F\u0631\u062C\u0647\u0627 \u0645\u0646 \u0631\u0627\u0628\u0637."), /* @__PURE__ */ import_react.default.createElement("div", { className: "flex flex-wrap items-center justify-center gap-3 mt-2" }, /* @__PURE__ */ import_react.default.createElement(
-    Button,
-    {
-      variant: "default",
-      onClick: () => {
-        var _a;
-        return (_a = fileInputRef.current) == null ? void 0 : _a.click();
-      },
-      disabled: isUploading
-    },
-    /* @__PURE__ */ import_react.default.createElement(import_lucide_react.Upload, { className: "w-4 h-4 ml-2" }),
-    isUploading ? "\u062C\u0627\u0631\u064A \u0627\u0644\u0631\u0641\u0639..." : "\u0631\u0641\u0639 \u0635\u0648\u0631\u0629"
-  ), /* @__PURE__ */ import_react.default.createElement(
-    "input",
-    {
-      type: "file",
-      ref: fileInputRef,
-      onChange: handleUpload,
-      accept: "image/*",
-      className: "hidden"
-    }
-  ), /* @__PURE__ */ import_react.default.createElement(
-    Button,
-    {
-      variant: "outline",
-      onClick: promptForUrl,
-      className: "bg-background"
-    },
-    /* @__PURE__ */ import_react.default.createElement(import_lucide_react.Link, { className: "w-4 h-4 ml-2" }),
-    "\u0623\u062F\u0631\u062C \u0645\u0646 \u0631\u0627\u0628\u0637 (URL)"
-  )))));
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react2.NodeViewWrapper, { as: "div", className: "my-6", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: `border-2 border-dashed rounded-lg p-8 bg-muted/50 text-center transition-colors ${selected ? "border-primary bg-primary/5" : "border-muted-foreground/20"}`, children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "flex flex-col items-center justify-center gap-4", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "flex items-center gap-2 text-muted-foreground font-medium", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_lucide_react.Image, { className: "w-6 h-6" }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u0635\u0648\u0631\u0629" })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { className: "text-sm text-muted-foreground", children: "\u0627\u062E\u062A\u0631 \u0635\u0648\u0631\u0629 \u0645\u0646 \u062C\u0647\u0627\u0632\u0643 \u0623\u0648 \u0623\u062F\u0631\u062C\u0647\u0627 \u0645\u0646 \u0631\u0627\u0628\u0637." }),
+    /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "flex flex-wrap items-center justify-center gap-3 mt-2", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
+        Button,
+        {
+          variant: "default",
+          onClick: () => {
+            var _a;
+            return (_a = fileInputRef.current) == null ? void 0 : _a.click();
+          },
+          disabled: isUploading,
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_lucide_react.Upload, { className: "w-4 h-4 ml-2" }),
+            isUploading ? "\u062C\u0627\u0631\u064A \u0627\u0644\u0631\u0641\u0639..." : "\u0631\u0641\u0639 \u0635\u0648\u0631\u0629"
+          ]
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+        "input",
+        {
+          type: "file",
+          ref: fileInputRef,
+          onChange: handleUpload,
+          accept: "image/*",
+          className: "hidden"
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
+        Button,
+        {
+          variant: "outline",
+          onClick: promptForUrl,
+          className: "bg-background",
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_lucide_react.Link, { className: "w-4 h-4 ml-2" }),
+            "\u0623\u062F\u0631\u062C \u0645\u0646 \u0631\u0627\u0628\u0637 (URL)"
+          ]
+        }
+      )
+    ] })
+  ] }) }) });
 };
 
 // components/rich-text-rtl/CustomImage.ts
@@ -679,9 +699,10 @@ var import_core = require("@tiptap/core");
 var import_react6 = require("@tiptap/react");
 
 // components/rich-text-rtl/TablePlaceholderBlock.tsx
-var import_react4 = __toESM(require("react"));
+var import_react4 = require("react");
 var import_react5 = require("@tiptap/react");
 var import_lucide_react2 = require("lucide-react");
+var import_jsx_runtime3 = require("react/jsx-runtime");
 var TablePlaceholderBlock = ({ editor, getPos, deleteNode, selected }) => {
   const [rows, setRows] = (0, import_react4.useState)(2);
   const [cols, setCols] = (0, import_react4.useState)(2);
@@ -693,27 +714,46 @@ var TablePlaceholderBlock = ({ editor, getPos, deleteNode, selected }) => {
       editor.chain().focus().insertTable({ rows, cols, withHeaderRow: true }).run();
     }, 10);
   };
-  return /* @__PURE__ */ import_react4.default.createElement(import_react5.NodeViewWrapper, { as: "div", className: "my-6" }, /* @__PURE__ */ import_react4.default.createElement("div", { className: `border-2 border-dashed rounded-lg p-8 bg-gray-50/50 text-center transition-colors ${selected ? "border-primary bg-primary/5" : "border-gray-200"}` }, /* @__PURE__ */ import_react4.default.createElement("div", { className: "flex flex-col items-center justify-center gap-4" }, /* @__PURE__ */ import_react4.default.createElement("div", { className: "flex items-center gap-2 text-gray-500 font-medium" }, /* @__PURE__ */ import_react4.default.createElement(import_lucide_react2.Table, { className: "w-6 h-6" }), /* @__PURE__ */ import_react4.default.createElement("span", null, "\u062C\u062F\u0648\u0644")), /* @__PURE__ */ import_react4.default.createElement("p", { className: "text-sm text-gray-500" }, "\u0625\u062F\u0631\u0627\u062C \u062C\u062F\u0648\u0644 \u0644\u0645\u0634\u0627\u0631\u0643\u0629 \u0628\u064A\u0627\u0646\u0627\u062A."), /* @__PURE__ */ import_react4.default.createElement("form", { onSubmit: createTable, className: "flex flex-col items-center gap-4 mt-2" }, /* @__PURE__ */ import_react4.default.createElement("div", { className: "flex gap-4" }, /* @__PURE__ */ import_react4.default.createElement("div", { className: "flex flex-col items-start gap-1" }, /* @__PURE__ */ import_react4.default.createElement("label", { className: "text-sm text-gray-600", htmlFor: "cols-input" }, "\u0639\u062F\u062F \u0627\u0644\u0623\u0639\u0645\u062F\u0629"), /* @__PURE__ */ import_react4.default.createElement(
-    "input",
-    {
-      id: "cols-input",
-      type: "number",
-      min: "1",
-      value: cols,
-      onChange: (e) => setCols(parseInt(e.target.value) || 1),
-      className: "border border-gray-300 rounded-md px-3 py-2 w-32 text-center focus:outline-none focus:ring-2 focus:ring-primary"
-    }
-  )), /* @__PURE__ */ import_react4.default.createElement("div", { className: "flex flex-col items-start gap-1" }, /* @__PURE__ */ import_react4.default.createElement("label", { className: "text-sm text-gray-600", htmlFor: "rows-input" }, "\u0639\u062F\u062F \u0627\u0644\u0635\u0641\u0648\u0641"), /* @__PURE__ */ import_react4.default.createElement(
-    "input",
-    {
-      id: "rows-input",
-      type: "number",
-      min: "1",
-      value: rows,
-      onChange: (e) => setRows(parseInt(e.target.value) || 1),
-      className: "border border-gray-300 rounded-md px-3 py-2 w-32 text-center focus:outline-none focus:ring-2 focus:ring-primary"
-    }
-  ))), /* @__PURE__ */ import_react4.default.createElement(Button, { type: "submit", variant: "default", className: "w-full max-w-[270px]" }, "\u0625\u0646\u0634\u0627\u0621 \u062C\u062F\u0648\u0644")))));
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_react5.NodeViewWrapper, { as: "div", className: "my-6", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: `border-2 border-dashed rounded-lg p-8 bg-gray-50/50 text-center transition-colors ${selected ? "border-primary bg-primary/5" : "border-gray-200"}`, children: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "flex flex-col items-center justify-center gap-4", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "flex items-center gap-2 text-gray-500 font-medium", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_lucide_react2.Table, { className: "w-6 h-6" }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: "\u062C\u062F\u0648\u0644" })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { className: "text-sm text-gray-500", children: "\u0625\u062F\u0631\u0627\u062C \u062C\u062F\u0648\u0644 \u0644\u0645\u0634\u0627\u0631\u0643\u0629 \u0628\u064A\u0627\u0646\u0627\u062A." }),
+    /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("form", { onSubmit: createTable, className: "flex flex-col items-center gap-4 mt-2", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "flex gap-4", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "flex flex-col items-start gap-1", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("label", { className: "text-sm text-gray-600", htmlFor: "cols-input", children: "\u0639\u062F\u062F \u0627\u0644\u0623\u0639\u0645\u062F\u0629" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+            "input",
+            {
+              id: "cols-input",
+              type: "number",
+              min: "1",
+              value: cols,
+              onChange: (e) => setCols(parseInt(e.target.value) || 1),
+              className: "border border-gray-300 rounded-md px-3 py-2 w-32 text-center focus:outline-none focus:ring-2 focus:ring-primary"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "flex flex-col items-start gap-1", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("label", { className: "text-sm text-gray-600", htmlFor: "rows-input", children: "\u0639\u062F\u062F \u0627\u0644\u0635\u0641\u0648\u0641" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+            "input",
+            {
+              id: "rows-input",
+              type: "number",
+              min: "1",
+              value: rows,
+              onChange: (e) => setRows(parseInt(e.target.value) || 1),
+              className: "border border-gray-300 rounded-md px-3 py-2 w-32 text-center focus:outline-none focus:ring-2 focus:ring-primary"
+            }
+          )
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Button, { type: "submit", variant: "default", className: "w-full max-w-[270px]", children: "\u0625\u0646\u0634\u0627\u0621 \u062C\u062F\u0648\u0644" })
+    ] })
+  ] }) }) });
 };
 
 // components/rich-text-rtl/TablePlaceholderExtension.ts
@@ -926,20 +966,21 @@ var import_tippy = __toESM(require("tippy.js"));
 var import_react8 = require("@tiptap/react");
 
 // components/rich-text-rtl/SlashCommandList.tsx
-var import_react7 = __toESM(require("react"));
+var import_react7 = require("react");
 
 // components/ui/command.tsx
-var React6 = __toESM(require("react"));
+var React5 = __toESM(require("react"));
 var import_cmdk = require("cmdk");
 
 // components/ui/dialog.tsx
-var React5 = __toESM(require("react"));
+var React4 = __toESM(require("react"));
 var DialogPrimitive = __toESM(require("@radix-ui/react-dialog"));
 var import_react_icons = require("@radix-ui/react-icons");
+var import_jsx_runtime4 = require("react/jsx-runtime");
 var DialogPortal = DialogPrimitive.Portal;
-var DialogOverlay = React5.forwardRef((_a, ref) => {
+var DialogOverlay = React4.forwardRef((_a, ref) => {
   var _b = _a, { className } = _b, props = __objRest(_b, ["className"]);
-  return /* @__PURE__ */ React5.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
     DialogPrimitive.Overlay,
     __spreadValues({
       ref,
@@ -951,20 +992,29 @@ var DialogOverlay = React5.forwardRef((_a, ref) => {
   );
 });
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
-var DialogContent = React5.forwardRef((_a, ref) => {
+var DialogContent = React4.forwardRef((_a, ref) => {
   var _b = _a, { className, children } = _b, props = __objRest(_b, ["className", "children"]);
-  return /* @__PURE__ */ React5.createElement(DialogPortal, null, /* @__PURE__ */ React5.createElement(DialogOverlay, null), /* @__PURE__ */ React5.createElement(
-    DialogPrimitive.Content,
-    __spreadValues({
-      ref,
-      className: cn(
-        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
-        className
-      )
-    }, props),
-    children,
-    /* @__PURE__ */ React5.createElement(DialogPrimitive.Close, { className: "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground" }, /* @__PURE__ */ React5.createElement(import_react_icons.Cross2Icon, { className: "h-4 w-4" }), /* @__PURE__ */ React5.createElement("span", { className: "sr-only" }, "Close"))
-  ));
+  return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(DialogPortal, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(DialogOverlay, {}),
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(
+      DialogPrimitive.Content,
+      __spreadProps(__spreadValues({
+        ref,
+        className: cn(
+          "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
+          className
+        )
+      }, props), {
+        children: [
+          children,
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(DialogPrimitive.Close, { className: "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_react_icons.Cross2Icon, { className: "h-4 w-4" }),
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "sr-only", children: "Close" })
+          ] })
+        ]
+      })
+    )
+  ] });
 });
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 var DialogHeader = (_a) => {
@@ -973,7 +1023,7 @@ var DialogHeader = (_a) => {
   } = _b, props = __objRest(_b, [
     "className"
   ]);
-  return /* @__PURE__ */ React5.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
     "div",
     __spreadValues({
       className: cn(
@@ -990,7 +1040,7 @@ var DialogFooter = (_a) => {
   } = _b, props = __objRest(_b, [
     "className"
   ]);
-  return /* @__PURE__ */ React5.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
     "div",
     __spreadValues({
       className: cn(
@@ -1001,9 +1051,9 @@ var DialogFooter = (_a) => {
   );
 };
 DialogFooter.displayName = "DialogFooter";
-var DialogTitle = React5.forwardRef((_a, ref) => {
+var DialogTitle = React4.forwardRef((_a, ref) => {
   var _b = _a, { className } = _b, props = __objRest(_b, ["className"]);
-  return /* @__PURE__ */ React5.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
     DialogPrimitive.Title,
     __spreadValues({
       ref,
@@ -1015,9 +1065,9 @@ var DialogTitle = React5.forwardRef((_a, ref) => {
   );
 });
 DialogTitle.displayName = DialogPrimitive.Title.displayName;
-var DialogDescription = React5.forwardRef((_a, ref) => {
+var DialogDescription = React4.forwardRef((_a, ref) => {
   var _b = _a, { className } = _b, props = __objRest(_b, ["className"]);
-  return /* @__PURE__ */ React5.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
     DialogPrimitive.Description,
     __spreadValues({
       ref,
@@ -1029,9 +1079,10 @@ DialogDescription.displayName = DialogPrimitive.Description.displayName;
 
 // components/ui/command.tsx
 var import_react_icons2 = require("@radix-ui/react-icons");
-var Command = React6.forwardRef((_a, ref) => {
+var import_jsx_runtime5 = require("react/jsx-runtime");
+var Command = React5.forwardRef((_a, ref) => {
   var _b = _a, { className } = _b, props = __objRest(_b, ["className"]);
-  return /* @__PURE__ */ React6.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
     import_cmdk.Command,
     __spreadValues({
       ref,
@@ -1043,23 +1094,26 @@ var Command = React6.forwardRef((_a, ref) => {
   );
 });
 Command.displayName = import_cmdk.Command.displayName;
-var CommandInput = React6.forwardRef((_a, ref) => {
+var CommandInput = React5.forwardRef((_a, ref) => {
   var _b = _a, { className } = _b, props = __objRest(_b, ["className"]);
-  return /* @__PURE__ */ React6.createElement("div", { className: "flex items-center border-b px-3", "cmdk-input-wrapper": "" }, /* @__PURE__ */ React6.createElement(import_react_icons2.MagnifyingGlassIcon, { className: "mr-2 h-4 w-4 shrink-0 opacity-50" }), /* @__PURE__ */ React6.createElement(
-    import_cmdk.Command.Input,
-    __spreadValues({
-      ref,
-      className: cn(
-        "flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
-        className
-      )
-    }, props)
-  ));
+  return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "flex items-center border-b px-3", "cmdk-input-wrapper": "", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_react_icons2.MagnifyingGlassIcon, { className: "mr-2 h-4 w-4 shrink-0 opacity-50" }),
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
+      import_cmdk.Command.Input,
+      __spreadValues({
+        ref,
+        className: cn(
+          "flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
+          className
+        )
+      }, props)
+    )
+  ] });
 });
 CommandInput.displayName = import_cmdk.Command.Input.displayName;
-var CommandList = React6.forwardRef((_a, ref) => {
+var CommandList = React5.forwardRef((_a, ref) => {
   var _b = _a, { className } = _b, props = __objRest(_b, ["className"]);
-  return /* @__PURE__ */ React6.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
     import_cmdk.Command.List,
     __spreadValues({
       ref,
@@ -1068,7 +1122,7 @@ var CommandList = React6.forwardRef((_a, ref) => {
   );
 });
 CommandList.displayName = import_cmdk.Command.List.displayName;
-var CommandEmpty = React6.forwardRef((props, ref) => /* @__PURE__ */ React6.createElement(
+var CommandEmpty = React5.forwardRef((props, ref) => /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
   import_cmdk.Command.Empty,
   __spreadValues({
     ref,
@@ -1076,9 +1130,9 @@ var CommandEmpty = React6.forwardRef((props, ref) => /* @__PURE__ */ React6.crea
   }, props)
 ));
 CommandEmpty.displayName = import_cmdk.Command.Empty.displayName;
-var CommandGroup = React6.forwardRef((_a, ref) => {
+var CommandGroup = React5.forwardRef((_a, ref) => {
   var _b = _a, { className } = _b, props = __objRest(_b, ["className"]);
-  return /* @__PURE__ */ React6.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
     import_cmdk.Command.Group,
     __spreadValues({
       ref,
@@ -1090,9 +1144,9 @@ var CommandGroup = React6.forwardRef((_a, ref) => {
   );
 });
 CommandGroup.displayName = import_cmdk.Command.Group.displayName;
-var CommandSeparator = React6.forwardRef((_a, ref) => {
+var CommandSeparator = React5.forwardRef((_a, ref) => {
   var _b = _a, { className } = _b, props = __objRest(_b, ["className"]);
-  return /* @__PURE__ */ React6.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
     import_cmdk.Command.Separator,
     __spreadValues({
       ref,
@@ -1101,9 +1155,9 @@ var CommandSeparator = React6.forwardRef((_a, ref) => {
   );
 });
 CommandSeparator.displayName = import_cmdk.Command.Separator.displayName;
-var CommandItem = React6.forwardRef((_a, ref) => {
+var CommandItem = React5.forwardRef((_a, ref) => {
   var _b = _a, { className } = _b, props = __objRest(_b, ["className"]);
-  return /* @__PURE__ */ React6.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
     import_cmdk.Command.Item,
     __spreadValues({
       ref,
@@ -1121,7 +1175,7 @@ var CommandShortcut = (_a) => {
   } = _b, props = __objRest(_b, [
     "className"
   ]);
-  return /* @__PURE__ */ React6.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
     "span",
     __spreadValues({
       className: cn(
@@ -1134,6 +1188,7 @@ var CommandShortcut = (_a) => {
 CommandShortcut.displayName = "CommandShortcut";
 
 // components/rich-text-rtl/SlashCommandList.tsx
+var import_jsx_runtime6 = require("react/jsx-runtime");
 var SlashCommandList = (0, import_react7.forwardRef)(
   ({
     items,
@@ -1189,29 +1244,37 @@ var SlashCommandList = (0, import_react7.forwardRef)(
         return false;
       }
     }));
-    return /* @__PURE__ */ import_react7.default.createElement(
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
       Command,
       {
         className: cn(
           "w-64  bg-white border border-gray-200",
           className
-        )
-      },
-      /* @__PURE__ */ import_react7.default.createElement(CommandList, { ref: listRef, className: "max-h-60 overflow-y-auto" }, /* @__PURE__ */ import_react7.default.createElement(CommandEmpty, { className: "p-2 text-sm text-gray-500" }, emptyMessage), /* @__PURE__ */ import_react7.default.createElement(CommandGroup, null, items.map((item, index) => /* @__PURE__ */ import_react7.default.createElement(
-        CommandItem,
-        {
-          key: index,
-          value: item.title,
-          onSelect: () => selectItem(index),
-          "data-index": index,
-          className: cn(
-            "flex items-center gap-2 p-2 text-sm text-foreground cursor-pointer hover:bg-gray-100",
-            index === selectedIndex && "bg-gray-100 text-foreground"
-          )
-        },
-        item.icon && /* @__PURE__ */ import_react7.default.createElement("span", null, item.icon),
-        /* @__PURE__ */ import_react7.default.createElement("div", null, /* @__PURE__ */ import_react7.default.createElement("div", null, item.title), item.description && /* @__PURE__ */ import_react7.default.createElement("div", { className: "text-xs text-gray-500" }, item.description))
-      ))))
+        ),
+        children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(CommandList, { ref: listRef, className: "max-h-60 overflow-y-auto", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(CommandEmpty, { className: "p-2 text-sm text-gray-500", children: emptyMessage }),
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(CommandGroup, { children: items.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(
+            CommandItem,
+            {
+              value: item.title,
+              onSelect: () => selectItem(index),
+              "data-index": index,
+              className: cn(
+                "flex items-center gap-2 p-2 text-sm text-foreground cursor-pointer hover:bg-gray-100",
+                index === selectedIndex && "bg-gray-100 text-foreground"
+              ),
+              children: [
+                item.icon && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { children: item.icon }),
+                /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { children: item.title }),
+                  item.description && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "text-xs text-gray-500", children: item.description })
+                ] })
+              ]
+            },
+            index
+          )) })
+        ] })
+      }
     );
   }
 );
@@ -1784,8 +1847,8 @@ var editorExtensions = [
 ];
 
 // components/rich-text-rtl/ArabicRichTextEditor.tsx
-var import_react20 = require("react");
-var import_react21 = require("@tiptap/react");
+var import_react18 = require("react");
+var import_react19 = require("@tiptap/react");
 
 // components/rich-text-rtl/TermAutocomplete.ts
 var import_core7 = require("@tiptap/core");
@@ -1796,7 +1859,8 @@ var import_state5 = require("@tiptap/pm/state");
 var import_model = require("@tiptap/pm/model");
 
 // components/rich-text-rtl/TermAutocompleteList.tsx
-var import_react9 = __toESM(require("react"));
+var import_react9 = require("react");
+var import_jsx_runtime7 = require("react/jsx-runtime");
 var TermAutocompleteList = (0, import_react9.forwardRef)(
   ({ items, command, className }, ref) => {
     const [selectedIndex, setSelectedIndex] = (0, import_react9.useState)(0);
@@ -1849,35 +1913,47 @@ var TermAutocompleteList = (0, import_react9.forwardRef)(
     if (items.length === 0) {
       return null;
     }
-    return /* @__PURE__ */ import_react9.default.createElement(
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
       Command,
       {
         className: cn(
           "w-64 bg-white border border-gray-200 shadow-md rounded-md z-50 text-right direction-rtl",
           className
         ),
-        dir: "rtl"
-      },
-      /* @__PURE__ */ import_react9.default.createElement(CommandList, { ref: listRef, className: "max-h-60 overflow-y-auto p-1" }, /* @__PURE__ */ import_react9.default.createElement("div", { className: "px-2 py-1.5 text-[11px] font-semibold text-gray-400 border-b border-gray-100 mb-1" }, "\u0627\u0642\u062A\u0631\u0627\u062D\u0627\u062A \u0627\u0644\u0645\u0635\u0637\u0644\u062D\u0627\u062A (\u0627\u0636\u063A\u0637 Enter)"), /* @__PURE__ */ import_react9.default.createElement(CommandGroup, null, items.map((item, index) => {
-        var _a;
-        const isSelected = index === selectedIndex;
-        const isTopUsed = index === 0 && ((_a = item.usageCount) != null ? _a : 0) > 10;
-        return /* @__PURE__ */ import_react9.default.createElement(
-          CommandItem,
-          {
-            key: `${item.arabic}-${item.english}`,
-            value: `${item.arabic} ${item.english}`,
-            onSelect: () => selectItem(index),
-            "data-index": index,
-            className: cn(
-              "flex items-center justify-between p-2 text-sm text-foreground cursor-pointer rounded hover:bg-gray-100",
-              isSelected && "bg-gray-100 text-foreground"
-            )
-          },
-          /* @__PURE__ */ import_react9.default.createElement("div", { className: "flex items-center gap-1.5 min-w-0" }, /* @__PURE__ */ import_react9.default.createElement("span", { className: "font-medium text-gray-900" }, item.arabic), /* @__PURE__ */ import_react9.default.createElement("span", { className: "text-xs text-gray-400 font-mono" }, "(", item.english, ")")),
-          isTopUsed && /* @__PURE__ */ import_react9.default.createElement("span", { className: "text-[10px] bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded font-medium flex-shrink-0 mr-2" }, "\u0634\u0627\u0626\u0639")
-        );
-      })))
+        dir: "rtl",
+        children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(CommandList, { ref: listRef, className: "max-h-60 overflow-y-auto p-1", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "px-2 py-1.5 text-[11px] font-semibold text-gray-400 border-b border-gray-100 mb-1", children: "\u0627\u0642\u062A\u0631\u0627\u062D\u0627\u062A \u0627\u0644\u0645\u0635\u0637\u0644\u062D\u0627\u062A (\u0627\u0636\u063A\u0637 Enter)" }),
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(CommandGroup, { children: items.map((item, index) => {
+            var _a;
+            const isSelected = index === selectedIndex;
+            const isTopUsed = index === 0 && ((_a = item.usageCount) != null ? _a : 0) > 10;
+            return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(
+              CommandItem,
+              {
+                value: `${item.arabic} ${item.english}`,
+                onSelect: () => selectItem(index),
+                "data-index": index,
+                className: cn(
+                  "flex items-center justify-between p-2 text-sm text-foreground cursor-pointer rounded hover:bg-gray-100",
+                  isSelected && "bg-gray-100 text-foreground"
+                ),
+                children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "flex items-center gap-1.5 min-w-0", children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: "font-medium text-gray-900", children: item.arabic }),
+                    /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("span", { className: "text-xs text-gray-400 font-mono", children: [
+                      "(",
+                      item.english,
+                      ")"
+                    ] })
+                  ] }),
+                  isTopUsed && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: "text-[10px] bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded font-medium flex-shrink-0 mr-2", children: "\u0634\u0627\u0626\u0639" })
+                ]
+              },
+              `${item.arabic}-${item.english}`
+            );
+          }) })
+        ] })
+      }
     );
   }
 );
@@ -2240,9 +2316,10 @@ var TermAutocomplete = import_core7.Extension.create({
 var TermAutocomplete_default = TermAutocomplete;
 
 // components/rich-text-rtl/Menu/OutdatedTermsBanner.tsx
-var import_react11 = __toESM(require("react"));
+var import_react11 = require("react");
 var import_react12 = require("@tiptap/react");
 var import_lucide_react3 = require("lucide-react");
+var import_jsx_runtime8 = require("react/jsx-runtime");
 var OutdatedTermsBanner = ({ autocompleteTerms }) => {
   const { editor } = (0, import_react12.useCurrentEditor)();
   const [outdatedCount, setOutdatedCount] = (0, import_react11.useState)(0);
@@ -2271,56 +2348,79 @@ var OutdatedTermsBanner = ({ autocompleteTerms }) => {
       setOutdatedCount(0);
     }
   };
-  return /* @__PURE__ */ import_react11.default.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(
     "div",
     {
       dir: "rtl",
-      className: "fixed bottom-6 right-6 left-6 md:left-auto md:w-[420px] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 shadow-xl shadow-gray-200/50 dark:shadow-none z-50 flex flex-col gap-3 text-right direction-rtl animate-in fade-in slide-in-from-bottom-5 duration-300"
-    },
-    /* @__PURE__ */ import_react11.default.createElement("div", { className: "flex items-start justify-between gap-3" }, /* @__PURE__ */ import_react11.default.createElement("div", { className: "flex gap-2" }, /* @__PURE__ */ import_react11.default.createElement(import_lucide_react3.Sparkles, { className: "w-5 h-5 text-gray-500 dark:text-gray-400 shrink-0 mt-0.5" }), /* @__PURE__ */ import_react11.default.createElement("div", null, /* @__PURE__ */ import_react11.default.createElement("h4", { className: "font-semibold text-sm text-gray-900 dark:text-gray-100" }, "\u062A\u062D\u062F\u064A\u062B \u0627\u0644\u0645\u0635\u0637\u0644\u062D\u0627\u062A \u0627\u0644\u0645\u0639\u0631\u0651\u0628\u0629"), /* @__PURE__ */ import_react11.default.createElement("p", { className: "text-xs text-gray-600 dark:text-gray-400 mt-1 leading-relaxed" }, "\u062A\u0645 \u0627\u0644\u0639\u062B\u0648\u0631 \u0639\u0644\u0649 ", /* @__PURE__ */ import_react11.default.createElement("strong", null, outdatedCount, " \u0645\u0635\u0637\u0644\u062D\u0627\u062A"), " \u0641\u064A \u0647\u0630\u0627 \u0627\u0644\u0645\u0642\u0627\u0644 \u062A\u0645\u062A\u0644\u0643 \u062A\u0639\u0631\u064A\u0628\u0627\u062A \u0623\u062D\u062F\u062B \u0641\u064A \u0642\u0627\u0639\u062F\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A \u0627\u0644\u062C\u062F\u064A\u062F\u0629."))), /* @__PURE__ */ import_react11.default.createElement(
-      "button",
-      {
-        onClick: () => setIgnored(true),
-        className: "text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors p-1"
-      },
-      /* @__PURE__ */ import_react11.default.createElement(import_lucide_react3.X, { className: "w-4 h-4" })
-    )),
-    /* @__PURE__ */ import_react11.default.createElement("div", { className: "flex items-center gap-2 justify-end mt-1" }, /* @__PURE__ */ import_react11.default.createElement(
-      Button,
-      {
-        onClick: () => setIgnored(true),
-        variant: "ghost",
-        size: "sm",
-        className: "text-[11px] text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800"
-      },
-      "\u062A\u062C\u0627\u0647\u0644 \u0627\u0644\u062A\u0646\u0628\u064A\u0647"
-    ), /* @__PURE__ */ import_react11.default.createElement(
-      Button,
-      {
-        onClick: handleUpdate,
-        size: "sm",
-        variant: "outline",
-        className: "text-[11px] bg-white border border-gray-200 hover:bg-gray-50 text-gray-800 font-medium gap-1.5 shadow-sm dark:bg-gray-900 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800"
-      },
-      /* @__PURE__ */ import_react11.default.createElement(import_lucide_react3.RefreshCw, { className: "w-3 h-3 text-gray-500" }),
-      "\u062A\u062D\u062F\u064A\u062B \u0627\u0644\u0643\u0644 \u0627\u0644\u0622\u0646"
-    ))
+      className: "fixed bottom-6 right-6 left-6 md:left-auto md:w-[420px] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 shadow-xl shadow-gray-200/50 dark:shadow-none z-50 flex flex-col gap-3 text-right direction-rtl animate-in fade-in slide-in-from-bottom-5 duration-300",
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "flex items-start justify-between gap-3", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "flex gap-2", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_lucide_react3.Sparkles, { className: "w-5 h-5 text-gray-500 dark:text-gray-400 shrink-0 mt-0.5" }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h4", { className: "font-semibold text-sm text-gray-900 dark:text-gray-100", children: "\u062A\u062D\u062F\u064A\u062B \u0627\u0644\u0645\u0635\u0637\u0644\u062D\u0627\u062A \u0627\u0644\u0645\u0639\u0631\u0651\u0628\u0629" }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("p", { className: "text-xs text-gray-600 dark:text-gray-400 mt-1 leading-relaxed", children: [
+                "\u062A\u0645 \u0627\u0644\u0639\u062B\u0648\u0631 \u0639\u0644\u0649 ",
+                /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("strong", { children: [
+                  outdatedCount,
+                  " \u0645\u0635\u0637\u0644\u062D\u0627\u062A"
+                ] }),
+                " \u0641\u064A \u0647\u0630\u0627 \u0627\u0644\u0645\u0642\u0627\u0644 \u062A\u0645\u062A\u0644\u0643 \u062A\u0639\u0631\u064A\u0628\u0627\u062A \u0623\u062D\u062F\u062B \u0641\u064A \u0642\u0627\u0639\u062F\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A \u0627\u0644\u062C\u062F\u064A\u062F\u0629."
+              ] })
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+            "button",
+            {
+              onClick: () => setIgnored(true),
+              className: "text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors p-1",
+              children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_lucide_react3.X, { className: "w-4 h-4" })
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "flex items-center gap-2 justify-end mt-1", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+            Button,
+            {
+              onClick: () => setIgnored(true),
+              variant: "ghost",
+              size: "sm",
+              className: "text-[11px] text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800",
+              children: "\u062A\u062C\u0627\u0647\u0644 \u0627\u0644\u062A\u0646\u0628\u064A\u0647"
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(
+            Button,
+            {
+              onClick: handleUpdate,
+              size: "sm",
+              variant: "outline",
+              className: "text-[11px] bg-white border border-gray-200 hover:bg-gray-50 text-gray-800 font-medium gap-1.5 shadow-sm dark:bg-gray-900 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800",
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_lucide_react3.RefreshCw, { className: "w-3 h-3 text-gray-500" }),
+                "\u062A\u062D\u062F\u064A\u062B \u0627\u0644\u0643\u0644 \u0627\u0644\u0622\u0646"
+              ]
+            }
+          )
+        ] })
+      ]
+    }
   );
 };
 
 // components/rich-text-rtl/Menu/AccessibleToolbars.tsx
-var import_react16 = __toESM(require("react"));
-var import_react17 = require("@tiptap/react");
+var import_react15 = require("@tiptap/react");
 
 // components/ui/tooltip.tsx
-var React10 = __toESM(require("react"));
+var React9 = __toESM(require("react"));
 var TooltipPrimitive = __toESM(require("@radix-ui/react-tooltip"));
+var import_jsx_runtime9 = require("react/jsx-runtime");
 var TooltipProvider = TooltipPrimitive.Provider;
 var Tooltip = TooltipPrimitive.Root;
 var TooltipTrigger = TooltipPrimitive.Trigger;
-var TooltipContent = React10.forwardRef((_a, ref) => {
+var TooltipContent = React9.forwardRef((_a, ref) => {
   var _b = _a, { className, sideOffset = 4 } = _b, props = __objRest(_b, ["className", "sideOffset"]);
-  return /* @__PURE__ */ React10.createElement(TooltipPrimitive.Portal, null, /* @__PURE__ */ React10.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(TooltipPrimitive.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
     TooltipPrimitive.Content,
     __spreadValues({
       ref,
@@ -2330,7 +2430,7 @@ var TooltipContent = React10.forwardRef((_a, ref) => {
         className
       )
     }, props)
-  ));
+  ) });
 });
 TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 
@@ -2338,11 +2438,12 @@ TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 var import_lucide_react4 = require("lucide-react");
 
 // components/ui/input.tsx
-var React11 = __toESM(require("react"));
-var Input = React11.forwardRef(
+var React10 = __toESM(require("react"));
+var import_jsx_runtime10 = require("react/jsx-runtime");
+var Input = React10.forwardRef(
   (_a, ref) => {
     var _b = _a, { className, type } = _b, props = __objRest(_b, ["className", "type"]);
-    return /* @__PURE__ */ React11.createElement(
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
       "input",
       __spreadValues({
         type,
@@ -2358,6 +2459,7 @@ var Input = React11.forwardRef(
 Input.displayName = "Input";
 
 // components/rich-text-rtl/Menu/menu-config.tsx
+var import_jsx_runtime11 = require("react/jsx-runtime");
 var ColorPickerIcon = ({
   value,
   editor,
@@ -2366,7 +2468,7 @@ var ColorPickerIcon = ({
   label,
   defaultValue
 }) => {
-  return /* @__PURE__ */ React.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
     Input,
     {
       type: "color",
@@ -2387,7 +2489,7 @@ var ColorPickerIcon = ({
 };
 var menuItemsConfig = {
   bold: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Bold, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react4.Bold, { className: "w-4 h-4" }),
     label: "\u0639\u0631\u064A\u0636",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleBold().run();
@@ -2398,7 +2500,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleBold().run()
   },
   italic: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Italic, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react4.Italic, { className: "w-4 h-4" }),
     label: "\u0645\u0627\u0626\u0644",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleItalic().run();
@@ -2408,7 +2510,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleItalic().run()
   },
   underline: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Underline, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react4.Underline, { className: "w-4 h-4" }),
     label: "\u062A\u0633\u0637\u064A\u0631",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleUnderline().run();
@@ -2418,7 +2520,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleUnderline().run()
   },
   strike: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Strikethrough, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react4.Strikethrough, { className: "w-4 h-4" }),
     label: "\u064A\u062A\u0648\u0633\u0637 \u0627\u0644\u062E\u0637",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleStrike().run();
@@ -2428,7 +2530,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleStrike().run()
   },
   highlight: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Highlighter, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react4.Highlighter, { className: "w-4 h-4" }),
     label: "\u062A\u0645\u064A\u064A\u0632",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleHighlight().run();
@@ -2468,7 +2570,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleHeading({ level: 3 }).run()
   },
   paragraph: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Type, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react4.Type, { className: "w-4 h-4" }),
     label: "\u0641\u0642\u0631\u0629",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().setParagraph().run();
@@ -2477,7 +2579,7 @@ var menuItemsConfig = {
     isActive: (editor) => editor.isActive("paragraph")
   },
   alignLeft: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.AlignLeft, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react4.AlignLeft, { className: "w-4 h-4" }),
     label: "\u0645\u062D\u0627\u0630\u0627\u0629 \u0625\u0644\u0649 \u0627\u0644\u064A\u0633\u0627\u0631",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().setTextAlign("left").run();
@@ -2487,7 +2589,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().setTextAlign("left")
   },
   alignCenter: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.AlignCenter, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react4.AlignCenter, { className: "w-4 h-4" }),
     label: "\u0645\u062D\u0627\u0630\u0627\u0629 \u0625\u0644\u0649 \u0627\u0644\u0648\u0633\u0637",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().setTextAlign("center").run();
@@ -2497,7 +2599,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().setTextAlign("center")
   },
   alignRight: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.AlignRight, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react4.AlignRight, { className: "w-4 h-4" }),
     label: "\u0645\u062D\u0627\u0630\u0627\u0629 \u0625\u0644\u0649 \u0627\u0644\u064A\u0645\u064A\u0646",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().setTextAlign("right").run();
@@ -2507,7 +2609,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().setTextAlign("right")
   },
   alignJustify: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.AlignJustify, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react4.AlignJustify, { className: "w-4 h-4" }),
     label: "\u062A\u0648\u0632\u064A\u0639 \u0627\u0644\u0646\u0635",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().setTextAlign("justify").run();
@@ -2517,7 +2619,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().setTextAlign("justify")
   },
   bulletList: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.List, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react4.List, { className: "w-4 h-4" }),
     label: "\u0642\u0627\u0626\u0645\u0629 \u0646\u0642\u0637\u064A\u0629",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleBulletList().run();
@@ -2527,7 +2629,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleBulletList().run()
   },
   orderedList: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.ListOrdered, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react4.ListOrdered, { className: "w-4 h-4" }),
     label: "\u0642\u0627\u0626\u0645\u0629 \u0645\u0631\u0642\u0645\u0629",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleOrderedList().run();
@@ -2537,7 +2639,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleOrderedList().run()
   },
   taskList: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.CheckSquare, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react4.CheckSquare, { className: "w-4 h-4" }),
     label: "\u0642\u0627\u0626\u0645\u0629 \u0645\u0647\u0627\u0645",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleTaskList().run();
@@ -2547,7 +2649,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleTaskList().run()
   },
   codeBlock: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Code, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react4.Code, { className: "w-4 h-4" }),
     label: "\u0643\u0648\u062F \u0628\u0631\u0645\u062C\u064A",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().toggleCodeBlock().run();
@@ -2557,7 +2659,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().toggleCodeBlock().run()
   },
   horizontalRule: {
-    icon: /* @__PURE__ */ React.createElement("hr", { className: "w-4 h-0.5 bg-gray-500" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("hr", { className: "w-4 h-0.5 bg-gray-500" }),
     label: "\u062E\u0637 \u0623\u0641\u0642\u064A",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().setHorizontalRule().run();
@@ -2565,7 +2667,7 @@ var menuItemsConfig = {
     }
   },
   image: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Image, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react4.Image, { className: "w-4 h-4" }),
     label: "\u0625\u062F\u0631\u0627\u062C \u0635\u0648\u0631\u0629",
     action: (editor, setIsSaved) => () => {
       const url = window.prompt("\u0623\u062F\u062E\u0644 \u0631\u0627\u0628\u0637 \u0627\u0644\u0635\u0648\u0631\u0629");
@@ -2576,7 +2678,7 @@ var menuItemsConfig = {
     }
   },
   table: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Table, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react4.Table, { className: "w-4 h-4" }),
     label: "\u0625\u062F\u0631\u0627\u062C \u062C\u062F\u0648\u0644",
     action: (editor) => () => {
       editor.chain().focus().insertContent({ type: "tablePlaceholder" }).run();
@@ -2584,7 +2686,7 @@ var menuItemsConfig = {
     isDisabled: () => false
   },
   link: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Link, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react4.Link, { className: "w-4 h-4" }),
     label: "\u0625\u062F\u0631\u0627\u062C \u0631\u0627\u0628\u0637",
     action: (editor, setIsSaved) => () => {
       const url = window.prompt("\u0623\u062F\u062E\u0644 \u0627\u0644\u0631\u0627\u0628\u0637");
@@ -2596,19 +2698,19 @@ var menuItemsConfig = {
     isActive: (editor) => editor.isActive("link")
   },
   textColor: {
-    icon: /* @__PURE__ */ React.createElement(ColorPickerIcon, { type: "text", label: "\u0627\u062E\u062A\u0631 \u0644\u0648\u0646 \u0627\u0644\u0646\u0635", defaultValue: "#000000" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(ColorPickerIcon, { type: "text", label: "\u0627\u062E\u062A\u0631 \u0644\u0648\u0646 \u0627\u0644\u0646\u0635", defaultValue: "#000000" }),
     label: "\u0644\u0648\u0646 \u0627\u0644\u0646\u0635",
     action: (editor, setIsSaved) => () => {
     }
   },
   highlightColor: {
-    icon: /* @__PURE__ */ React.createElement(ColorPickerIcon, { type: "highlight", label: "\u0627\u062E\u062A\u0631 \u0644\u0648\u0646 \u0627\u0644\u062A\u0645\u064A\u064A\u0632", defaultValue: "#00000000" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(ColorPickerIcon, { type: "highlight", label: "\u0627\u062E\u062A\u0631 \u0644\u0648\u0646 \u0627\u0644\u062A\u0645\u064A\u064A\u0632", defaultValue: "#00000000" }),
     label: "\u0644\u0648\u0646 \u0627\u0644\u062A\u0645\u064A\u064A\u0632",
     action: (editor, setIsSaved) => () => {
     }
   },
   undo: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Undo, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react4.Undo, { className: "w-4 h-4" }),
     label: "\u062A\u0631\u0627\u062C\u0639",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().undo().run();
@@ -2617,7 +2719,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().undo().run()
   },
   redo: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Redo, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react4.Redo, { className: "w-4 h-4" }),
     label: "\u0625\u0639\u0627\u062F\u0629",
     action: (editor, setIsSaved) => () => {
       editor.chain().focus().redo().run();
@@ -2626,7 +2728,7 @@ var menuItemsConfig = {
     isDisabled: (editor) => !editor.can().chain().focus().redo().run()
   },
   clearFormat: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.Eraser, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react4.Eraser, { className: "w-4 h-4" }),
     // Using Eraser icon for "clear format"
     label: "\u0645\u0633\u062D \u0627\u0644\u062A\u0646\u0633\u064A\u0642",
     action: (editor, setIsSaved) => () => {
@@ -2635,7 +2737,7 @@ var menuItemsConfig = {
     }
   },
   clearNodes: {
-    icon: /* @__PURE__ */ React.createElement(import_lucide_react4.X, { className: "w-4 h-4" }),
+    icon: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react4.X, { className: "w-4 h-4" }),
     // Using X icon for "clear nodes"
     label: "\u0645\u0633\u062D \u0627\u0644\u0639\u0646\u0627\u0635\u0631",
     action: (editor, setIsSaved) => () => {
@@ -2648,6 +2750,7 @@ var menuItemsConfig = {
 // components/rich-text-rtl/Menu/EditorControls.tsx
 var import_react13 = __toESM(require("react"));
 var import_lucide_react5 = require("lucide-react");
+var import_jsx_runtime12 = require("react/jsx-runtime");
 var EditorControls = ({
   editor,
   menuItems,
@@ -2660,57 +2763,65 @@ var EditorControls = ({
   const VISIBLE_COUNT = 6;
   const visibleItems = isExpanded ? enabledItems : enabledItems.slice(0, VISIBLE_COUNT);
   const hasMore = enabledItems.length > VISIBLE_COUNT;
-  return /* @__PURE__ */ import_react13.default.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(
     "div",
     {
       className: cn(
         "p-1 flex items-center gap-1 md:gap-2 transition-all",
         isExpanded ? "flex-wrap max-w-xs md:max-w-sm" : "flex-nowrap",
         isMobileMenuOpen ? "flex" : "hidden md:flex"
-      )
-    },
-    visibleItems.map(([id, config]) => {
-      var _a, _b, _c, _d;
-      const itemConfig = getMenuItemConfig(id);
-      if (!itemConfig.enabled) return null;
-      const action = itemConfig.onClick || config.action(editor, setIsSaved);
-      const icon = itemConfig.customIcon || config.icon;
-      const label = itemConfig.customLabel || config.label;
-      const isColorInput = ["textColor", "highlightColor"].includes(id);
-      return /* @__PURE__ */ import_react13.default.createElement(Tooltip, { key: id }, /* @__PURE__ */ import_react13.default.createElement(TooltipTrigger, { asChild: true }, isColorInput ? import_react13.default.cloneElement(
-        icon,
-        {
-          value: id === "textColor" ? ((_a = editor.getAttributes("textStyle")) == null ? void 0 : _a.color) || "#000000" : ((_b = editor.getAttributes("highlight")) == null ? void 0 : _b.color) || "#00000000",
-          editor,
-          setIsSaved
-        }
-      ) : /* @__PURE__ */ import_react13.default.createElement(
-        Button,
-        {
-          variant: "ghost",
-          size: "sm",
-          onClick: action,
-          disabled: ((_c = config.isDisabled) == null ? void 0 : _c.call(config, editor)) || false,
-          className: cn(
-            "w-8 h-8 md:w-9 md:h-9 p-0 transition-colors",
-            ((_d = config.isActive) == null ? void 0 : _d.call(config, editor)) ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-500/30" : "text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-800"
-          ),
-          "aria-label": label
-        },
-        /* @__PURE__ */ import_react13.default.createElement(import_react13.default.Fragment, null, icon)
-      )), /* @__PURE__ */ import_react13.default.createElement(TooltipContent, null, label));
-    }),
-    hasMore && /* @__PURE__ */ import_react13.default.createElement(Tooltip, null, /* @__PURE__ */ import_react13.default.createElement(TooltipTrigger, { asChild: true }, /* @__PURE__ */ import_react13.default.createElement(
-      Button,
-      {
-        variant: "ghost",
-        size: "sm",
-        onClick: () => setIsExpanded(!isExpanded),
-        className: "w-8 h-8 md:w-9 md:h-9 p-0 bg-secondary/50 hover:bg-secondary text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white",
-        "aria-label": "\u0639\u0631\u0636 \u0627\u0644\u0645\u0632\u064A\u062F"
-      },
-      isExpanded ? /* @__PURE__ */ import_react13.default.createElement(import_lucide_react5.ChevronUp, { className: "w-4 h-4" }) : /* @__PURE__ */ import_react13.default.createElement(import_lucide_react5.ChevronDown, { className: "w-4 h-4" })
-    )), /* @__PURE__ */ import_react13.default.createElement(TooltipContent, null, isExpanded ? "\u0637\u064A" : "\u0639\u0631\u0636 \u0627\u0644\u0645\u0632\u064A\u062F"))
+      ),
+      children: [
+        visibleItems.map(([id, config]) => {
+          var _a, _b, _c, _d;
+          const itemConfig = getMenuItemConfig(id);
+          if (!itemConfig.enabled) return null;
+          const action = itemConfig.onClick || config.action(editor, setIsSaved);
+          const icon = itemConfig.customIcon || config.icon;
+          const label = itemConfig.customLabel || config.label;
+          const isColorInput = ["textColor", "highlightColor"].includes(id);
+          return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(Tooltip, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(TooltipTrigger, { asChild: true, children: isColorInput ? import_react13.default.cloneElement(
+              icon,
+              {
+                value: id === "textColor" ? ((_a = editor.getAttributes("textStyle")) == null ? void 0 : _a.color) || "#000000" : ((_b = editor.getAttributes("highlight")) == null ? void 0 : _b.color) || "#00000000",
+                editor,
+                setIsSaved
+              }
+            ) : /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+              Button,
+              {
+                variant: "ghost",
+                size: "sm",
+                onClick: action,
+                disabled: ((_c = config.isDisabled) == null ? void 0 : _c.call(config, editor)) || false,
+                className: cn(
+                  "w-8 h-8 md:w-9 md:h-9 p-0 transition-colors",
+                  ((_d = config.isActive) == null ? void 0 : _d.call(config, editor)) ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-500/30" : "text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-800"
+                ),
+                "aria-label": label,
+                children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_jsx_runtime12.Fragment, { children: icon })
+              }
+            ) }),
+            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(TooltipContent, { children: label })
+          ] }, id);
+        }),
+        hasMore && /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(Tooltip, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(TooltipTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+            Button,
+            {
+              variant: "ghost",
+              size: "sm",
+              onClick: () => setIsExpanded(!isExpanded),
+              className: "w-8 h-8 md:w-9 md:h-9 p-0 bg-secondary/50 hover:bg-secondary text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white",
+              "aria-label": "\u0639\u0631\u0636 \u0627\u0644\u0645\u0632\u064A\u062F",
+              children: isExpanded ? /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_lucide_react5.ChevronUp, { className: "w-4 h-4" }) : /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_lucide_react5.ChevronDown, { className: "w-4 h-4" })
+            }
+          ) }),
+          /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(TooltipContent, { children: isExpanded ? "\u0637\u064A" : "\u0639\u0631\u0636 \u0627\u0644\u0645\u0632\u064A\u062F" })
+        ] })
+      ]
+    }
   );
 };
 
@@ -2718,28 +2829,28 @@ var EditorControls = ({
 var import_lucide_react7 = require("lucide-react");
 
 // components/rich-text-rtl/Menu/TableBubbleMenu.tsx
-var import_react14 = __toESM(require("react"));
-var import_react15 = require("@tiptap/react");
+var import_react14 = require("@tiptap/react");
 var import_lucide_react6 = require("lucide-react");
+var import_jsx_runtime13 = require("react/jsx-runtime");
 var TableBubbleMenu = () => {
-  const { editor } = (0, import_react15.useCurrentEditor)();
+  const { editor } = (0, import_react14.useCurrentEditor)();
   if (!editor) {
     return null;
   }
   const tableControls = [
     {
       label: "\u0625\u0636\u0627\u0641\u0629 \u0635\u0641 \u0644\u0644\u0623\u0639\u0644\u0649",
-      icon: /* @__PURE__ */ import_react14.default.createElement(import_lucide_react6.ArrowUpToLine, { className: "w-4 h-4" }),
+      icon: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_lucide_react6.ArrowUpToLine, { className: "w-4 h-4" }),
       action: () => editor.chain().focus().addRowBefore().run()
     },
     {
       label: "\u0625\u0636\u0627\u0641\u0629 \u0635\u0641 \u0644\u0644\u0623\u0633\u0641\u0644",
-      icon: /* @__PURE__ */ import_react14.default.createElement(import_lucide_react6.ArrowDownToLine, { className: "w-4 h-4" }),
+      icon: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_lucide_react6.ArrowDownToLine, { className: "w-4 h-4" }),
       action: () => editor.chain().focus().addRowAfter().run()
     },
     {
       label: "\u062D\u0630\u0641 \u0635\u0641",
-      icon: /* @__PURE__ */ import_react14.default.createElement(import_lucide_react6.Trash2, { className: "w-4 h-4 text-red-500" }),
+      icon: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_lucide_react6.Trash2, { className: "w-4 h-4 text-red-500" }),
       action: () => editor.chain().focus().deleteRow().run()
     },
     {
@@ -2747,19 +2858,19 @@ var TableBubbleMenu = () => {
     },
     {
       label: "\u0625\u0636\u0627\u0641\u0629 \u0639\u0645\u0648\u062F \u0644\u0644\u064A\u0645\u064A\u0646",
-      icon: /* @__PURE__ */ import_react14.default.createElement(import_lucide_react6.ArrowRightToLine, { className: "w-4 h-4" }),
+      icon: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_lucide_react6.ArrowRightToLine, { className: "w-4 h-4" }),
       action: () => editor.chain().focus().addColumnBefore().run()
       // In RTL, before is right
     },
     {
       label: "\u0625\u0636\u0627\u0641\u0629 \u0639\u0645\u0648\u062F \u0644\u0644\u064A\u0633\u0627\u0631",
-      icon: /* @__PURE__ */ import_react14.default.createElement(import_lucide_react6.ArrowLeftToLine, { className: "w-4 h-4" }),
+      icon: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_lucide_react6.ArrowLeftToLine, { className: "w-4 h-4" }),
       action: () => editor.chain().focus().addColumnAfter().run()
       // In RTL, after is left
     },
     {
       label: "\u062D\u0630\u0641 \u0639\u0645\u0648\u062F",
-      icon: /* @__PURE__ */ import_react14.default.createElement(import_lucide_react6.Trash2, { className: "w-4 h-4 text-red-500" }),
+      icon: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_lucide_react6.Trash2, { className: "w-4 h-4 text-red-500" }),
       action: () => editor.chain().focus().deleteColumn().run()
     },
     {
@@ -2767,12 +2878,12 @@ var TableBubbleMenu = () => {
     },
     {
       label: "\u062D\u0630\u0641 \u0627\u0644\u062C\u062F\u0648\u0644",
-      icon: /* @__PURE__ */ import_react14.default.createElement(import_lucide_react6.Trash, { className: "w-4 h-4 text-red-600" }),
+      icon: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_lucide_react6.Trash, { className: "w-4 h-4 text-red-600" }),
       action: () => editor.chain().focus().deleteTable().run()
     }
   ];
-  return /* @__PURE__ */ import_react14.default.createElement(
-    import_react15.BubbleMenu,
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+    import_react14.BubbleMenu,
     {
       editor,
       tippyOptions: {
@@ -2799,107 +2910,116 @@ var TableBubbleMenu = () => {
         }
       },
       shouldShow: ({ editor: editor2 }) => editor2.isActive("table"),
-      className: "flex bg-background border shadow-md rounded-md p-1 items-center z-50 gap-1"
-    },
-    tableControls.map((control, index) => {
-      if (control.divider) {
-        return /* @__PURE__ */ import_react14.default.createElement("div", { key: `div-${index}`, className: "w-px h-5 bg-gray-200 mx-1" });
-      }
-      return /* @__PURE__ */ import_react14.default.createElement(Tooltip, { key: index }, /* @__PURE__ */ import_react14.default.createElement(TooltipTrigger, { asChild: true }, /* @__PURE__ */ import_react14.default.createElement(
-        Button,
-        {
-          variant: "ghost",
-          size: "sm",
-          className: "h-8 w-8 p-0",
-          onClick: control.action
-        },
-        control.icon
-      )), /* @__PURE__ */ import_react14.default.createElement(TooltipContent, null, /* @__PURE__ */ import_react14.default.createElement("p", null, control.label)));
-    })
+      className: "flex bg-background border shadow-md rounded-md p-1 items-center z-50 gap-1",
+      children: tableControls.map((control, index) => {
+        if (control.divider) {
+          return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "w-px h-5 bg-gray-200 mx-1" }, `div-${index}`);
+        }
+        return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(Tooltip, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(TooltipTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+            Button,
+            {
+              variant: "ghost",
+              size: "sm",
+              className: "h-8 w-8 p-0",
+              onClick: control.action,
+              children: control.icon
+            }
+          ) }),
+          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(TooltipContent, { children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("p", { children: control.label }) })
+        ] }, index);
+      })
+    }
   );
 };
 
 // components/rich-text-rtl/Menu/AccessibleToolbars.tsx
+var import_jsx_runtime14 = require("react/jsx-runtime");
 var AccessibleToolbars = ({ menuItems }) => {
-  const { editor } = (0, import_react17.useCurrentEditor)();
+  const { editor } = (0, import_react15.useCurrentEditor)();
   if (!editor) {
     return null;
   }
-  return /* @__PURE__ */ import_react16.default.createElement(TooltipProvider, null, /* @__PURE__ */ import_react16.default.createElement(TableBubbleMenu, null), /* @__PURE__ */ import_react16.default.createElement(
-    import_react17.BubbleMenu,
-    {
-      editor,
-      tippyOptions: {
-        duration: 100,
-        appendTo: () => document.body,
-        maxWidth: "calc(100vw - 16px)",
-        popperOptions: {
-          modifiers: [
-            {
-              name: "preventOverflow",
-              options: {
-                boundary: "viewport",
-                padding: 8,
-                tether: false,
-                // Allows tooltip to stay in viewport even if reference is huge
-                altAxis: true
-                // Prevents overflow on the alternate axis
-              }
-            },
-            {
-              name: "flip",
-              options: { boundary: "viewport", padding: 8 }
-            }
-          ]
-        }
-      },
-      shouldShow: ({ editor: editor2, view, state, from, to }) => {
-        if (typeof window !== "undefined" && window.innerWidth < 768) return false;
-        if (editor2.isActive("table")) return false;
-        const { doc, selection } = state;
-        const { empty } = selection;
-        const isEmptyTextBlock = !doc.textBetween(from, to).length;
-        return !empty && !isEmptyTextBlock;
-      },
-      className: "flex bg-background border shadow-md rounded-md p-1 items-center z-50"
-    },
-    /* @__PURE__ */ import_react16.default.createElement(
-      EditorControls,
+  return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(TooltipProvider, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(TableBubbleMenu, {}),
+    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+      import_react15.BubbleMenu,
       {
         editor,
-        menuItems,
-        isMobileMenuOpen: true,
-        setIsSaved: () => {
-        }
+        tippyOptions: {
+          duration: 100,
+          appendTo: () => document.body,
+          maxWidth: "calc(100vw - 16px)",
+          popperOptions: {
+            modifiers: [
+              {
+                name: "preventOverflow",
+                options: {
+                  boundary: "viewport",
+                  padding: 8,
+                  tether: false,
+                  // Allows tooltip to stay in viewport even if reference is huge
+                  altAxis: true
+                  // Prevents overflow on the alternate axis
+                }
+              },
+              {
+                name: "flip",
+                options: { boundary: "viewport", padding: 8 }
+              }
+            ]
+          }
+        },
+        shouldShow: ({ editor: editor2, view, state, from, to }) => {
+          if (typeof window !== "undefined" && window.innerWidth < 768) return false;
+          if (editor2.isActive("table")) return false;
+          const { doc, selection } = state;
+          const { empty } = selection;
+          const isEmptyTextBlock = !doc.textBetween(from, to).length;
+          return !empty && !isEmptyTextBlock;
+        },
+        className: "flex bg-background border shadow-md rounded-md p-1 items-center z-50",
+        children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+          EditorControls,
+          {
+            editor,
+            menuItems,
+            isMobileMenuOpen: true,
+            setIsSaved: () => {
+            }
+          }
+        )
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+      import_react15.FloatingMenu,
+      {
+        editor,
+        tippyOptions: {
+          duration: 100,
+          placement: "left-start",
+          appendTo: () => document.body
+        },
+        className: "flex gap-1 z-50",
+        children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Button, { variant: "ghost", size: "icon", onClick: () => editor.commands.insertContent("/"), className: "rounded-full w-6 h-6 bg-background border shadow-sm text-muted-foreground hover:text-foreground", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_lucide_react7.Plus, { className: "w-3 h-3" }) })
       }
     )
-  ), /* @__PURE__ */ import_react16.default.createElement(
-    import_react17.FloatingMenu,
-    {
-      editor,
-      tippyOptions: {
-        duration: 100,
-        placement: "left-start",
-        appendTo: () => document.body
-      },
-      className: "flex gap-1 z-50"
-    },
-    /* @__PURE__ */ import_react16.default.createElement(Button, { variant: "ghost", size: "icon", onClick: () => editor.commands.insertContent("/"), className: "rounded-full w-6 h-6 bg-background border shadow-sm text-muted-foreground hover:text-foreground" }, /* @__PURE__ */ import_react16.default.createElement(import_lucide_react7.Plus, { className: "w-3 h-3" }))
-  ));
+  ] });
 };
 
 // components/rich-text-rtl/Menu/MobileTopToolbar.tsx
-var import_react18 = __toESM(require("react"));
-var import_react19 = require("@tiptap/react");
+var import_react16 = __toESM(require("react"));
+var import_react17 = require("@tiptap/react");
 var import_lucide_react8 = require("lucide-react");
+var import_jsx_runtime15 = require("react/jsx-runtime");
 var MobileTopToolbar = ({ menuItems }) => {
-  const { editor } = (0, import_react19.useCurrentEditor)();
-  const [hasSelection, setHasSelection] = import_react18.default.useState(false);
-  const [position, setPosition] = import_react18.default.useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = import_react18.default.useState(false);
-  const [topOffset, setTopOffset] = import_react18.default.useState(8);
-  const dragStartRef = import_react18.default.useRef({ x: 0, y: 0 });
-  import_react18.default.useEffect(() => {
+  const { editor } = (0, import_react17.useCurrentEditor)();
+  const [hasSelection, setHasSelection] = import_react16.default.useState(false);
+  const [position, setPosition] = import_react16.default.useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = import_react16.default.useState(false);
+  const [topOffset, setTopOffset] = import_react16.default.useState(8);
+  const dragStartRef = import_react16.default.useRef({ x: 0, y: 0 });
+  import_react16.default.useEffect(() => {
     if (typeof window === "undefined" || !window.visualViewport) return;
     const viewport = window.visualViewport;
     const updatePosition = () => {
@@ -2932,7 +3052,7 @@ var MobileTopToolbar = ({ menuItems }) => {
     setIsDragging(false);
     e.target.releasePointerCapture(e.pointerId);
   };
-  import_react18.default.useEffect(() => {
+  import_react16.default.useEffect(() => {
     if (!editor) return;
     const checkSelection = () => {
       const { empty } = editor.state.selection;
@@ -2956,40 +3076,43 @@ var MobileTopToolbar = ({ menuItems }) => {
   if (!editor || !hasSelection) {
     return null;
   }
-  return /* @__PURE__ */ import_react18.default.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(
     "div",
     {
       style: {
         top: `${topOffset}px`,
         transform: `translate(calc(-50% + ${position.x}px), ${position.y}px)`
       },
-      className: "fixed left-1/2 z-50 w-max max-w-[95vw] bg-gray-100/95 dark:bg-gray-950/95 backdrop-blur-xl border border-gray-300 dark:border-gray-700 shadow-xl shadow-black/20 rounded-3xl p-1 flex md:hidden items-center justify-center overflow-x-auto animate-in fade-in duration-300 ease-out scale-90 sm:scale-100 origin-top touch-none"
-    },
-    /* @__PURE__ */ import_react18.default.createElement(
-      "div",
-      {
-        className: "px-1 py-2 cursor-grab active:cursor-grabbing text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex-shrink-0",
-        onPointerDown: handlePointerDown,
-        onPointerMove: handlePointerMove,
-        onPointerUp: handlePointerUp,
-        onPointerCancel: handlePointerUp
-      },
-      /* @__PURE__ */ import_react18.default.createElement(import_lucide_react8.GripVertical, { className: "w-5 h-5" })
-    ),
-    /* @__PURE__ */ import_react18.default.createElement(TooltipProvider, null, /* @__PURE__ */ import_react18.default.createElement(
-      EditorControls,
-      {
-        editor,
-        menuItems,
-        isMobileMenuOpen: true,
-        setIsSaved: () => {
-        }
-      }
-    ))
+      className: "fixed left-1/2 z-50 w-max max-w-[95vw] bg-gray-100/95 dark:bg-gray-950/95 backdrop-blur-xl border border-gray-300 dark:border-gray-700 shadow-xl shadow-black/20 rounded-3xl p-1 flex md:hidden items-center justify-center overflow-x-auto animate-in fade-in duration-300 ease-out scale-90 sm:scale-100 origin-top touch-none",
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+          "div",
+          {
+            className: "px-1 py-2 cursor-grab active:cursor-grabbing text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex-shrink-0",
+            onPointerDown: handlePointerDown,
+            onPointerMove: handlePointerMove,
+            onPointerUp: handlePointerUp,
+            onPointerCancel: handlePointerUp,
+            children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_lucide_react8.GripVertical, { className: "w-5 h-5" })
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(TooltipProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+          EditorControls,
+          {
+            editor,
+            menuItems,
+            isMobileMenuOpen: true,
+            setIsSaved: () => {
+            }
+          }
+        ) })
+      ]
+    }
   );
 };
 
 // components/rich-text-rtl/ArabicRichTextEditor.tsx
+var import_jsx_runtime16 = require("react/jsx-runtime");
 var defaultContent = `
 <h1 style="text-align: center;">\u0645\u0631\u062D\u0628\u0627\u064B \u0628\u0643 \u0641\u064A \u0645\u062D\u0631\u0631 \u0627\u0644\u0646\u0635\u0648\u0635 \u0627\u0644\u0627\u062D\u062A\u0631\u0627\u0641\u064A \u{1F680}</h1>
 <p style="text-align: center;">\u0647\u0630\u0627 \u0627\u0644\u0645\u062D\u0631\u0631 \u0635\u064F\u0645\u0645 \u062E\u0635\u064A\u0635\u0627\u064B \u0644\u064A\u0648\u0641\u0631 \u0644\u0643 \u062A\u062C\u0631\u0628\u0629 \u0643\u062A\u0627\u0628\u0629 \u063A\u0646\u064A\u0629 \u0648\u062F\u0627\u0639\u0645\u0629 \u0644\u0644\u063A\u0629 \u0627\u0644\u0639\u0631\u0628\u064A\u0629 (RTL) \u0628\u0634\u0643\u0644 \u0645\u062B\u0627\u0644\u064A\u060C \u0645\u0639 \u0627\u0644\u062D\u0641\u0627\u0638 \u0639\u0644\u0649 \u0627\u0644\u062A\u0648\u0627\u0641\u0642 \u0627\u0644\u062A\u0627\u0645 \u0645\u0639 \u0627\u0644\u0644\u063A\u0629 \u0627\u0644\u0625\u0646\u062C\u0644\u064A\u0632\u064A\u0629.</p>
@@ -3125,7 +3248,7 @@ var ArabicRichTextEditor = ({
     ...extensions.filter((ext) => ext.name !== "termAutocomplete"),
     ...autocompleteTerms && autocompleteTerms.length > 0 ? [TermAutocomplete_default.configure({ terms: autocompleteTerms })] : []
   ];
-  (0, import_react20.useEffect)(() => {
+  (0, import_react18.useEffect)(() => {
     if (injectStyles) {
       injectEditorStyles();
     }
@@ -3135,18 +3258,20 @@ var ArabicRichTextEditor = ({
       onChange(editor.getHTML());
     }
   };
-  return /* @__PURE__ */ React.createElement("div", { className }, /* @__PURE__ */ React.createElement(
-    import_react21.EditorProvider,
+  return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className, children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
+    import_react19.EditorProvider,
     {
-      slotBefore: /* @__PURE__ */ React.createElement(MobileTopToolbar, { menuItems }),
+      slotBefore: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(MobileTopToolbar, { menuItems }),
       extensions: finalExtensions,
       content,
       editorProps,
-      onUpdate: handleUpdate
-    },
-    /* @__PURE__ */ React.createElement(AccessibleToolbars, { menuItems }),
-    /* @__PURE__ */ React.createElement(OutdatedTermsBanner, { autocompleteTerms })
-  ));
+      onUpdate: handleUpdate,
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(AccessibleToolbars, { menuItems }),
+        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(OutdatedTermsBanner, { autocompleteTerms })
+      ]
+    }
+  ) });
 };
 var ArabicRichTextEditor_default = ArabicRichTextEditor;
 // Annotate the CommonJS export names for ESM import in node:
