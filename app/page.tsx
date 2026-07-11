@@ -59,6 +59,16 @@ const App: React.FC = () => {
       </button>
 
       <div className="w-full md:w-[80%] mx-auto">
+        <div className="flex flex-col items-center justify-center mb-10 mt-4">
+          <div className="w-24 h-24 sm:w-32 sm:h-32 mb-4 rounded-3xl overflow-hidden shadow-2xl ring-4 ring-white dark:ring-gray-800 transition-transform hover:scale-105 duration-300">
+            <img 
+              src="/logo.jpg" 
+              alt="Arabic Rich Text Editor Logo" 
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+
         <ArabicRichTextEditor
           onSave={async () => {
             console.log("Saving...");

@@ -62,7 +62,7 @@ export const MobileTopToolbar: React.FC<MobileTopToolbarProps> = ({ menuItems })
 
   return (
     <div 
-      style={{ bottom: \`\${keyboardOffset}px\` }}
+      style={{ bottom: `${keyboardOffset}px` }}
       className="fixed left-1/2 -translate-x-1/2 z-50 w-max max-w-[95vw] bg-gray-50/95 dark:bg-gray-800/95 backdrop-blur-md border border-gray-300 dark:border-gray-600 shadow-2xl shadow-black/20 rounded-2xl p-0.5 flex md:hidden items-center justify-center overflow-x-auto animate-in slide-in-from-bottom-8 fade-in zoom-in-95 duration-300 ease-out"
     >
       <TooltipProvider>

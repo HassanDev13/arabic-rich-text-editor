@@ -232,7 +232,7 @@ export const editorStyles: string = `
     transform: translateY(-50%);
     font-size: 0.8rem;
     color: var(--tiptap-icon) !important;
-    opacity: 0;
+    opacity: 0.3;
     cursor: pointer;
     transition: opacity 0.2s;
     user-select: none;
